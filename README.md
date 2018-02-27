@@ -1,1 +1,1 @@
-# INGInious-demoproblem-plugin
+# INGInious-problems-demo
