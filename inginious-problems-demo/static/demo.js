@@ -5,3 +5,9 @@ function load_input_demo(submissionid, key, input) {
     else
         $(field).prop('value', "");
 }
+
+function studio_init_template_demo(well, pid, problem)
+{
+    if("answer" in problem)
+        $('#answer-' + pid, well).val(problem["answer"]);
+}
