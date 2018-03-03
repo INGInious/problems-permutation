@@ -15,9 +15,9 @@ const itemFactory = (text) => {
 
 var columnGrids = [];
 
-export default function generate_permutation_list(elems, loc) {
+export function generate_permutation_list(elems, loc) {
 
-	elems.map(text => document.getElementById('thegrid').appendChild(itemFactory(text)))
+	elems.map(text => document.querySelector(loc).appendChild(itemFactory(text)))
 	var grid = new Muuri(loc, {
 		items: '.board-item',
 		layoutDuration: 400,
@@ -61,4 +61,4 @@ export default function generate_permutation_list(elems, loc) {
 	columnGrids.push(grid);
 }
 
-generate_permutation_list([Array(110).join(' C-C C+C ') + ';','D','A','B'], '.board-column-content');
+// generate_permutation_list([Array(110).join(' C-C C+C ') + ';','D','A','B'], '.board-column-content');
