@@ -5,6 +5,9 @@ setup.py
 inginious-problems-permutation/__init__.py
 inginious-problems-permutation/static/permutation.css
 inginious-problems-permutation/static/permutation.js
+inginious-problems-permutation/static/studio_permutation.js
+inginious-problems-permutation/static/task_permutation.js
+inginious-problems-permutation/static/permutation/permutation_edit.js
 inginious-problems-permutation/templates/permutation.html
 inginious-problems-permutation/templates/permutation_edit.html
 inginious_problems_permutation.egg-info/PKG-INFO
