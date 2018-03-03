@@ -1,0 +1,14 @@
+LICENSE
+MANIFEST.in
+README.md
+setup.py
+inginious-problems-permutation/__init__.py
+inginious-problems-permutation/static/permutation.css
+inginious-problems-permutation/static/permutation.js
+inginious-problems-permutation/templates/permutation.html
+inginious-problems-permutation/templates/permutation_edit.html
+inginious_problems_permutation.egg-info/PKG-INFO
+inginious_problems_permutation.egg-info/SOURCES.txt
+inginious_problems_permutation.egg-info/dependency_links.txt
+inginious_problems_permutation.egg-info/requires.txt
+inginious_problems_permutation.egg-info/top_level.txt
