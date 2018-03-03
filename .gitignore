@@ -1,0 +1,4 @@
+# Build files from installtaion
+build/*
+dist/*
+inginious_problems_permutation.egg-info/*
