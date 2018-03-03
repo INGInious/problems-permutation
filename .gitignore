@@ -1,3 +1,6 @@
+# Dependencies
+*/node_modules/*
+
 # Build files from installtaion
 build/*
 dist/*
