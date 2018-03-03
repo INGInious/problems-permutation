@@ -4,4 +4,7 @@ Permutate a list of textual elements.
 
 ## Options
 
-- Generous grading
+- Sort method
+  - Random shuffle
+  - Especific order
+- Generous grading -> True
