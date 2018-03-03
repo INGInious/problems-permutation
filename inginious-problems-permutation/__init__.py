@@ -97,5 +97,6 @@ def init(plugin_manager, course_factory, client, plugin_config):
     # TODO: Replace by shared static middleware and let webserver serve the files
     plugin_manager.add_page('/plugins/permutation/static/(.+)', StaticMockPage)
     plugin_manager.add_hook("css", lambda: "/plugins/permutation/static/permutation.css")
-    plugin_manager.add_hook("javascript_header", lambda: "/plugins/permutation/static/permutation.js")
+    plugin_manager.add_hook("javascript_header", lambda: "/plugins/permutation/static/studio_permutation.js")
+    plugin_manager.add_hook("javascript_header", lambda: "/plugins/permutation/static/task_permutation.js")
     course_factory.get_task_factory().add_problem_type(DisplayablePermutationProblem)
