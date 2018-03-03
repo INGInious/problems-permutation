@@ -6,9 +6,9 @@ from setuptools import setup, find_packages
 import inginious_blockly
 
 setup(
-    name="inginious-problems-demo",
+    name="inginious-problems-permutation",
     version="0.1dev0",
-    description="Plugin to add demo problem type",
+    description="Plugin to add a permutation problem type",
     packages=find_packages(),
     install_requires=["inginious>=0.5.dev0"],
     tests_require=[],
@@ -18,5 +18,5 @@ setup(
     author="The INGInious authors",
     author_email="inginious@info.ucl.ac.be",
     license="AGPL 3",
-    url="https://github.com/UCL-INGI/INGInious-problems-demo"
+    url="https://github.com/napsta32/INGInious-problems-permutation"
 )

@@ -31,16 +31,16 @@ class StaticMockPage(object):
         return self.GET(path)
 
 
-class DemoProblem(BasicProblem):
+class PermutationProblem(BasicProblem):
     """Display an input box and check that the content is correct"""
 
     def __init__(self, task, problemid, content, translations=None):
         BasicProblem.__init__(self, task, problemid, content, translations)
-        self._answer = str(content.get("answer", ""))
+        self._correctOrder = str(content.get("correctOrder", ""))
 
     @classmethod
     def get_type(cls):
-        return "demo"
+        return "permutation"
 
     def input_is_consistent(self, task_input, default_allowed_extension, default_max_size):
         return self.get_id() in task_input
@@ -51,6 +51,8 @@ class DemoProblem(BasicProblem):
     def check_answer(self, task_input, language):
         # By default, everything pass in the docker agent.
         # If answer is specified, can be assessed in MCQ-like environnment using check_answer
+        return True, None, ["Unknown answer"], 0
+        
         if not self._answer:
             return None, None, None, 0
         elif task_input[self.get_id()].strip() == self._answer:
@@ -67,11 +69,11 @@ class DemoProblem(BasicProblem):
         return BasicProblem.get_text_fields()
 
 
-class DisplayableDemoProblem(DemoProblem, DisplayableBasicProblem):
+class DisplayablePermutationProblem(PermutationProblem, DisplayableBasicProblem):
     """ A displayable match problem """
 
     def __init__(self, task, problemid, content, translations=None):
-        DemoProblem.__init__(self, task, problemid, content, translations)
+        PermutationProblem.__init__(self, task, problemid, content, translations)
 
     @classmethod
     def get_type_name(self, gettext):
@@ -84,16 +86,16 @@ class DisplayableDemoProblem(DemoProblem, DisplayableBasicProblem):
 
     def show_input(self, template_helper, language):
         """ Show MatchProblem """
-        return str(DisplayableDemoProblem.get_renderer(template_helper).demo(self.get_id()))
+        return str(DisplayablePermutationProblem.get_renderer(template_helper).demo(self.get_id()))
 
     @classmethod
     def show_editbox(cls, template_helper, key):
-        return DisplayableDemoProblem.get_renderer(template_helper).demo_edit(key)
+        return DisplayablePermutationProblem.get_renderer(template_helper).demo_edit(key)
 
 
 def init(plugin_manager, course_factory, client, plugin_config):
     # TODO: Replace by shared static middleware and let webserver serve the files
     plugin_manager.add_page('/plugins/demo/static/(.+)', StaticMockPage)
-    plugin_manager.add_hook("css", lambda: "/plugins/demo/static/demo.css")
-    plugin_manager.add_hook("javascript_header", lambda: "/plugins/demo/static/demo.js")
-    course_factory.get_task_factory().add_problem_type(DisplayableDemoProblem)
+    plugin_manager.add_hook("css", lambda: "/plugins/permutation/static/permutation.css")
+    plugin_manager.add_hook("javascript_header", lambda: "/plugins/permutation/static/permutation.js")
+    course_factory.get_task_factory().add_problem_type(DisplayablePermutationProblem)
