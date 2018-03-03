@@ -42,7 +42,7 @@ $#
                     <div class="col-sm-10">
                         <div class="row clearfix">
                             <div class="col-md-12 column">
-                                <table class="table table-bordered table-hover" id="tab_logic">
+                                <table class="table table-bordered table-hover" id="tab_logic_PID">
                                     <thead>
                                         <tr >
                                             <th class="text-center">
@@ -54,28 +54,28 @@ $#
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <tr id='addr0'>
+                                        <tr id='addr_PID_0'>
                                             <td>
                                             1
                                             </td>
                                             <td>
-                                            <input type="text" name='text0'  placeholder='Insert text of the first element' class="form-control"/>
+                                            <input type="text" id="text_PID_0" name='problem[PID][text][0]' placeholder='Insert text of the first element' class="form-control"/>
                                             </td>
                                         </tr>
-                                        <tr id='addr1'>
+                                        <tr id='addr_PID_1'>
                                             <td>
                                             2
                                             </td>
                                             <td>
-                                            <input type="text" name='text1'  placeholder='Insert text of the second element' class="form-control"/>
+                                            <input type="text" id="text_PID_1" name='problem[PID][text][1]'  placeholder='Insert text of the second element' class="form-control"/>
                                             </td>
                                         </tr>
-                                        <tr id='addr2'></tr>
+                                        <tr id='addr_PID_2'></tr>
                                     </tbody>
                                 </table>
                             </div>
                         </div>
-                        <a id="add_row" class="btn btn-default pull-left">Add Element</a><a id='delete_row' class="pull-right btn btn-default">Delete Row</a>
+                        <a id="add_row_PID" class="btn btn-default pull-left">Add Element</a><a id='delete_row_PID' class="pull-right btn btn-default">Delete Row</a>
                         <!-- <input type="text" class="form-control" id="answer-PID" name="problem[PID][answer]" placeholder="Leave empty for Docker assessment"/> -->
                     </div>
                 </div>
