@@ -31,7 +31,7 @@
       text-indent: -1000px;
     }
   }
-  .board-column-content {
+  .permutation-list {
     position: relative;
     border: 10px solid transparent;
     min-height: 95px;

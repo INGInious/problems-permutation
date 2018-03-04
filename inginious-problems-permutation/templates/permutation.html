@@ -1,9 +1,9 @@
-$def with (inputId)
+$def with (inputId, elems, elemsId)
 
 $#
 $# This file is part of INGInious. See the LICENSE and the COPYRIGHTS files for
 $# more information about the licensing of this file.
 $#
 
-
-<input type="text" name="$inputId" value="" class="monospace form-control"/>
+<div class="permutation-list" id="permutation-$inputId" elems="$elems" elemsId="$elemsId"></div>
+<div id="permutation-generated-answers-$inputId"></div>

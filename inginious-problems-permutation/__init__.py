@@ -7,6 +7,8 @@ import os
 import web
 import json
 
+from random import shuffle
+
 from inginious.common.tasks_problems import BasicProblem
 from inginious.frontend.task_problems import DisplayableBasicProblem
 
@@ -66,7 +68,11 @@ class PermutationProblem(BasicProblem):
 
     @classmethod
     def get_text_fields(cls):
-        return BasicProblem.get_text_fields()
+        textFields = BasicProblem.get_text_fields()
+
+        textFields["text"] = True
+
+        return textFields
 
 
 class DisplayablePermutationProblem(PermutationProblem, DisplayableBasicProblem):
@@ -86,7 +92,20 @@ class DisplayablePermutationProblem(PermutationProblem, DisplayableBasicProblem)
 
     def show_input(self, template_helper, language):
         """ Show MatchProblem """
-        return str(DisplayablePermutationProblem.get_renderer(template_helper).permutation(self.get_id()))
+        original_content = self.get_original_content()
+        text = original_content['text']
+
+        if len(text)>0:
+            elemsId = [row for row in text]
+            # TODO: Add other shuffle methods
+            shuffle(elemsId)
+
+            elems = [text[row] for row in elemsId]
+        else:
+            elemsId = []
+            elems = []
+
+        return str(DisplayablePermutationProblem.get_renderer(template_helper).permutation(self.get_id(), json.dumps(elems), json.dumps(elemsId)))
 
     @classmethod
     def show_editbox(cls, template_helper, key):

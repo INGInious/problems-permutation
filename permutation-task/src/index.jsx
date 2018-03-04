@@ -1,11 +1,13 @@
 import Muuri from 'muuri'
 
 
-const itemFactory = (text) => {
+const itemFactory = (elemId, text) => {
+	// TODO: Change classes prefix to avoid conflicts
 	const item = document.createElement('div')
 	item.setAttribute('class', 'board-item')
 	
 	const itemContent = document.createElement('div')
+	itemContent.setAttribute('id', elemId)
 	itemContent.setAttribute('class', 'board-item-content')
 	itemContent.innerHTML = text;
 	item.appendChild(itemContent)
@@ -15,11 +17,10 @@ const itemFactory = (text) => {
 
 var columnGrids = [];
 
-export function generate_permutation_list(elems, loc) {
-
-	elems.map(text => document.querySelector(loc).appendChild(itemFactory(text)))
-	var grid = new Muuri(loc, {
-		items: '.board-item',
+export function generate_permutation_list(nodeName, dragReleaseListener) {
+	// Taken from kanban
+	var grid = new Muuri(nodeName, {
+		items: '*',
 		layoutDuration: 400,
 		layoutEasing: 'ease',
 		dragEnabled: true,
@@ -52,6 +53,8 @@ export function generate_permutation_list(elems, loc) {
 		columnGrids.forEach(function (grid) {
 			grid.refreshItems();
 		});
+		// Notify change of items order
+		dragReleaseListener();
 	})
 	.on('layoutStart', function () {
 		// Let's keep the board grid up to date with the
@@ -59,6 +62,13 @@ export function generate_permutation_list(elems, loc) {
 	});
 
 	columnGrids.push(grid);
+}
+
+export function generate_permutation_list_with(elemsId, elems, nodeName, dragReleaseListener) {
+	const elemsPack = elemsId.map(function(elemId, i) {return [elemId, elems[i]]})
+	elemsPack.map(textPack => document.querySelector(nodeName).appendChild(itemFactory(textPack[0], textPack[1])))
+
+	generate_permutation_list(nodeName, dragReleaseListener);
 }
 
 // generate_permutation_list([Array(110).join(' C-C C+C ') + ';','D','A','B'], '.board-column-content');
