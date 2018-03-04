@@ -53,7 +53,7 @@ function update_hidden_input(id, value) {
     document.getElementById(id).setAttribute('value', value)
 }
 
-function load_input_permutation(submissionid, key, input)
+function load_input_demo(submissionid, key, input)
 {
     alert('Hello task');
     //generate_permutation_list([Array(110).join(' C-C C+C ') + ';','D','A','B'], '.board-column-content');

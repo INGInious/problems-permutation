@@ -48,7 +48,7 @@ class PermutationProblem(BasicProblem):
         return self.get_id() in task_input
 
     def input_type(self):
-        return str
+        return dict
 
     def check_answer(self, task_input, language):
         # By default, everything pass in the docker agent.
