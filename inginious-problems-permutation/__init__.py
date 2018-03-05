@@ -55,7 +55,10 @@ class PermutationProblem(BasicProblem):
         # If answer is specified, can be assessed in MCQ-like environnment using check_answer
         return True, None, ["Unknown answer"], 0
         
-        if not self._answer:
+        original_content = self.get_original_content()
+        text = original_content['text']
+
+        if len(text) == 0:
             return None, None, None, 0
         elif task_input[self.get_id()].strip() == self._answer:
             return True, None, ["correct answer"], 0
@@ -94,13 +97,15 @@ class DisplayablePermutationProblem(PermutationProblem, DisplayableBasicProblem)
         """ Show MatchProblem """
         original_content = self.get_original_content()
         text = original_content['text']
+        textId = original_content['textId']
 
         if len(text)>0:
-            elemsId = [row for row in text]
+            indexes = [row for row in text]
             # TODO: Add other shuffle methods
-            shuffle(elemsId)
+            shuffle(indexes)
 
-            elems = [text[row] for row in elemsId]
+            elems = [text[idx] for idx in indexes]
+            elemsId = [textId[idx] for idx in indexes]
         else:
             elemsId = []
             elems = []
