@@ -1,4 +1,4 @@
-var pp;
+// Event trigger
 
 function studio_init_template_permutation(well, pid, problem) {
     // Detect tab change event
@@ -8,7 +8,7 @@ function studio_init_template_permutation(well, pid, problem) {
         // wait activation of tab 'subproblems'
         if(target == '#tab_subproblems') {
             var position = 2;
-            pp = new PermutationProblem(pid, position);
+            var pp = new PermutationProblem(pid, position);
             
             if (0 in problem['text']) pp.set_row(0, problem['text'][0], problem['textId'][0]);
             if (1 in problem['text']) pp.set_row(1, problem['text'][1], problem['textId'][1]);
@@ -25,6 +25,18 @@ function studio_init_template_permutation(well, pid, problem) {
 }
 
 // Factory objects
+
+const enumerationFactory = (i) => {
+    const tableRow = document.createElement('td')
+    tableRow.setAttribute('class', 'col-md-1')
+    tableRow.style.textAlign = 'center'
+    tableRow.style.verticalAlign = 'middle'
+
+    tableRow.innerHTML = i
+
+    return tableRow
+}
+
 const inputTextFactory = (pid, i) => {
     const tableRow = document.createElement('td')
     tableRow.setAttribute('class', 'col-md-7')
@@ -56,6 +68,7 @@ const inputTextIdFactory = (pid, i) => {
 }
 
 // Main class
+
 function PermutationProblem(pid, position) {
     this.pid = pid;
     
@@ -64,40 +77,43 @@ function PermutationProblem(pid, position) {
 
     // Add empty strings for first ids
     for(let i=0;i<position;i++) this._idList.push('');
-
-    this.generateId = function(value, position) {
-        var simpler = value.replace(/\s+/g, '');
-        if(simpler.length==0) {
-            var loop = true;
-            while(loop) {
-                simpler = Math.floor(Math.random() * 1000);
-                idx = this._idList.indexOf(simpler);
-                loop = idx>-1 && idx!=position;
-            }
-        } else if(simpler.length > 5) {
-            simpler = simpler.substring(0, 9);
-            
-            var counter = 0;
-
-            var loop = true;
-            while(loop) {
-                var genId = simpler;
-                if(counter > 0) genId += '-' + counter;
-
-                counter ++;
-
-                idx = this._idList.indexOf(genId);
-                loop = idx>-1 && idx!=position;
-            }
-            counter --;
-
-            if(counter > 0) simpler += '-' + counter;
-        }
-
-        return simpler;
-    }
 }
 
+// UNUSED
+// Generates an Id based on the value of the teachers text statement
+PermutationProblem.prototype.generateId = function(value, position) {
+    var simpler = value.replace(/\s+/g, '');
+    if(simpler.length==0) {
+        var loop = true;
+        while(loop) {
+            simpler = Math.floor(Math.random() * 1000);
+            idx = this._idList.indexOf(simpler);
+            loop = idx>-1 && idx!=position;
+        }
+    } else if(simpler.length > 5) {
+        simpler = simpler.substring(0, 9);
+        
+        var counter = 0;
+
+        var loop = true;
+        while(loop) {
+            var genId = simpler;
+            if(counter > 0) genId += '-' + counter;
+
+            counter ++;
+
+            idx = this._idList.indexOf(genId);
+            loop = idx>-1 && idx!=position;
+        }
+        counter --;
+
+        if(counter > 0) simpler += '-' + counter;
+    }
+
+    return simpler;
+}
+
+// Adds listeners to the Add and Delete buttons
 PermutationProblem.prototype.add_listeners = function() {
     var that = this;
 
@@ -108,9 +124,10 @@ PermutationProblem.prototype.add_listeners = function() {
         that.remove_row();
     });
 
+    // UNUSED CODE
     for(let i=0;i<this._position;i++) {
         $('#text_' + this.pid + '_' + i).on("change paste keyup", function() {
-            return; 
+            return;
             // Do this only if id autogeneration wanted
             var value = $(this).val();
             var newValue = that.generateId(value, i);
@@ -122,8 +139,8 @@ PermutationProblem.prototype.add_listeners = function() {
 }
 
 PermutationProblem.prototype.add_row = function() {
-    $('#addr_' + this.pid + '_' + this._position).html('')    
-    $('#addr_' + this.pid + '_' + this._position).append('<td class="col-md-1" style="text-align: center;vertical-align: middle;">'+ (this._position+1) + '</td>')
+    $('#addr_' + this.pid + '_' + this._position).html(enumerationFactory(this._position+1))    
+    $('#addr_' + this.pid + '_' + this._position).append('')
     $('#addr_' + this.pid + '_' + this._position).append(inputTextFactory(this.pid, this._position))
     $('#addr_' + this.pid + '_' + this._position).append(inputTextIdFactory(this.pid, this._position))
 
@@ -134,6 +151,8 @@ PermutationProblem.prototype.add_row = function() {
     var pos = this._position;
 
     this._idList.push('');
+
+    // UNUSED CODE
     $('#text_' + this.pid + '_' + this._position).on("change paste keyup", function() {
         return; 
         // Do this only if id autogeneration wanted
