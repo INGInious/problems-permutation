@@ -7,32 +7,20 @@ window.onload = function () {
     var problems = document.getElementsByClassName('permutation-list');
     for(let i=0;i<problems.length;i++) {
         pid = problems[i].getAttribute('id').split('-')[1]
-        show_list_items(problems[i], pid)
+
+        var ptask = new PermutationTask(pid, problems[i])
+        ptask.generate_ui()
     }
 }
 
-function show_list_items(problem, pid) {
-    var jsonElems = problem.getAttribute('elems');
-    var jsonElemsId = problem.getAttribute('elemsId');
-    
-    var elems = JSON.parse(jsonElems);
-    var originalElemsId = JSON.parse(jsonElemsId);
-    var elemsId = originalElemsId.map(function(elemId, i) {return 'permutation-item-'+pid+'-'+elemId;});
+// Templates
 
-    const generatedAnswers = document.getElementById('permutation-generated-answers-' + pid);
-    generatedAnswers.innerHTML = '';
-    originalElemsId.map((elemId, i) => add_hidden_input('permutation-elem-'+pid+'-'+elemId, 'permutation-elem-'+pid+'-'+elemId, i));
+const TPL_LISTID = 'permutation-$pid';
+const TPL_CARDID = 'permutation-item-$pid-$item';
+const TPL_INPUTS = 'permutation-input-$pid';
+const TPL_INPUTID = 'permutation-input-$pid-$item';
 
-    problem.innerHTML = '';
-    PermutationTask.generate_permutation_list_with(elemsId, elems, '#permutation-' + pid, function() {
-        var elemsPosition = [];
-        for(let i=0;i<elemsId.length;i++) {
-            const position = document.getElementById(elemsId[i]).getBoundingClientRect().top;
-            elemsPosition.push([position, originalElemsId[i]])
-        }
-        elemsPosition.sort().map((elemPosition, i) => update_hidden_input('permutation-elem-'+pid+'-'+elemPosition[1], i))
-    });
-}
+// Factory elements
 
 const hiddenInputFactory = (name, id, value) => {
 	const hiddenInput = document.createElement('input')
@@ -44,14 +32,59 @@ const hiddenInputFactory = (name, id, value) => {
 	return hiddenInput
 }
 
-function add_hidden_input(name, id, value) {
-    const generatedAnswers = document.getElementById('permutation-generated-answers-' + pid);
+// Main class
+
+function PermutationTask(pid, problem_node) {
+    this.pid = pid;
+    this.problem_node = problem_node;
+}
+
+PermutationTask.prototype.stringify = function(template, itemId = null) {
+    if (itemId == null) return template.replace('$pid', this.pid);
+    else return template.replace('$pid', this.pid).replace('$item', itemId);
+}
+
+PermutationTask.prototype.generate_ui = function() {
+    var that = this;
+
+    // Get items data
+    var jsonElems = this.problem_node.getAttribute('elems');
+    var jsonElemsId = this.problem_node.getAttribute('elemsId');
+    // Decode data
+    var elems = JSON.parse(jsonElems);
+    var originalElemsId = JSON.parse(jsonElemsId);
+    var elemsId = originalElemsId.map(function(elemId, i) {return that.stringify(TPL_CARDID, elemId);});
+
+    // Add a hidden input for every item
+    const generatedAnswers = document.getElementById(this.stringify(TPL_INPUTS));
+    generatedAnswers.innerHTML = '';
+    originalElemsId.map((elemId, i) => this.add_hidden_input(elemId, this.stringify(TPL_INPUTID, elemId), i+1));
+
+    // Generate UI/UX
+    this.problem_node.innerHTML = '';
+    PermutationTaskUI.generate_permutation_list_with(elemsId, elems, '#' + this.stringify(TPL_LISTID), function() {
+        // -- Drop element listener --
+        // Update elements order
+        var elemsPosition = [];
+        for(let i=0;i<elemsId.length;i++) {
+            const position = document.getElementById(elemsId[i]).getBoundingClientRect().top;
+            elemsPosition.push([position, originalElemsId[i]])
+        }
+        elemsPosition.sort().map((elemPosition, i) => that.update_hidden_input(that.stringify(TPL_INPUTID, elemPosition[1]), i+1))
+    });
+}
+
+PermutationTask.prototype.add_hidden_input = function(name, id, value) {
+    const generatedAnswers = document.getElementById(this.stringify(TPL_INPUTS));
     generatedAnswers.appendChild(hiddenInputFactory(name, id, value));
 }
 
-function update_hidden_input(id, value) {
+PermutationTask.prototype.update_hidden_input = function(id, value) {
     document.getElementById(id).setAttribute('value', value)
 }
+
+
+// inginious function, working?
 
 function load_input_demo(submissionid, key, input)
 {

@@ -7,7 +7,7 @@ var projectConfig = {
 		filename: 'bundle.js',
 		path: path.resolve(__dirname, 'dist'),
 		libraryTarget: 'var',
-		library: 'PermutationTask',
+		library: 'PermutationTaskUI',
 	}
 };
 
@@ -20,7 +20,7 @@ var pluginConfig = {
 		filename: '../../inginious-problems-permutation/static/task/bundle.js',
 		path: path.resolve(__dirname, 'dist'),
 		libraryTarget: 'var',
-		library: 'PermutationTask',
+		library: 'PermutationTaskUI',
 	}
 };
 
