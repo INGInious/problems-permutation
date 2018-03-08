@@ -1,3 +1,29 @@
+/* Permutation studio */
+
+.permutation-delete {
+  color: gray;
+  background-color: Transparent;
+  background-repeat:no-repeat;
+  border: none;
+  overflow: hidden;
+  outline:none;
+}
+
+.permutation-delete:active {
+  color: black
+}
+
+.disabled-tooltip {
+  display: inline-block;
+}
+
+.disabled-tooltip [disabled] {
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+/* Student Task */
+
 .board-column {
     position: absolute;
     left: 0;
