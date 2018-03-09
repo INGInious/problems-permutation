@@ -58,7 +58,7 @@ $#
                                     </thead>
                                     <tbody>
                                         <tr id='addr_PID_0'>
-                                            <td class="col-md-1" style="text-align: center;vertical-align: middle;">
+                                            <td class="col-md-1" style="text-align: center;">
                                             1
                                             </td>
                                             <td class="col-md-6">
@@ -68,14 +68,17 @@ $#
                                                 -->
                                             </td>
                                             <td class="col-md-4">
-                                                <input type="text" id="textid_PID_0" name='problem[PID][textId][0]' placeholder='Enter Id' class="form-control"/>
+                                                <div class="input-group" style="vertical-align: middle;">
+                                                    <span class="input-group-addon" id="PID-addon0">PID-</span>
+                                                    <input type="text" id="textid_PID_0" name='problem[PID][textId][0]' placeholder='Enter Id' class="form-control" aria-describedby="PID-addon0" style="min-width: 4em;"/>
+                                                </div>
                                             </td>
                                             <td class="col-md-1" style="text-align: center;vertical-align: middle;">
                                                 <button id="permutation-deletebtn-id-0" type="button" class="btn btn-default" disabled="disabled" title="You must have at least 2 items">Delete</button>
                                             </td>
                                         </tr>
                                         <tr id='addr_PID_1'>
-                                            <td class="col-md-1" style="text-align: center;vertical-align: middle;">
+                                            <td class="col-md-1" style="text-align: center;">
                                             2
                                             </td>
                                             <td class="col-md-6">
@@ -85,7 +88,10 @@ $#
                                                 -->
                                             </td>
                                             <td class="col-md-4">
-                                                <input type="text" id="textid_PID_1" name='problem[PID][textId][1]' placeholder='Id' class="form-control"/>
+                                                <div class="input-group" style="vertical-align: middle;">
+                                                    <span class="input-group-addon" id="PID-addon1">PID-</span>
+                                                    <input type="text" id="textid_PID_1" name='problem[PID][textId][1]' placeholder='Id' class="form-control" aria-describedby="PID-addon1"  style="min-width: 4em;"/>
+                                                </div>
                                             </td>
                                             <td class="col-md-1" style="text-align: center;vertical-align: middle;">
                                                 <button id="permutation-deletebtn-id-1" type="button" class="btn btn-default" disabled="disabled" title="You must have at least 2 items">Delete</button>

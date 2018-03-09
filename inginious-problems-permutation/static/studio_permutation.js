@@ -64,17 +64,28 @@ const inputTextFactory = (pid, i) => {
 }
 
 const inputTextIdFactory = (pid, i) => {
-    const tableRow = document.createElement('td')
+    var tableRow = document.createElement('td')
     tableRow.setAttribute('class', 'col-md-4')
 
-    const inputTextId = document.createElement('input')
+    var inputGroup = document.createElement('div')
+    inputGroup.setAttribute('class', 'input-group')
+
+    var pidSpan = document.createElement('span')
+    pidSpan.setAttribute('class', 'input-group-addon')
+    pidSpan.setAttribute('id', pid + '-addon' + i)
+    pidSpan.innerHTML = pid + '-'
+    inputGroup.appendChild(pidSpan)
+
+    var inputTextId = document.createElement('input')
     inputTextId.setAttribute('id', stringify(TPL_INPUTTEXTID, pid, i))
     inputTextId.setAttribute('class', 'form-control input-md')
     inputTextId.setAttribute('name', 'problem[' + pid + '][textId][' + i + ']')
     inputTextId.setAttribute('type', 'text')
     inputTextId.setAttribute('placeholder', 'Id')
-    tableRow.appendChild(inputTextId)
+    inputTextId.style.minWidth = '4em'
+    inputGroup.appendChild(inputTextId)
 
+    tableRow.appendChild(inputGroup)
     return tableRow
 }
 

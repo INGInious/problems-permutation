@@ -96,8 +96,8 @@ class DisplayablePermutationProblem(PermutationProblem, DisplayableBasicProblem)
     def show_input(self, template_helper, language):
         """ Show MatchProblem """
         original_content = self.get_original_content()
-        text = original_content['text']
-        textId = original_content['textId']
+        text = original_content["text"]
+        textId = original_content["textId"]
 
         if len(text)>0:
             indexes = [row for row in text]
@@ -105,7 +105,7 @@ class DisplayablePermutationProblem(PermutationProblem, DisplayableBasicProblem)
             shuffle(indexes)
 
             elems = [text[idx] for idx in indexes]
-            elemsId = [textId[idx] for idx in indexes]
+            elemsId = [self.get_id() + "-" + textId[idx] for idx in indexes]
         else:
             elemsId = []
             elems = []
