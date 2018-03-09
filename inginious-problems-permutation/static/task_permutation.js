@@ -84,11 +84,11 @@ PermutationTask.prototype.update_hidden_input = function(id, value) {
 }
 
 
-// inginious function, working?
-
-function load_input_demo(submissionid, key, input)
+function load_input_permutation(submissionid, key, input)
 {
-    alert('Hello task');
+    // Previous submissions
+    console.log('Input: ' + JSON.stringify(input))
+    // TODO
     //generate_permutation_list([Array(110).join(' C-C C+C ') + ';','D','A','B'], '.board-column-content');
 
     var field = $("form#task input[name='" + key + "']");
