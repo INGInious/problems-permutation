@@ -105,7 +105,7 @@ class DisplayablePermutationProblem(PermutationProblem, DisplayableBasicProblem)
             shuffle(indexes)
 
             elems = [text[idx] for idx in indexes]
-            elemsId = [self.get_id() + "-" + textId[idx] for idx in indexes]
+            elemsId = [textId[idx] for idx in indexes]
         else:
             elemsId = []
             elems = []
