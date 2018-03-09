@@ -58,7 +58,7 @@ PermutationTask.prototype.generate_ui = function() {
     // Add a hidden input for every item
     const generatedAnswers = document.getElementById(this.stringify(TPL_INPUTS));
     generatedAnswers.innerHTML = '';
-    originalElemsId.map((elemId, i) => this.add_hidden_input(elemId, this.stringify(TPL_INPUTID, elemId), i+1));
+    originalElemsId.map((elemId, i) => this.add_hidden_input(this.pid + '-' + elemId, this.stringify(TPL_INPUTID, elemId), i+1));
 
     // Generate UI/UX
     this.problem_node.innerHTML = '';
