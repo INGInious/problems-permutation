@@ -12,7 +12,7 @@ from random import shuffle
 from inginious.common.tasks_problems import BasicProblem
 from inginious.frontend.task_problems import DisplayableBasicProblem
 
-__version__ = "0.1.dev0"
+__version__ = "0.2.dev0"
 
 PATH_TO_PLUGIN = os.path.abspath(os.path.dirname(__file__))
 
