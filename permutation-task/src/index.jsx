@@ -64,7 +64,7 @@ export function generate_permutation_list(nodeName, dragReleaseListener) {
 	columnGrids.push(grid);
 }
 
-export function generate_permutation_list_with(elemsId, elems, nodeName, dragReleaseListener) {
+export function generate_permutation_list_with(elemsId, elems, nodeName, dragReleaseListener = ()=>{}) {
 	const elemsPack = elemsId.map(function(elemId, i) {return [elemId, elems[i]]})
 	elemsPack.map(textPack => document.querySelector(nodeName).appendChild(itemFactory(textPack[0], textPack[1])))
 
