@@ -36,7 +36,7 @@ function stringify(template, pid, item = null) {
     else return template.replace('$pid', pid).replace('$item', item)
 }
 
-// -- This ids are linked to the first 2 rows of the html file -- //
+// -- HTML index constants! -- //
 const TPL_TABLE = '$pid-text-table'
 const TPL_DELETE_ROW = '$pid-delete$item'
 const TPL_TEXT = '$pid-text$item'
