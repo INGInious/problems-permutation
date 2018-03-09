@@ -37,12 +37,13 @@ $#
                         <textarea id="header-PID" class="form-control" name="problem[PID][header]"></textarea>
                     </div>
                 </div>
+
                 <div class="form-group">
                     <label for="answer-PID" class="col-sm-2 control-label">Elements</label>
                     <div class="col-sm-10">
                         <div class="row clearfix">
                             <div class="col-md-12 column">
-                                <table class="table table-bordered table-hover" id="tab_logic_PID">
+                                <table class="table table-bordered table-hover" id="PID-text-table">
                                     <thead>
                                         <tr >
                                             <th class="text-center">
@@ -57,55 +58,77 @@ $#
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <tr id='addr_PID_0'>
+                                        <tr id="PID-text-row0">
                                             <td class="col-md-1" style="text-align: center;">
                                             1
                                             </td>
                                             <td class="col-md-6">
-                                                <textarea id="text_PID_0" class="form-control" name="problem[PID][text][0]" placeholder="Insert text of the first element" style="white-space: nowrap;resize: vertical;"></textarea>
-                                                <!--
-                                                <input type="text" id="text_PID_0" name='problem[PID][text][0]' placeholder='Insert text of the first element' class="form-control"/>
-                                                -->
+                                                <textarea id="PID-text0" class="form-control" name="problem[PID][text][0]" placeholder="Insert text of the first element" style="white-space: nowrap;resize: vertical;"></textarea>
                                             </td>
                                             <td class="col-md-4">
                                                 <div class="input-group" style="vertical-align: middle;">
                                                     <span class="input-group-addon" id="PID-addon0">PID-</span>
-                                                    <input type="text" id="textid_PID_0" name='problem[PID][textId][0]' placeholder='Enter Id' class="form-control" aria-describedby="PID-addon0" style="min-width: 4em;"/>
+                                                    <input type="text" id="PID-textid0" name='problem[PID][text_id][0]' placeholder="Enter Id" class="form-control" aria-describedby="PID-addon0" style="min-width: 4em;"/>
                                                 </div>
                                             </td>
                                             <td class="col-md-1" style="text-align: center;vertical-align: middle;">
-                                                <button id="permutation-deletebtn-id-0" type="button" class="btn btn-default" disabled="disabled" title="You must have at least 2 items">Delete</button>
+                                                <button id="PID-delete0" type="button" class="btn btn-default" disabled="disabled" title="You must have at least 2 items">Delete</button>
                                             </td>
                                         </tr>
-                                        <tr id='addr_PID_1'>
+                                        <tr id="PID-text-row1">
                                             <td class="col-md-1" style="text-align: center;">
                                             2
                                             </td>
                                             <td class="col-md-6">
-                                                <textarea id="text_PID_1" class="form-control" name="problem[PID][text][1]" placeholder="Insert text of the second element" style="white-space: nowrap;resize: vertical;"></textarea>
-                                                <!--
-                                                <input type="text" id="text_PID_1" name='problem[PID][text][1]'  placeholder='Insert text of the second element' class="form-control"/>
-                                                -->
+                                                <textarea id="PID-text1" class="form-control" name="problem[PID][text][1]" placeholder="Insert text of the second element" style="white-space: nowrap;resize: vertical;"></textarea>
                                             </td>
                                             <td class="col-md-4">
                                                 <div class="input-group" style="vertical-align: middle;">
                                                     <span class="input-group-addon" id="PID-addon1">PID-</span>
-                                                    <input type="text" id="textid_PID_1" name='problem[PID][textId][1]' placeholder='Id' class="form-control" aria-describedby="PID-addon1"  style="min-width: 4em;"/>
+                                                    <input type="text" id="PID-textid1" name='problem[PID][text_id][1]' placeholder="Enter Id" class="form-control" aria-describedby="PID-addon1"  style="min-width: 4em;"/>
                                                 </div>
                                             </td>
                                             <td class="col-md-1" style="text-align: center;vertical-align: middle;">
-                                                <button id="permutation-deletebtn-id-1" type="button" class="btn btn-default" disabled="disabled" title="You must have at least 2 items">Delete</button>
+                                                <button id="PID-delete1" type="button" class="btn btn-default" disabled="disabled" title="You must have at least 2 items">Delete</button>
                                             </td>
                                         </tr>
-                                        <tr id='addr_PID_2'></tr>
+                                        <tr id="PID-text-row2"></tr>
                                     </tbody>
                                 </table>
                             </div>
                         </div>
-                        <a id="add_row_PID" class="btn btn-default pull-left">Add Element</a><a id='delete_row_PID' class="pull-right btn btn-default">Delete Row</a>
-                        <!-- <input type="text" class="form-control" id="answer-PID" name="problem[PID][answer]" placeholder="Leave empty for Docker assessment"/> -->
+                        <a id="PID-addrow" class="btn btn-default pull-left">Add Element</a><a id='PID-deleterow' class="pull-right btn btn-default">Delete Row</a>
                     </div>
                 </div>
+                <!-- End of group Elements -->
+
+                <div class="form-group">
+                        <label for="answer-PID" class="col-sm-2 control-label">Misleading items</label>
+                        <div class="col-sm-10">
+                            <div class="row clearfix">
+                                <div class="col-md-12 column">
+                                    <table class="table table-bordered table-hover" id="PID-dt-table">
+                                        <thead>
+                                            <tr >
+                                                <th class="text-center">
+                                                    Distracting Text
+                                                </th>
+                                                <th class="text-center">
+                                                    Text Id
+                                                </th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr id="PID-dt-row0"></tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                            <a id="PID-dt-addrow" class="btn btn-default pull-left">Add Element</a><a id="PID-dt-deleterow" class="pull-right btn btn-default" disabled="disabled">Delete Row</a>
+                        </div>
+                    </div>
+                    <!-- End of form group Misleading items -->
+
             </div>
         </div>
     </div>

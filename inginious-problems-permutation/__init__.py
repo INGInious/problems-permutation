@@ -97,7 +97,7 @@ class DisplayablePermutationProblem(PermutationProblem, DisplayableBasicProblem)
         """ Show MatchProblem """
         original_content = self.get_original_content()
         text = original_content["text"]
-        textId = original_content["textId"]
+        textId = original_content["text_id"]
 
         if len(text)>0:
             indexes = [row for row in text]
