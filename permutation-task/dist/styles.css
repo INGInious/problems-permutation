@@ -1,57 +1,83 @@
-.board-column {
+/* Bootstrap horizontal listing */
+
+ul.list-group:after {
+  clear: both;
+  display: block;
+  content: "";
+}
+
+.list-group-item {
+    float: left;
+}
+
+/* Permutation lists */
+
+.permutation {
+  position: relative;
+  margin-left: 1%;
+}
+.permutation-column {
   position: absolute;
   left: 0;
   right: 0;
-  width: 30%;
   margin: 0 1.5%;
   background: #f0f0f0;
   border-radius: 3px;
   z-index: 1;
 }
-.board-column.muuri-item-releasing {
+.permutation-column.muuri-item-releasing {
   z-index: 2;
 }
-.board-column.muuri-item-dragging {
+.permutation-column.muuri-item-dragging {
   z-index: 3;
   cursor: move;
 }
-.board-column-header {
+.permutation-column-header {
   position: relative;
   height: 50px;
   line-height: 50px;
   overflow: hidden;
   padding: 0 20px;
-  text-align: center;
+  text-align: left;
   background: #333;
   color: #fff;
   border-radius: 3px 3px 0 0;
 }
 @media (max-width: 600px) {
-  .board-column-header {
+  .permutation-column-header {
     text-indent: -1000px;
   }
 }
-.board-column-content {
+/* Header colours */
+.permutation-column.answer .permutation-column-header {
+  background: #659F4A;
+}
+.permutation-column.candidates .permutation-column-header {
+  background: #f9944a;
+}
+/* End of Header colours */
+.permutation-column-content {
   position: relative;
   border: 10px solid transparent;
   min-height: 95px;
 }
-.board-item {
+.permutation-item {
   position: absolute;
   width: 100%;
   margin: 5px 0;
 }
-.board-item.muuri-item-releasing {
+.permutation-item.muuri-item-releasing {
   z-index: 9998;
 }
-.board-item.muuri-item-dragging {
+.permutation-item.muuri-item-dragging {
   z-index: 9999;
   cursor: move;
 }
-.board-item.muuri-item-hidden {
+.permutation-item.muuri-item-hidden {
   z-index: 0;
 }
-.board-item-content {
+
+.permutation-item-content {
   position: relative;
   padding: 20px;
   background: #fff;
@@ -61,11 +87,12 @@
   -webkit-box-shadow: 0px 1px 3px 0 rgba(0,0,0,0.2);
   box-shadow: 0px 1px 3px 0 rgba(0,0,0,0.2);
 }
+
 @media (max-width: 600px) {
-  .board-item-content {
+  .permutation-item-content {
     text-align: center;
   }
-  .board-item-content span {
+  .permutation-item-content span {
     display: none;
   }
 }

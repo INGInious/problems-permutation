@@ -1,18 +1,44 @@
 const path = require('path');
+var webpack = require('webpack');
 
 var projectConfig = {
-	mode: 'development',
-	entry: './src/index.jsx',
+	mode: 'production',
+	entry: {
+		index: './src/index.jsx',
+	},
 	output: {
 		filename: 'bundle.js',
 		path: path.resolve(__dirname, 'dist'),
 		libraryTarget: 'var',
 		library: 'PermutationTaskUI',
+	},
+	resolve: {
+		extensions: ['.js', '.jsx']
+	},
+	module: {
+		rules: [
+		  	{
+				test: /\.jsx?$/,
+				use: [
+					{ loader: 'babel-loader',
+					  query:
+						{
+							babelrc: false,
+							cacheDirectory: true,
+							presets: [['es2015', {modules: false}], 'react', 'stage-3']
+						}
+					}
+				]
+			}
+		]
+	},
+	externals: {
+		Muuri: 'muuri'
 	}
 };
 
 var pluginConfig = {
-	mode: 'development',
+	mode: 'production',
 	entry: {
 		index: './src/index.jsx',
 	},
@@ -21,6 +47,37 @@ var pluginConfig = {
 		path: path.resolve(__dirname, 'dist'),
 		libraryTarget: 'var',
 		library: 'PermutationTaskUI',
+	},
+	resolve: {
+		extensions: ['.js', '.jsx']
+	},
+	plugins: [
+		new webpack.optimize.OccurrenceOrderPlugin(),
+		new webpack.DefinePlugin({
+		  'process.env': {
+			'NODE_ENV': JSON.stringify('production')
+		  }
+		})
+	],
+	module: {
+		rules: [
+		  	{
+				test: /\.jsx?$/,
+				use: [
+					{ loader: 'babel-loader',
+					  query:
+						{
+							babelrc: false,
+							cacheDirectory: true,
+							presets: [['es2015', {modules: false}], 'react', 'stage-3']
+						}
+					}
+				]
+			}
+		]
+	},
+	externals: {
+		Muuri: 'muuri'
 	}
 };
 
