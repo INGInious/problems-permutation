@@ -5,6 +5,7 @@ export const IdManager = new class {
     TPL_ANSWER_CONTAINER: string;
     TPL_CANDIDATES_CONTAINER: string;
     TPL_HIDDEN_INPUTS: string;
+    TPL_CARD: string;
 
     pid: string;
     _initialized: boolean;
@@ -15,6 +16,7 @@ export const IdManager = new class {
         this.TPL_ANSWER_CONTAINER = '$pid-answer'
         this.TPL_CANDIDATES_CONTAINER = '$pid-candidates'
         this.TPL_HIDDEN_INPUTS = '$pid-hidden-inputs'
+        this.TPL_CARD = '$pid-card$item'
     }
 
     // Lazy initialization

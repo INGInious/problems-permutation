@@ -1,21 +1,55 @@
 /* @flow */
 import Muuri from 'muuri';
-import {IdManager} from './IdManager';
+import { IdManager } from './IdManager';
+import Item from './Item';
 
 
 export default class GridSystem {
 	columnGrids : Array<Muuri>;
     boardGrid : Muuri;
-    
-    hiddenInputs : Array<HTMLElement>;
+	
+	isAnswer: Array<boolean>;
+	answerItems: Set<Item>;
+	candidateItems: Set<Item>;
+	itemsMap: {[string]: Item};
 
-	constructor(answerContainer: HTMLElement, candidatesContainer: HTMLElement, hiddenInputs: Array<HTMLElement>) {
-        this.hiddenInputs = hiddenInputs;
+	constructor(answerContainer: HTMLElement, candidatesContainer: HTMLElement, items: Array<Item>) {
+		var that = this;
+
+		// Add mapped items and sets
+		this.answerItems = new Set();
+		this.candidateItems = new Set();
+		this.itemsMap = {};
+		for(let i=0;i<items.length;i++) {
+			this.itemsMap[items[i].get_id()] = items[i];
+			
+			// Add all items as candidates
+			this.candidateItems.add(items[i]);
+		}
 
 		this.columnGrids = []
 
-        this.generate_muuri(answerContainer, 'ANSWERS')
-        this.generate_muuri(candidatesContainer, 'CANDIDATES')
+        this.generate_muuri(answerContainer, function(item:Item) {
+			// WARNING does 'delete' works in all browsers?
+			that.candidateItems.delete(item);
+			that.answerItems.add(item);
+
+			var sorted: Array<Item> = that.get_sorted_items(that.answerItems);
+			for(let i=0;i<sorted.length;i++) {
+				sorted[i].update_position(i+1);
+			}
+		})
+        this.generate_muuri(candidatesContainer, function(item:Item) {
+			// WARNING does 'delete' works in all browsers?
+			that.answerItems.delete(item);
+			that.candidateItems.add(item);
+
+			// TODO: Too many sorts. Only need to sort when an item is removed from answerItems
+			var sorted: Array<Item> = that.get_sorted_items(that.answerItems);
+			for(let i=0;i<sorted.length;i++) {
+				sorted[i].update_position(i+1);
+			}
+		})
 
 		this.boardGrid = new Muuri('.permutation', {
 			layoutDuration: 400,
@@ -30,7 +64,24 @@ export default class GridSystem {
 		});
 	}
 
-	generate_muuri(container: HTMLElement, name: string) {
+	get_sorted_items(unsorted: Set<Item>) {
+		var sorted: Array<Item> = [];
+
+		var posItemPair: Array<[number, Item]> = [];
+		unsorted.forEach(function(item) {
+			posItemPair.push([item.get_y(), item]);
+		});
+		
+		posItemPair = posItemPair.sort(function(a:[number, Item], b:[number, Item]): number {
+			return a[0] > b[0]? 1: -1;
+		});
+		
+		for(let i=0;i<posItemPair.length;i++) sorted.push(posItemPair[i][1]);
+
+		return sorted;
+	}
+
+	generate_muuri(container: HTMLElement, process_item: (Item)=>void) {
 		var that = this;
 
 		var grid = new Muuri(container, {
@@ -53,7 +104,7 @@ export default class GridSystem {
 			// duration of the drag.
 			item.getElement().style.width = item.getWidth() + 'px';
 			item.getElement().style.height = item.getHeight() + 'px';
-			//console.log('Pressed element at' + name);
+			//console.log('Pressed element ' + item._child.getAttribute('name') + ' at ' + name);
 		})
 		.on('dragReleaseEnd', function (item) {
 			// Let's remove the fixed width/height from the
@@ -68,7 +119,8 @@ export default class GridSystem {
 			that.columnGrids.forEach(function (grid) {
 				grid.refreshItems();
 			});
-			//console.log('Released element at' + name);
+			if(process_item!=null) process_item(that.itemsMap[item._child.getAttribute('id')]);
+			//console.log('Released element ' + item._child.getAttribute('name'));
 		})
 		.on('layoutStart', function () {
 			// Let's keep the board grid up to date with the

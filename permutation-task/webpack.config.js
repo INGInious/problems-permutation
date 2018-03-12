@@ -2,7 +2,8 @@ const path = require('path');
 var webpack = require('webpack');
 
 var projectConfig = {
-	mode: 'production',
+	devtool: 'source-map',
+	mode: 'development',
 	entry: {
 		index: './src/index.jsx',
 	},
@@ -33,7 +34,8 @@ var projectConfig = {
 		]
 	},
 	externals: {
-		Muuri: 'muuri'
+		Muuri: 'muuri',
+		Hammer: 'hammerjs'
 	}
 };
 
