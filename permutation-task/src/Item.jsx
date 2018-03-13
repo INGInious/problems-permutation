@@ -1,5 +1,6 @@
 /* @flow */
 import { IdManager } from './IdManager';
+import { USE_SACK_ALGORITHM } from './flags';
 
 export default class Item {
     // Hidden input name ($pid-$item)
@@ -20,7 +21,11 @@ export default class Item {
     posHiddenInput: HTMLElement;
 
     constructor(ipos: number, name: string, content: string) {
-        this.ipos = ipos;
+
+        if(USE_SACK_ALGORITHM && this.ipos < 0) {// if negative then it is a candidate item
+            this.ipos = -1; // -1 for all candidate items
+        } else this.ipos = ipos;
+
         this.name = name;
         this.content = content;
 
