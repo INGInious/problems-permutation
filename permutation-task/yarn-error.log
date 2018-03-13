@@ -1,5 +1,5 @@
 Arguments: 
-  /usr/local/bin/node /usr/share/yarn/bin/yarn.js run flow check ./src/
+  /usr/local/bin/node /usr/share/yarn/bin/yarn.js run start
 
 PATH: 
   /home/franco/anaconda/anaconda3/envs/inginious/bin:/home/franco/anaconda/anaconda3/bin:/home/franco/bin:/home/franco/.local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin:/home/franco/Android/Sdk/tools:/home/franco/Android/Sdk/platform-tools:/home/franco/phantomjs/phantomjs-2.1.1-linux-x86_64/bin:/usr/local/cuda-9.1/bin
@@ -20,7 +20,8 @@ npm manifest:
     "description": "",
     "main": "index.js",
     "scripts": {
-      "test": "echo \"Error: no test specified\" && exit 1"
+      "start": "webpack-dev-server --open --config webpack.dev.js",
+      "build": "webpack --config webpack.prod.js"
     },
     "author": "",
     "license": "ISC",
@@ -34,7 +35,8 @@ npm manifest:
       "babel-preset-stage-3": "^6.24.1",
       "flow-bin": "0.65.0",
       "webpack": "^4.1.1",
-      "webpack-cli": "^2.0.10"
+      "webpack-cli": "^2.0.10",
+      "webpack-merge": "^4.1.2"
     },
     "dependencies": {
       "muuri": "^0.5.4",
@@ -4831,6 +4833,12 @@ Lockfile:
       yeoman-environment "^2.0.0"
       yeoman-generator "github:ev1stensberg/generator#Feature-getArgument"
   
+  webpack-merge@^4.1.2:
+    version "4.1.2"
+    resolved "https://registry.yarnpkg.com/webpack-merge/-/webpack-merge-4.1.2.tgz#5d372dddd3e1e5f8874f5bf5a8e929db09feb216"
+    dependencies:
+      lodash "^4.17.5"
+  
   webpack-sources@^1.0.1, webpack-sources@^1.1.0:
     version "1.1.0"
     resolved "https://registry.yarnpkg.com/webpack-sources/-/webpack-sources-1.1.0.tgz#a101ebae59d6507354d71d8013950a3a8b7a5a54"
@@ -5021,9 +5029,9 @@ Lockfile:
 
 Trace: 
   Error: Command failed.
-  Exit code: 2
+  Exit code: 127
   Command: sh
-  Arguments: -c /media/franco/DATA/Projects/INGINIOUS/INGInious-problems-permutation/permutation-task/node_modules/.bin/flow check ./src/
+  Arguments: -c webpack-dev-server --open --config webpack.dev.js
   Directory: /media/franco/DATA/Projects/INGINIOUS/INGInious-problems-permutation/permutation-task
   Output:
   
