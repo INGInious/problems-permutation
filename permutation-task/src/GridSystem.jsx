@@ -4,6 +4,10 @@ import { IdManager } from './IdManager';
 import Item from './Item';
 
 
+/* if true: assign -1 to all candidates
+   else: assign negative integers to candidates */
+const USE_SACK_ALGORITHM = true;
+
 export default class GridSystem {
 	columnGrids : Array<Muuri>;
     boardGrid : Muuri;
@@ -34,9 +38,11 @@ export default class GridSystem {
 				// WARNING does 'delete' works in all browsers?
 				that.candidateItems.delete(item);
 
-				var sorted: Array<Item> = that.get_sorted_items(that.candidateItems);
-				for(let i=0;i<sorted.length;i++) {
-					sorted[i].update_position(-i-1);
+				if(!USE_SACK_ALGORITHM) {
+					var sorted: Array<Item> = that.get_sorted_items(that.candidateItems);
+					for(let i=0;i<sorted.length;i++) {
+						sorted[i].update_position(-i-1);
+					}
 				}
 			}
 			that.answerItems.add(item);
@@ -58,9 +64,13 @@ export default class GridSystem {
 			}
 			that.candidateItems.add(item);
 			
-			var sorted: Array<Item> = that.get_sorted_items(that.candidateItems);
-			for(let i=0;i<sorted.length;i++) {
-				sorted[i].update_position(-i-1);
+			if(USE_SACK_ALGORITHM) {
+				item.update_position(-1);
+			} else {
+				var sorted: Array<Item> = that.get_sorted_items(that.candidateItems);
+				for(let i=0;i<sorted.length;i++) {
+					sorted[i].update_position(-i-1);
+				}
 			}
 		})
 
