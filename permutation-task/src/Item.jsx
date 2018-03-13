@@ -39,6 +39,8 @@ export default class Item {
     build() {
         // Building card
         this.enumeration = document.createElement('span')
+        //this.enumeration.style.fontWeight = 'bold';
+        this.enumeration.style.fontSize = '1.2em';
         this.enumeration.innerHTML = '';
         
         this.contentCard = document.createElement('span')
