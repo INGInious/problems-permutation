@@ -98,19 +98,29 @@ class DisplayablePermutationProblem(PermutationProblem, DisplayableBasicProblem)
         original_content = self.get_original_content()
         text = original_content["text"]
         textId = original_content["text_id"]
+        if "dt" in original_content:
+            dt = original_content["dt"]
+            dtId = original_content["dt_id"]
+        else:
+            dt = []
+            dtId = []
 
         if len(text)>0:
             indexes = [row for row in text]
+            dtIndexes = [row for row in dt]
             # TODO: Add other shuffle methods
             shuffle(indexes)
 
-            elems = [text[idx] for idx in indexes]
-            elemsId = [textId[idx] for idx in indexes]
+            elems = [text[idx] for idx in indexes] + [dt[idx] for idx in dtIndexes]
+            elemsId = [textId[idx] for idx in indexes] + [dtId[idx] for idx in dtIndexes]
         else:
             elemsId = []
             elems = []
 
-        return str(DisplayablePermutationProblem.get_renderer(template_helper).permutation(self.get_id(), json.dumps(elems), json.dumps(elemsId)))
+        if len(dt) > 0:
+            return str(DisplayablePermutationProblem.get_renderer(template_helper).permutation(self.get_id(), 'trello', json.dumps(elems), json.dumps(elemsId)))
+        else:
+            return str(DisplayablePermutationProblem.get_renderer(template_helper).permutation(self.get_id(), 'list', json.dumps(elems), json.dumps(elemsId)))
 
     @classmethod
     def show_editbox(cls, template_helper, key):

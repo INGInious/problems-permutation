@@ -42,8 +42,5 @@ module.exports = {
 				]
 			}
 		]
-	},
-	externals: {
-		muuri: 'muuri'
 	}
 };
