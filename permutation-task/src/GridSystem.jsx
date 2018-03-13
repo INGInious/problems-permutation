@@ -2,11 +2,8 @@
 import Muuri from 'muuri';
 import { IdManager } from './IdManager';
 import Item from './Item';
+import { USE_SACK_ALGORITHM } from './flags'
 
-
-/* if true: assign -1 to all candidates
-   else: assign negative integers to candidates */
-const USE_SACK_ALGORITHM = true;
 
 export default class GridSystem {
 	columnGrids : Array<Muuri>;
