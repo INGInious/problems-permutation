@@ -21,25 +21,13 @@
     
     <div id="PID-dragarea">
       <div class="permutation muuri">
+
         <div class="permutation-column answer">
           <div class="permutation-column-header"><span class="glyphicon glyphicon-th-list" aria-hidden=true></span><b> ANSWER</b></div>
           <div class="permutation-column-content" id="PID-answer">
           </div>
         </div>
-        <div class="permutation-column candidates">
-          <div class="permutation-column-header"><span class="glyphicon glyphicon-trash" aria-hidden=true></span><b> CANDIDATES</b></div>
-          <div class="permutation-column-content" id="PID-candidates">
 
-            <!--
-            <div class="permutation-item"><div class="permutation-item-content" name="hello">hello</div></div>
-            <div class="permutation-item"><div class="permutation-item-content"><span>1. </span><span>Item #</span>A</li></div></div>
-            <div class="permutation-item"><div class="permutation-item-content"><span>Item #</span>8</div></div>
-            <div class="permutation-item"><div class="permutation-item-content"><span>Item #</span>9</div></div>
-            <div class="permutation-item"><div class="permutation-item-content"><span>Item #</span>10</div></div>
-            -->
-
-          </div>
-        </div>
       </div>
       <div id="PID-hidden-inputs"></div>
     </div>
@@ -50,7 +38,7 @@
         textIds = [1,2,3,4]
         subtype = 'trello'
 
-        PermutationTaskUI.generate_ui('trello', 'PID', texts, textIds)
+        PermutationTaskUI.generate_ui('list', 'PID', texts, textIds)
     </script>
   </body>
 </html>
