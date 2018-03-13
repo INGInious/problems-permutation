@@ -13,10 +13,23 @@ Using yarn:
 yarn install
 ```
 
-## Usage
+## Development environment
+Using npm:
 ```
-npx webpack --config webpack.config.js
+npm start
+```
+Using yarn:
+```
+yarn run start
 ```
 
-## Production
-Change ```Development``` by ```Production``` in the ```webpack.config.js``` file.
+## Production build
+Using npm:
+```
+npm run-script build
+```
+Using yarn:
+```
+yarn run build
+```
+This command will create a bundle file inside the plugin static file structure.
