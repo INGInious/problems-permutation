@@ -30,8 +30,15 @@ export default class GridSystem {
 		this.columnGrids = []
 
         this.generate_muuri(answerContainer, function(item:Item) {
-			// WARNING does 'delete' works in all browsers?
-			that.candidateItems.delete(item);
+			if(that.candidateItems.has(item)) {
+				// WARNING does 'delete' works in all browsers?
+				that.candidateItems.delete(item);
+
+				var sorted: Array<Item> = that.get_sorted_items(that.candidateItems);
+				for(let i=0;i<sorted.length;i++) {
+					sorted[i].update_position(-i-1);
+				}
+			}
 			that.answerItems.add(item);
 
 			var sorted: Array<Item> = that.get_sorted_items(that.answerItems);
@@ -40,14 +47,20 @@ export default class GridSystem {
 			}
 		})
         this.generate_muuri(candidatesContainer, function(item:Item) {
-			// WARNING does 'delete' works in all browsers?
-			that.answerItems.delete(item);
-			that.candidateItems.add(item);
+			if(that.answerItems.has(item)) {
+				// WARNING does 'delete' works in all browsers?
+				that.answerItems.delete(item);
 
-			// TODO: Too many sorts. Only need to sort when an item is removed from answerItems
-			var sorted: Array<Item> = that.get_sorted_items(that.answerItems);
+				var sorted: Array<Item> = that.get_sorted_items(that.answerItems);
+				for(let i=0;i<sorted.length;i++) {
+					sorted[i].update_position(i+1);
+				}
+			}
+			that.candidateItems.add(item);
+			
+			var sorted: Array<Item> = that.get_sorted_items(that.candidateItems);
 			for(let i=0;i<sorted.length;i++) {
-				sorted[i].update_position(i+1);
+				sorted[i].update_position(-i-1);
 			}
 		})
 
