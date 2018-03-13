@@ -34,8 +34,8 @@ var projectConfig = {
 		]
 	},
 	externals: {
-		Muuri: 'muuri',
-		Hammer: 'hammerjs'
+		muuri: 'Muuri',
+		hammerjs: 'HammerJS'
 	}
 };
 
@@ -79,7 +79,7 @@ var pluginConfig = {
 		]
 	},
 	externals: {
-		Muuri: 'muuri'
+		muuri: 'muuri'
 	}
 };
 
