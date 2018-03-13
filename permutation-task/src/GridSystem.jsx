@@ -46,7 +46,7 @@ export default class GridSystem {
 
 			var sorted: Array<Item> = that.get_sorted_items(that.answerItems);
 			for(let i=0;i<sorted.length;i++) {
-				sorted[i].update_position(i+1);
+				sorted[i].update_position(i+1);// Starts in 1
 			}
 		})
         this.generate_muuri(candidatesContainer, function(item:Item) {
@@ -56,7 +56,7 @@ export default class GridSystem {
 
 				var sorted: Array<Item> = that.get_sorted_items(that.answerItems);
 				for(let i=0;i<sorted.length;i++) {
-					sorted[i].update_position(i+1);
+					sorted[i].update_position(i+1);// Starts in 1
 				}
 			}
 			that.candidateItems.add(item);
