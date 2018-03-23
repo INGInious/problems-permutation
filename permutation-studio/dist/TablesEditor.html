@@ -13,12 +13,16 @@
         <!-- Latest compiled and minified JavaScript -->
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
     </head>
-    <body style="margin-left: 5%;margin-top: 5%;">
-        <br/>
-        <br/>
-        <span style="font-weight: bold;font-size: 2.5em;">SELECT TEST:</span><br/><br/>
-        <ul>
-            <li><a href="TablesEditor.html" style="font-size: 1.5em;">Tables Editor</a></li>
-        </ul>
+    <body>
+        <div id="PID-tables-editor"></div>
+        <!-- Calling from scripts -->
+        <script>
+            var mainTables = {
+                "Program A": [ [ "a1", "Elem A1" ], [ "a2", "Elem A2" ], [ "a3", "Elem A3" ] ],
+                "Program B": [ [ "b1", "Elem B1" ], [ "b2", "Elem B2" ], [ "b3", "Elem B3" ] ]
+            }
+            var misleadingTable = [ [ "null", "Mislead 1" ], [ null, "Mislead 2" ], [ "", "Mislead 3" ] ]
+            PermutationStudioUI.init_ui('PID', mainTables, misleadingTable)
+        </script>
     </body>
 </html>
