@@ -2,8 +2,11 @@
 # -*- coding: utf-8 -*-
 
 from setuptools import setup, find_packages
+from os import system
 
 import inginious_blockly
+
+system("cd permutation-task && npm run-script build")
 
 setup(
     name="inginious-problems-permutation",
