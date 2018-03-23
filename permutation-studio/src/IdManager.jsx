@@ -1,0 +1,33 @@
+/* @flow */
+
+
+export const IdManager = new class {
+    TPL_TABLE_ITEM: string;
+    TPL_TABLE_ITEM_ID: string;
+
+    pid: string;
+    _initialized: boolean;
+
+    constructor() {
+        this._initialized = false;
+
+        this.TPL_TABLE_ITEM = '$pid-$table-$item'
+        this.TPL_TABLE_ITEM_ID = '$pid-$table-id-$item'
+    }
+
+    // Lazy initialization
+    init(pid: string) {
+        this.pid = pid;
+        this._initialized = true;
+    }
+
+    stringify(template: string, tableid: string|null = null, itemid: string|null = null) {
+        if(!this._initialized) throw 'Uninitialized IdManager';
+
+        var gen_id: string = template.replace('$pid', this.pid);
+        if(tableid!=null) gen_id.replace('$table', tableid)
+        if(itemid!=null) gen_id.replace('$item', itemid)
+
+	    return gen_id
+    }
+}
