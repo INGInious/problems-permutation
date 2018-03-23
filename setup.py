@@ -3,10 +3,12 @@
 
 from setuptools import setup, find_packages
 from os import system
+from sys import argv
 
 import inginious_blockly
 
-system("cd permutation-task && npm run-script build")
+if not 'no-build' in argv:
+    system("cd permutation-task && npm run-script build")
 
 setup(
     name="inginious-problems-permutation",
