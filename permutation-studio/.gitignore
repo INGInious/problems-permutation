@@ -1,0 +1,9 @@
+# Dependencies
+node_modules/*
+
+# Generated files
+dist/bundle.js
+dist/bundle.js.map
+
+# log files
+yarn.lock
