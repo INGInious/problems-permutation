@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "webpack-dev-server --open --config webpack.dev.js",
+    "build-dev": "webpack --config webpack.dev.js",
     "build": "flow check ./src/ && webpack --config webpack.prod.js"
   },
   "author": "",
