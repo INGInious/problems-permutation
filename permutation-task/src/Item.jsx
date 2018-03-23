@@ -20,7 +20,11 @@ export default class Item {
     iposHiddenInput: HTMLElement;
     posHiddenInput: HTMLElement;
 
-    constructor(ipos: number, name: string, content: string) {
+    // Flags
+    showEnum: boolean;
+    textSelectable: boolean;
+
+    constructor(ipos: number, name: string, content: string, showEnum?: boolean = true) {
 
         if(USE_SACK_ALGORITHM && this.ipos < 0) {// if negative then it is a candidate item
             this.ipos = -1; // -1 for all candidate items
@@ -28,6 +32,10 @@ export default class Item {
 
         this.name = name;
         this.content = content;
+
+        // Flags
+        this.showEnum = showEnum
+        this.textSelectable = false // TODO: Can't select text inside cards
 
         // Current position = initial position
         this.pos = this.ipos;
@@ -46,13 +54,17 @@ export default class Item {
         this.enumeration = document.createElement('span')
         //this.enumeration.style.fontWeight = 'bold';
         this.enumeration.style.fontSize = '1.2em';
+        this.enumeration.style.position = 'absolute';
+
         this.enumeration.innerHTML = '';
         
-        this.contentCard = document.createElement('span')
+        this.contentCard = document.createElement('div')
         this.contentCard.innerHTML = this.content
+        if(this.showEnum) this.contentCard.style.marginLeft = '2em'
 
         this.card = document.createElement('div')
-        this.card.setAttribute('class', 'permutation-item')
+        this.card.classList.add('permutation-item')
+        if(!this.textSelectable) this.card.classList.add('unselectable')
 
         var itemContent: HTMLElement = document.createElement('div')
         itemContent.setAttribute('class', 'permutation-item-content')
@@ -79,7 +91,7 @@ export default class Item {
         this.posHiddenInput.setAttribute('value', this.pos+'')
         
         if(pos > 0) {
-            this.enumeration.innerHTML = pos+'. '
+            if(this.showEnum) this.enumeration.innerHTML = pos+'. '
         } else {
             this.enumeration.innerHTML = ''
         }

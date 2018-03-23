@@ -1,13 +1,12 @@
 /* Bootstrap horizontal listing */
 
-ul.list-group:after {
-  clear: both;
-  display: block;
-  content: "";
-}
-
-.list-group-item {
-    float: left;
+.unselectable {
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
 }
 
 /* Permutation lists */

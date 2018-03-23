@@ -22,12 +22,12 @@
     <div id="PID-dragarea">
       <div class="permutation muuri">
         <div class="permutation-column answer">
-          <div class="permutation-column-header"><span class="glyphicon glyphicon-th-list" aria-hidden=true></span><b> ANSWER</b></div>
+          <div class="permutation-column-header unselectable"><span class="glyphicon glyphicon-th-list" aria-hidden=true></span><b> ANSWER</b></div>
           <div class="permutation-column-content" id="PID-answer">
           </div>
         </div>
         <div class="permutation-column candidates">
-          <div class="permutation-column-header"><span class="glyphicon glyphicon-trash" aria-hidden=true></span><b> CANDIDATES</b></div>
+          <div class="permutation-column-header unselectable"><span class="glyphicon glyphicon-trash" aria-hidden=true></span><b> CANDIDATES</b></div>
           <div class="permutation-column-content" id="PID-candidates">
 
             <!--
@@ -47,6 +47,7 @@
     <script src="bundle.js"></script>
     <script>
         texts = [Array(110).join(' C-C C+C ') + ';','D','A','B']
+        texts = texts.map(x => '<p>' + x + '</p>')
         textIds = [1,2,3,4]
         subtype = 'trello'
 
