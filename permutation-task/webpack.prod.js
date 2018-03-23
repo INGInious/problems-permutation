@@ -9,7 +9,7 @@ module.exports = {
 		index: './src/index.jsx',
 	},
 	output: {
-		filename: '../../inginious-problems-permutation/static/task/bundle.js',
+		filename: '../../inginious-problems-permutation/static/task/permutation_task.js',
 		path: path.resolve(__dirname, 'dist'),
 		libraryTarget: 'var',
 		library: 'PermutationTaskUI',

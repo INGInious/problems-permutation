@@ -8,3 +8,4 @@ inginious_problems_permutation.egg-info/*
 
 # Generated bundles
 inginious-problems-permutation/static/task/bundle.js
+inginious-problems-permutation/static/task/permutation_task.js
