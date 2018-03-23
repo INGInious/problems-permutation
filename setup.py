@@ -7,8 +7,10 @@ from sys import argv
 
 import inginious_blockly
 
-if not 'no-build' in argv:
-    system("cd permutation-task && npm run-script build")
+if not 'no-npm' in argv:
+    system("cd permutation-task && npm install")
+    if not 'no-npm-build' in argv:
+        system("cd permutation-task && npm run-script build")
 
 setup(
     name="inginious-problems-permutation",
