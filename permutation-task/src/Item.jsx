@@ -65,12 +65,12 @@ export default class Item {
         // Building hidden inputs
         this.iposHiddenInput = document.createElement('input')
         this.iposHiddenInput.setAttribute('type', 'hidden')
-        this.iposHiddenInput.setAttribute('name', this.name + '-ipos')
+        this.iposHiddenInput.setAttribute('name', IdManager.stringify(IdManager.TPL_HIDDEN_INPUT_IPOS, this.name))
         this.iposHiddenInput.setAttribute('value', this.ipos+'')
 
         this.posHiddenInput = document.createElement('input')
         this.posHiddenInput.setAttribute('type', 'hidden')
-        this.posHiddenInput.setAttribute('name', this.name + '-pos')
+        this.posHiddenInput.setAttribute('name', IdManager.stringify(IdManager.TPL_HIDDEN_INPUT_POS, this.name))
         this.posHiddenInput.setAttribute('value', this.pos+'')
     }
 
