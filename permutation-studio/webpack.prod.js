@@ -9,10 +9,10 @@ module.exports = {
 		index: './src/index.jsx',
 	},
 	output: {
-		filename: '../../inginious-problems-permutation/static/task/permutation_task.js',
+		filename: '../../inginious-problems-permutation/static/task/permutation_studio.js',
 		path: path.resolve(__dirname, 'dist'),
 		libraryTarget: 'var',
-		library: 'PermutationTaskUI',
+		library: 'PermutationStudioUI',
 	},
 	resolve: {
 		extensions: ['.js', '.jsx']

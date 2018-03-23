@@ -15,7 +15,7 @@ module.exports = {
 		filename: 'bundle.js',
 		path: path.resolve(__dirname, 'dist'),
 		libraryTarget: 'var',
-		library: 'PermutationTaskUI',
+		library: 'PermutationStudioUI',
 	},
 	resolve: {
 		extensions: ['.js', '.jsx']
@@ -36,9 +36,5 @@ module.exports = {
 				]
 			}
 		]
-	},
-	externals: {
-		muuri: 'Muuri',
-		hammerjs: 'HammerJS'
 	}
 };
