@@ -8,6 +8,7 @@ import web
 import json
 
 from random import shuffle
+from docutils.core import publish_parts
 
 from inginious.common.tasks_problems import BasicProblem
 from inginious.frontend.task_problems import DisplayableBasicProblem
@@ -111,7 +112,7 @@ class DisplayablePermutationProblem(PermutationProblem, DisplayableBasicProblem)
             # TODO: Add other shuffle methods
             shuffle(indexes)
 
-            elems = [text[idx] for idx in indexes] + [dt[idx] for idx in dtIndexes]
+            elems = [publish_parts(text[idx], writer_name='html')['html_body'] for idx in indexes] + [publish_parts(dt[idx], writer_name='html')['html_body'] for idx in dtIndexes]
             elemsId = [textId[idx] for idx in indexes] + [dtId[idx] for idx in dtIndexes]
         else:
             elemsId = []
