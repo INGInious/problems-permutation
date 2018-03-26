@@ -3,8 +3,7 @@
 
 export default class Row {
     // Properties
-    id: number;
-    onDelete: (number) => (void);
+    onDelete: (void) => (void);
 
     // Content
     value: string;
@@ -13,16 +12,19 @@ export default class Row {
     // Flags
     showEnum: boolean;
 
-    constructor(id: number, onDelete: (number) => (void), showEnumeration: boolean, value?: string = '', valueId?: string = '') {
-        this.id = id;
+    constructor(id: number, showEnumeration: boolean, value: string = '', valueId: string = '') {
         this.value = value;
         this.valueId = valueId;
 
         this.showEnum = showEnumeration;
 
-        this.onDelete = onDelete;
+        this.onDelete = () => {};
 
         // TODO: Build visuals
+    }
+
+    set_delete_listener(onDelete: (void) => (void)) {
+        this.onDelete = onDelete;
     }
 
 }

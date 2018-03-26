@@ -2,6 +2,7 @@
 
 
 export const IdManager = new class {
+    TPL_TABLES_CONTAINER: string;
     TPL_TABLE_ITEM: string;
     TPL_TABLE_ITEM_ID: string;
 
@@ -11,6 +12,7 @@ export const IdManager = new class {
     constructor() {
         this._initialized = false;
 
+        this.TPL_TABLES_CONTAINER = '$pid-tables-editor'
         this.TPL_TABLE_ITEM = '$pid-$table-$item'
         this.TPL_TABLE_ITEM_ID = '$pid-$table-id-$item'
     }
