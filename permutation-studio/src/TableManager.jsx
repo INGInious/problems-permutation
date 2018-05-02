@@ -10,55 +10,97 @@ export class TableManager {
     mainContainer: HTMLElement;
     misleadingContainer: HTMLElement;
 
-    mainTables: Array<ListTable>;
-    misleadingTable: ListTable;
+    tablesCounter: number;
+    allTables: Map<number, ListTable>;
 
     // DOM
-    tablesContainers: {[ListTable]: HTMLElement};
-    containerTables: {[HTMLElement]: ListTable|null};
+    // TODO: Remove this
+    // tablesContainers: {[ListTable]: HTMLElement};// TODO: Probably don't need this
+    // containerTables: {[HTMLElement]: ListTable|null};
 
     constructor(parent: HTMLElement,
                 mainTables: {[string] : TableStruct} = {'ANSWERS': [['',''],['','']]},
                 misleadingTable: TableStruct = []) {
         // Properties
         this.parent = parent;
-        this.mainTables = [];
-        Object.keys(mainTables).forEach((title) => {
-            var table: ListTable = new ListTable(title, true, mainTables[title])
-            table.set_delete_listener(() => {
-                this.remove_table(table)
-            })
-            this.mainTables.push(table)
-        });
-        this.misleadingTable = new ListTable('Misleading elements', false, misleadingTable);
+        this.tablesCounter = 0;
+        this.allTables = new Map();
+        
+        // Populate tables
+        var misleadingTableObject: ListTable = new ListTable(-1, 'Misleading elements', false, misleadingTable);
+        this.allTables.set(-1, misleadingTableObject);
+        this._populate_tables(mainTables)
 
+        // Create physical objects
         this.mainContainer = document.createElement('div')
         parent.appendChild(this.mainContainer)
-
         this.misleadingContainer = document.createElement('div')
         parent.appendChild(this.misleadingContainer)
 
-        // DOM
-        tablesContainers = {}
-        containerTables = {}
+        this.make_visible();
+    }
 
-        this.tablesContainers[this.misleadingTable] = this.misleadingContainer;
-        this.containerTables[this.misleadingContainer] = this.misleadingTable;
+    _get_new_table_id(): number {
+        const tableId: number = this.tablesCounter + 1;
+        this.tablesCounter ++;
+
+        return tableId;
+    }
+
+    _populate_tables(mainTables: {[string] : TableStruct}) {
+        Object.keys(mainTables).forEach((title) => {
+            const tableId: number = this._get_new_table_id()
+
+            var table: ListTable = new ListTable(tableId, title, true, mainTables[title])
+            table.set_handlers(
+                this.remove_table // onDelete
+            )
+            this.allTables.set(tableId, table)
+        });
     }
 
     add_new_table(title: string) {
-        var table: ListTable = new ListTable(title, true)
-        table.set_delete_listener(()=>{
-            this.remove_table(table)
-        })
-        this.mainTables.push(table)
+        const tableId: number = this._get_new_table_id()
+        var table: ListTable = new ListTable(tableId, title, true)
+        table.set_handlers(
+            this.remove_table // onDelete
+        )
+        this.allTables.set(tableId, table)
     }
 
-    remove_table(table: ListTable) {
+    remove_table(tableId: number) {
     }
 
-    render() {
-        // TODO: Check free containers, if not then create container.
+    /* @Deprecated
+    render_table(table: ListTable) {
         // TODO: Edit button listeners
+        var renderDone = false;
+        
+        Object.keys(this.containerTables).forEach((container) => {
+            if(!renderDone && this.containerTables[container]==null) {
+                table.render_at(container);
+
+                renderDone = true;
+            }
+        });
+
+        if(renderDone) return;
+
+        var newContainer = document.createElement('div');
+        this.mainContainer.appendChild(newContainer);
+
+        // this.tablesContainers[table] = newContainer;
+        this.containerTables[newContainer] = table;
+
+        table.render_at(newcontainer);
+
+        renderDone = true;
+    } */
+
+    make_visible() {
+        this.allTables.forEach((table, key) => {
+            if(key == -1) this.misleadingContainer.appendChild(table.get_dom())
+            else this.mainContainer.appendChild(table.get_dom())
+        })
     }
 }
