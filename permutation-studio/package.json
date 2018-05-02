@@ -25,9 +25,5 @@
     "webpack-merge": "^4.1.2"
   },
   "dependencies": {
-    "muuri": "^0.5.4",
-    "react": "^16.2.0",
-    "react-dom": "^16.2.0",
-    "web-animations-js": "^2.3.1"
   }
 }
