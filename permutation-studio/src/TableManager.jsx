@@ -13,11 +13,6 @@ export class TableManager {
     tablesCounter: number;
     allTables: Map<number, ListTable>;
 
-    // DOM
-    // TODO: Remove this
-    // tablesContainers: {[ListTable]: HTMLElement};// TODO: Probably don't need this
-    // containerTables: {[HTMLElement]: ListTable|null};
-
     constructor(parent: HTMLElement,
                 mainTables: {[string] : TableStruct} = {'ANSWERS': [['',''],['','']]},
                 misleadingTable: TableStruct = []) {
@@ -70,32 +65,6 @@ export class TableManager {
 
     remove_table(tableId: number) {
     }
-
-    /* @Deprecated
-    render_table(table: ListTable) {
-        // TODO: Edit button listeners
-        var renderDone = false;
-        
-        Object.keys(this.containerTables).forEach((container) => {
-            if(!renderDone && this.containerTables[container]==null) {
-                table.render_at(container);
-
-                renderDone = true;
-            }
-        });
-
-        if(renderDone) return;
-
-        var newContainer = document.createElement('div');
-        this.mainContainer.appendChild(newContainer);
-
-        // this.tablesContainers[table] = newContainer;
-        this.containerTables[newContainer] = table;
-
-        table.render_at(newcontainer);
-
-        renderDone = true;
-    } */
 
     make_visible() {
         this.allTables.forEach((table, key) => {
