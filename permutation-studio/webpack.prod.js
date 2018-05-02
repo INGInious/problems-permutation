@@ -9,7 +9,7 @@ module.exports = {
 		index: './src/index.jsx',
 	},
 	output: {
-		filename: '../../inginious-problems-permutation/static/task/permutation_studio.js',
+		filename: '../../inginious-problems-permutation/static/ui/permutation_studio.js',
 		path: path.resolve(__dirname, 'dist'),
 		libraryTarget: 'var',
 		library: 'PermutationStudioUI',

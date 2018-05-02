@@ -142,6 +142,11 @@ def init(plugin_manager, course_factory, client, plugin_config):
     plugin_manager.add_hook("javascript_header", lambda: "/plugins/permutation/static/task/permutation_task.js")
     plugin_manager.add_hook("javascript_header", lambda: "/plugins/permutation/static/lib/markitup/jquery.markitup.js")
     # plugin_manager.add_hook("javascript_header", lambda: "/plugins/permutation/static/lib/markitup/sets/default/set.js")
+    
+    # UI scripts (check webpack projects)
+    plugin_manager.add_hook("javascript_header", lambda: "/plugins/permutation/static/ui/permutation_task.js")
+    plugin_manager.add_hook("javascript_header", lambda: "/plugins/permutation/static/ui/permutation_studio.js")
+
     # Main scripts
     plugin_manager.add_hook("javascript_header", lambda: "/plugins/permutation/static/studio_permutation.js")
     plugin_manager.add_hook("javascript_header", lambda: "/plugins/permutation/static/task_permutation.js")
