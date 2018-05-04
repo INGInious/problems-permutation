@@ -1,3 +1,5 @@
+import { IdManager } from "./IdManager";
+
 /* @flow */
 
 
@@ -52,8 +54,8 @@ export default class Row {
     _updateNames() {
         if(this.enumContainer)
             this.enumContainer.innerHTML = ''+(this.rowId + 1);
-        this.valueTA.setAttribute('name', `problem[PID][${this.parentId}][text][${this.rowId}]`)
-        this.valueIdInput.setAttribute('name', `problem[PID][${this.parentId}][text_id][${this.rowId}]`)
+        this.valueTA.setAttribute('name', `problem[${IdManager.pid}][${this.parentId}][text][${this.rowId}]`)
+        this.valueIdInput.setAttribute('name', `problem[${IdManager.pid}][${this.parentId}][text_id][${this.rowId}]`)
     }
 
     setId(newId: number) {
@@ -111,7 +113,7 @@ export default class Row {
         }
 
         /* <td class="col-md-6">
-            <textarea id="PID-text0" class="form-control" name="problem[PID][text][0]"
+            <textarea id="pid-text0" class="form-control" name="problem[pid][text][0]"
                         placeholder="Insert text of the first element" style="white-space: nowrap;resize: vertical;">
             </textarea>
         </td> */
@@ -119,7 +121,7 @@ export default class Row {
         valueContainer.setAttribute('class', 'col-md-6')
         this.valueTA = document.createElement('textarea')
         this.valueTA.setAttribute('class', 'form-control')
-        this.valueTA.setAttribute('name', `problem[PID][${this.parentId}][text][${this.rowId}]`)
+        this.valueTA.setAttribute('name', `problem[${IdManager.pid}][${this.parentId}][text][${this.rowId}]`)
         this.valueTA.setAttribute('placeholder', this._get_value_placeholder())
         this.valueTA.style.whiteSpace = 'nowrap';
         this.valueTA.style.resize = 'vertical';
@@ -130,9 +132,9 @@ export default class Row {
 
         /* <td class="col-md-4">
             <div class="input-group" style="vertical-align: middle;">
-                <span class="input-group-addon" id="PID-addon0">PID-</span>
-                <input type="text" id="PID-textid0" name='problem[PID][text_id][0]'
-                    placeholder="Enter Id" class="form-control" aria-describedby="PID-addon0" style="min-width: 4em;"/>
+                <span class="input-group-addon" id="pid-addon0">pid-</span>
+                <input type="text" id="pid-textid0" name='problem[pid][text_id][0]'
+                    placeholder="Enter Id" class="form-control" aria-describedby="pid-addon0" style="min-width: 4em;"/>
             </div>
         </td> */
         var valueIdContainer = document.createElement('td')
@@ -142,13 +144,13 @@ export default class Row {
         valueIdContCont.style.verticalAlign = 'middle'
         var headSpan = document.createElement('span')
         headSpan.setAttribute('class', 'input-group-addon')
-        headSpan.innerHTML = 'PID-';
+        headSpan.innerHTML = `${IdManager.pid}-`;
         valueIdContCont.appendChild(headSpan)
         this.valueIdInput = document.createElement('input')
         this.valueIdInput.setAttribute('class', 'form-control')
         this.valueIdInput.setAttribute('type', 'text')
         this.valueIdInput.setAttribute('value', this.valueId)
-        this.valueIdInput.setAttribute('name', `problem[PID][${this.parentId}][text_id][${this.rowId}]`)
+        this.valueIdInput.setAttribute('name', `problem[${IdManager.pid}][${this.parentId}][text_id][${this.rowId}]`)
         this.valueIdInput.setAttribute('placeholder', 'Enter Id')
         this.valueIdInput.style.minWidth = '4em'
         valueIdContCont.appendChild(this.valueIdInput)
@@ -157,7 +159,7 @@ export default class Row {
         this.dom.appendChild(valueIdContainer)
 
         /* <td class="col-md-1" style="text-align: center;vertical-align: middle;">
-            <button id="PID-delete0" type="button" class="btn btn-default" 
+            <button id="pid-delete0" type="button" class="btn btn-default" 
                     disabled="disabled" title="You must have at least 2 items">Delete</button>
         </td> */
         var deleteContainer = document.createElement('td')

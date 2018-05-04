@@ -1,5 +1,6 @@
 /* @flow */
 import Row from './Row';
+import { IdManager } from './IdManager';
 import type { TableContent } from './struct';
 
 export class ListTable {
@@ -18,11 +19,13 @@ export class ListTable {
     // Flags
     showEnum: boolean; // Propagate in rows
 
+    add_row: (_: void) => void;
     delete_row: (rowId: number) => void;
     enable_delete_table: (_: void) => void;
     disable_delete_table: (_: void) => void;
 
     __bindFunctions() {
+        this.add_row = this.add_row.bind(this)
         this.delete_row = this.delete_row.bind(this);
         this.enable_delete_table = this.enable_delete_table.bind(this);
         this.disable_delete_table = this.disable_delete_table.bind(this);
@@ -100,6 +103,17 @@ export class ListTable {
         this._update_ui()
     }
 
+    add_row() {
+        var row: Row = new Row(this.id, this.rows.length, this.showEnum);
+        row.setHandlers(
+            this.delete_row // onDelete
+        )
+        this.rows.push(row)
+        this.bodyContainer.appendChild(row.get_dom())
+
+        this._update_ui()
+    }
+
     _update_title(newTitle: string) {
         this.title = newTitle;
         if(this.removeTableButton) {
@@ -119,17 +133,18 @@ export class ListTable {
          */
 
         var titleContainer = document.createElement('div');
-        titleContainer.innerHTML = "List name: ";
-        var titleInput: HTMLInputElement = document.createElement('input')
-        titleInput.setAttribute('name', `problem[PID][${this.id}][tableName]`)
-        titleInput.setAttribute('type', 'text')
-        titleInput.setAttribute('value', this.title)
-        titleInput.onfocusout = (evt) => { // TODO: Add flow-typed to ignore this specific error
-            this._update_title(evt.target.value);
-        }
-        titleContainer.appendChild(titleInput)
-
         if(this.showEnum) {
+            // Add only title to formal lists
+            titleContainer.innerHTML = "List name: ";
+            var titleInput: HTMLInputElement = document.createElement('input')
+            titleInput.setAttribute('name', `problem[${IdManager.pid}][${this.id}][tableName]`)
+            titleInput.setAttribute('type', 'text')
+            titleInput.setAttribute('value', this.title)
+            titleInput.onfocusout = (evt) => { // TODO: Add flow-typed to ignore this specific error
+                this._update_title(evt.target.value);
+            }
+            titleContainer.appendChild(titleInput)
+
             this.removeTableButton = document.createElement('button')
             this.removeTableButton.setAttribute('class', 'btn btn-danger pull-right')
             this.removeTableButton.innerHTML = '<span class="glyphicon glyphicon-trash" aria-hidden="true"></span> ' + this.title
@@ -144,7 +159,7 @@ export class ListTable {
         pickerContainer.innerHTML = "Color: ";
         var pickerInput = document.createElement('input')
         pickerInput.setAttribute('type', 'color')
-        pickerInput.setAttribute('name', `problem[PID][${this.id}][tableColor]`)
+        pickerInput.setAttribute('name', `problem[${IdManager.pid}][${this.id}][tableColor]`)
         pickerInput.setAttribute('value', this.color)
         pickerContainer.appendChild(pickerInput)
         var pickerStrInput = document.createElement('label')
@@ -156,7 +171,7 @@ export class ListTable {
         }
 
         /*
-         <table class="table table-bordered table-hover" id="PID-text-table">
+         <table class="table table-bordered table-hover" id="pid-text-table">
             <thead>
                 <tr >
                     <th class="text-center">
@@ -189,13 +204,14 @@ export class ListTable {
             this.bodyContainer.appendChild(this.rows[i].get_dom())
         tableContainer.appendChild(this.bodyContainer)
 
-        /* <a id="PID-addrow" class="btn btn-default pull-left">Add Element</a>
-            <a id='PID-deleterow' class="pull-right btn btn-default">Delete Row</a> */
+        /* <a id="pid-addrow" class="btn btn-default pull-left">Add Element</a>
+            <a id='pid-deleterow' class="pull-right btn btn-default">Delete Row</a> */
         var controlsContainer = document.createElement('div')
         
         var rightButton = document.createElement('a')
         rightButton.setAttribute('class', 'btn btn-default')
         rightButton.innerHTML = "Add Element"
+        rightButton.onclick = this.add_row;
         controlsContainer.appendChild(rightButton)
         
 

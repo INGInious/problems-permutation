@@ -43,66 +43,9 @@ $#
                     <div class="col-sm-10">
                         <div class="row clearfix">
                             <div class="col-md-12 column">
-                                <!-- Begin of lists -->
-                                <div class="" style="height: 3em">
-                                    List name: <input type="text" value="ANSWERS" />
-                                </div>
-                                <table class="table table-bordered table-hover" id="PID-text-table">
-                                    <thead>
-                                        <tr >
-                                            <th class="text-center">
-                                                #
-                                            </th>
-                                            <th class="text-center">
-                                                Text
-                                            </th>
-                                            <th class="text-center">
-                                                Text Id
-                                            </th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr id="PID-text-row0">
-                                            <td class="col-md-1" style="text-align: center;">
-                                            1
-                                            </td>
-                                            <td class="col-md-6">
-                                                <textarea id="PID-text0" class="form-control" name="problem[PID][text][0]" placeholder="Insert text of the first element" style="white-space: nowrap;resize: vertical;"></textarea>
-                                            </td>
-                                            <td class="col-md-4">
-                                                <div class="input-group" style="vertical-align: middle;">
-                                                    <span class="input-group-addon" id="PID-addon0">PID-</span>
-                                                    <input type="text" id="PID-textid0" name='problem[PID][text_id][0]' placeholder="Enter Id" class="form-control" aria-describedby="PID-addon0" style="min-width: 4em;"/>
-                                                </div>
-                                            </td>
-                                            <td class="col-md-1" style="text-align: center;vertical-align: middle;">
-                                                <button id="PID-delete0" type="button" class="btn btn-default" disabled="disabled" title="You must have at least 2 items">Delete</button>
-                                            </td>
-                                        </tr>
-                                        <tr id="PID-text-row1">
-                                            <td class="col-md-1" style="text-align: center;">
-                                            2
-                                            </td>
-                                            <td class="col-md-6">
-                                                <textarea id="PID-text1" class="form-control" name="problem[PID][text][1]" placeholder="Insert text of the second element" style="white-space: nowrap;resize: vertical;"></textarea>
-                                            </td>
-                                            <td class="col-md-4">
-                                                <div class="input-group" style="vertical-align: middle;">
-                                                    <span class="input-group-addon" id="PID-addon1">PID-</span>
-                                                    <input type="text" id="PID-textid1" name='problem[PID][text_id][1]' placeholder="Enter Id" class="form-control" aria-describedby="PID-addon1"  style="min-width: 4em;"/>
-                                                </div>
-                                            </td>
-                                            <td class="col-md-1" style="text-align: center;vertical-align: middle;">
-                                                <button id="PID-delete1" type="button" class="btn btn-default" disabled="disabled" title="You must have at least 2 items">Delete</button>
-                                            </td>
-                                        </tr>
-                                        <tr id="PID-text-row2"></tr>
-                                    </tbody>
-                                </table>
-                                <!-- End of lists -->
-                                <a id="PID-addrow" class="btn btn-default pull-left">Add Element</a>
-                                <a id='PID-deleterow' class="pull-right btn btn-default">Delete Row</a>
-                                <!-- End of buttons -->
+                                <!-- Lists container -->
+                                <div id="PID-lists-container"></div>
+                                <!-- End of lists container -->
                             </div>
                         </div>
                     </div>
@@ -110,28 +53,15 @@ $#
                 <!-- End of group Elements -->
 
                 <div class="form-group">
-                    <label for="answer-PID" class="col-sm-2 control-label">Misleading items</label>
+                    <label for="answer-PID" class="col-sm-2 control-label">Distractors</label>
                     <div class="col-sm-10">
                         <div class="row clearfix">
                             <div class="col-md-12 column">
-                                <table class="table table-bordered table-hover" id="PID-dt-table">
-                                    <thead>
-                                        <tr >
-                                            <th class="text-center">
-                                                Distracting Text
-                                            </th>
-                                            <th class="text-center">
-                                                Text Id
-                                            </th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr id="PID-dt-row0"></tr>
-                                    </tbody>
-                                </table>
+                                <!-- Misleading container -->
+                                <div id="PID-misleading-container"></div>
+                                <!-- End of misleading container -->
                             </div>
                         </div>
-                        <a id="PID-dt-addrow" class="btn btn-default pull-left">Add Element</a><a id="PID-dt-deleterow" class="pull-right btn btn-default" disabled="disabled">Delete Row</a>
                     </div>
                 </div>
                 <!-- End of form group Misleading items -->

@@ -24,7 +24,7 @@ export class TableManager {
         this._enable_delete_table = this._enable_delete_table.bind(this)
     }
 
-    constructor(parent: HTMLElement,
+    constructor(parent: HTMLElement, misleadingContainer: HTMLElement,
                 mainTables: {[string] : TableStruct} = 
                         { 'ANSWERS': { title: 'ANSWERS', color: '#659F4A', content: [['',''],['','']] } },
                 misleadingTable: TableStruct = { color: '#f9944a', content: [] }) {
@@ -35,10 +35,10 @@ export class TableManager {
         this.allTables = new Map();
         
         // Populate tables
-        var misleadingTableObject: ListTable = new ListTable(-1, 'Misleading elements',
+        var misleadingTableObject: ListTable = new ListTable(0, null,
                                                                 misleadingTable.color, false,
                                                                 misleadingTable.content);
-        this.allTables.set(-1, misleadingTableObject);
+        this.allTables.set(0, misleadingTableObject);
         this._populate_tables(mainTables)
 
         // Create physical objects
@@ -57,8 +57,7 @@ export class TableManager {
         parent.appendChild(document.createElement('br'))
         parent.appendChild(document.createElement('br'))
         parent.appendChild(document.createElement('br'))
-        this.misleadingContainer = document.createElement('div')
-        parent.appendChild(this.misleadingContainer)
+        this.misleadingContainer = misleadingContainer
 
         this.make_visible();
     }
@@ -93,13 +92,13 @@ export class TableManager {
 
     _disable_delete_table() {
         this.allTables.forEach((table: ListTable, id: number) => {
-            if(id >= 0) table.disable_delete_table()
+            if(id > 0) table.disable_delete_table()
         })
     }
 
     _enable_delete_table() {
         this.allTables.forEach((table: ListTable, id: number) => {
-            if(id >= 0) table.enable_delete_table()
+            if(id > 0) table.enable_delete_table()
         })
     }
 
@@ -130,7 +129,7 @@ export class TableManager {
 
     make_visible() {
         this.allTables.forEach((table, key) => {
-            if(key == -1) this.misleadingContainer.appendChild(table.get_dom())
+            if(key == 0) this.misleadingContainer.appendChild(table.get_dom())
             else this.mainContainer.appendChild(table.get_dom())
         })
     }
