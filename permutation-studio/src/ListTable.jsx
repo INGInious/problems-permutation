@@ -124,7 +124,7 @@ export class ListTable {
         titleInput.setAttribute('name', `problem[PID][${this.id}][tableName]`)
         titleInput.setAttribute('type', 'text')
         titleInput.setAttribute('value', this.title)
-        titleInput.onfocusout = (evt) => {
+        titleInput.onfocusout = (evt) => { // TODO: Add flow-typed to ignore this specific error
             this._update_title(evt.target.value);
         }
         titleContainer.appendChild(titleInput)

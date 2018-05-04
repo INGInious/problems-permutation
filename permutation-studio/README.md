@@ -33,3 +33,15 @@ Using yarn:
 yarn run build
 ```
 This command will create a bundle file inside the plugin static file structure.
+
+## API
+
+The studio populates an object `problem` that is then communicated to the backend via python. 
+The structure of this object is the following:
+
+ + `[$PID]`: Problem id. Contains a lists of tables.
+    + `[$tableId]`: Table id. -1 is misleading table.
+        + `["tableName"]`: String containing table name
+        + `["tableColor"]`: String containing table color in hex
+        + `["text"]`: List of strings containing each row's text in order
+        + `["text_id"]`: List of strings containing each row's text id in order

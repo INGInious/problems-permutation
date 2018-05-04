@@ -64,8 +64,8 @@ export class TableManager {
     }
 
     _table_name_exists(tableName: string) {
-        this.allTables.forEach((value: ListTable) => {
-            if(value.title == tableName) return true;
+        this.allTables.forEach((table: ListTable) => {
+            if(table.title == tableName) return true;
         })
         return false;
     }
