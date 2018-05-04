@@ -21,14 +21,18 @@ if not 'no-npm' in argv:
     
     if yarnInstalled:
         system("cd permutation-task && yarn install")
+        system("cd permutation-studio && yarn install")
     elif npmInstalled:
         system("cd permutation-task && npm install")
+        system("cd permutation-studio && npm install")
 
     if not 'no-npm-build' in argv:
         if yarnInstalled:
             system("cd permutation-task && yarn run build")
+            system("cd permutation-studio && yarn run build")
         elif npmInstalled:
             system("cd permutation-task && npm run-script build")
+            system("cd permutation-studio && npm run-script build")
 
 setup(
     name="inginious-problems-permutation",
