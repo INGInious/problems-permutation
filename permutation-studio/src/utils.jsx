@@ -25,15 +25,24 @@ export function HSVtoRGB(h, s, v) {
     };
 }
 
-export function getRandomColor() {
-    const h = Math.random(); // Keep random
-    const s = 0.5 + Math.round(Math.random()*3)*.25; // Ternary (50%, 75%, 100%)
-    const v = 0.5 + Math.round(Math.random()*3)*.25; // Ternary (50%, 75%, 100%)
+function pad2(s) {
+    if(s.length == 1) return '0' + s;
+    else return s;
+}
 
-    rgb = HSVtoRGB(h, s, v);
-    rgb.r = rgb.r.toString(16);
-    rgb.g = rgb.r.toString(16);
-    rgb.b = rgb.r.toString(16);
+export function getRandomColor() {
+    const h = Math.random()*2*Math.PI; // Keep random
+    const s = 0.5 + Math.round(Math.random()*2)*.25; // Ternary (50%, 75%, 100%)
+    const v = 0.5 + Math.round(Math.random()*2)*.25; // Ternary (50%, 75%, 100%)
+
+    // console.log(h + ':' + s + ':' + v);
+
+    var rgb = HSVtoRGB(h, s, v);
+    // console.log(rgb)
+    rgb.r = pad2(rgb.r.toString(16));
+    rgb.g = pad2(rgb.g.toString(16));
+    rgb.b = pad2(rgb.b.toString(16));
+    // console.log(rgb)
 
     return '#' + rgb.r + rgb.g + rgb.b;
 }

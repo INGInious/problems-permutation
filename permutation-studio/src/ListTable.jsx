@@ -100,16 +100,15 @@ export class ListTable {
         pickerContainer.innerHTML = "Color: ";
         var pickerInput = document.createElement('input')
         pickerInput.setAttribute('type', 'color')
+        pickerInput.setAttribute('name', `problem[PID][${this.id}][tableColor]`)
         pickerInput.setAttribute('value', this.color)
         pickerContainer.appendChild(pickerInput)
-        var pickerStrInput = document.createElement('input')
-        pickerStrInput.setAttribute('name', `problem[PID][${this.id}][tableColor]`)
-        pickerStrInput.setAttribute('type', 'text')
-        pickerStrInput.setAttribute('value', this.color)
+        var pickerStrInput = document.createElement('label')
+        pickerStrInput.innerHTML = this.color;
         pickerContainer.appendChild(pickerStrInput)
 
         pickerInput.onchange = (evt) => {
-            pickerStrInput.setAttribute('value', evt.target.value);
+            pickerStrInput.innerHTML = evt.target.value;
         }
 
         /*
@@ -146,9 +145,29 @@ export class ListTable {
             this.bodyContainer.appendChild(this.rows[i].get_dom())
         tableContainer.appendChild(this.bodyContainer)
 
+        /* <a id="PID-addrow" class="btn btn-default pull-left">Add Element</a>
+            <a id='PID-deleterow' class="pull-right btn btn-default">Delete Row</a> */
+        var controlsContainer = document.createElement('div')
+        var leftButton = document.createElement('a')
+        leftButton.setAttribute('class', 'btn btn-default pull-left')
+        leftButton.innerHTML = "Remove Table"
+        controlsContainer.appendChild(leftButton)
+        var rightButton = document.createElement('a')
+        rightButton.setAttribute('class', 'pull-right btn btn-default')
+        rightButton.innerHTML = "Add Element"
+        controlsContainer.appendChild(rightButton)
+        
+
+        // Table
         this.dom.appendChild(titleContainer)
         this.dom.appendChild(pickerContainer)
         this.dom.appendChild(tableContainer)
+        // Controls
+        this.dom.appendChild(controlsContainer)
+        this.dom.appendChild(document.createElement('br'))
+        this.dom.appendChild(document.createElement('br'))
+        this.dom.appendChild(document.createElement('br'))
+
         this._update_ui()
     }
 

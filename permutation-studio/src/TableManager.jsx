@@ -33,10 +33,27 @@ export class TableManager {
         // Create physical objects
         this.mainContainer = document.createElement('div')
         parent.appendChild(this.mainContainer)
+        var newTableButton = document.createElement('button')
+        newTableButton.setAttribute('class', 'button')
+        newTableButton.innerHTML = "New Table"
+        newTableButton.onclick = () => {
+            var tableName = 'Table ';
+            var counter = this.allTables.size + 1;
+            while(this._table_name_exists(tableName + counter)) counter ++;
+            this.add_new_table(tableName + counter);
+        }
+        parent.appendChild(newTableButton)
         this.misleadingContainer = document.createElement('div')
         parent.appendChild(this.misleadingContainer)
 
         this.make_visible();
+    }
+
+    _table_name_exists(tableName: string) {
+        this.allTables.forEach((value: ListTable) => {
+            if(value.title == tableName) return true;
+        })
+        return false;
     }
 
     _get_new_table_id(): number {
@@ -67,6 +84,7 @@ export class TableManager {
             this.remove_table // onDelete
         )
         this.allTables.set(tableId, table)
+        this.mainContainer.appendChild(table.get_dom())
     }
 
     remove_table(tableId: number) {
