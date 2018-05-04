@@ -14,10 +14,21 @@ export class TableManager {
     tablesCounter: number;
     allTables: Map<number, ListTable>;
 
+    remove_table: (tableId: number) => void;
+    _disable_delete_table: (_: void) => void;
+    _enable_delete_table: (_: void) => void;
+
+    __bind_functions() {
+        this.remove_table = this.remove_table.bind(this)
+        this._disable_delete_table = this._disable_delete_table.bind(this)
+        this._enable_delete_table = this._enable_delete_table.bind(this)
+    }
+
     constructor(parent: HTMLElement,
                 mainTables: {[string] : TableStruct} = 
                         { 'ANSWERS': { title: 'ANSWERS', color: '#659F4A', content: [['',''],['','']] } },
                 misleadingTable: TableStruct = { color: '#f9944a', content: [] }) {
+        this.__bind_functions()
         // Properties
         this.parent = parent;
         this.tablesCounter = 0;
@@ -80,6 +91,18 @@ export class TableManager {
         });
     }
 
+    _disable_delete_table() {
+        this.allTables.forEach((table: ListTable, id: number) => {
+            if(id >= 0) table.disable_delete_table()
+        })
+    }
+
+    _enable_delete_table() {
+        this.allTables.forEach((table: ListTable, id: number) => {
+            if(id >= 0) table.enable_delete_table()
+        })
+    }
+
     add_new_table(title: string) {
         const tableId: number = this._get_new_table_id()
         var table: ListTable = new ListTable(tableId, title, getRandomColor(), true)
@@ -88,9 +111,21 @@ export class TableManager {
         )
         this.allTables.set(tableId, table)
         this.mainContainer.appendChild(table.get_dom())
+
+        if(this.allTables.size > 2) {
+            this._enable_delete_table()
+        }
     }
 
     remove_table(tableId: number) {
+        var listTable = this.allTables.get(tableId);
+        if(!listTable) return;
+        var table: HTMLElement = listTable.get_dom()
+        this.allTables.delete(tableId)
+        this.mainContainer.removeChild(table)
+        if(this.allTables.size <= 2) {
+            this._disable_delete_table()
+        }
     }
 
     make_visible() {

@@ -19,9 +19,13 @@ export class ListTable {
     showEnum: boolean; // Propagate in rows
 
     delete_row: (rowId: number) => void;
+    enable_delete_table: (_: void) => void;
+    disable_delete_table: (_: void) => void;
 
     __bindFunctions() {
         this.delete_row = this.delete_row.bind(this);
+        this.enable_delete_table = this.enable_delete_table.bind(this);
+        this.disable_delete_table = this.disable_delete_table.bind(this);
     }
 
     constructor(id: number, title: string, color: string, showEnumeration: boolean,
@@ -66,6 +70,24 @@ export class ListTable {
         this.onDelete = onDelete;
     }
 
+    enable_delete_table() {
+        if(!this.removeTableButton) return;
+        
+        this.removeTableButton.onclick = () => {
+            this.onDelete(this.id);
+        }
+        this.removeTableButton.setAttribute('title', '')
+        this.removeTableButton.removeAttribute('disabled')
+    }
+
+    disable_delete_table() {
+        if(!this.removeTableButton) return;
+
+        this.removeTableButton.setAttribute('disabled', 'disabled')
+        this.removeTableButton.setAttribute('title', 'You must have at least one target list')
+        this.removeTableButton.onclick = () => {}
+    }
+
     delete_row(rowId: number) {
         var row = this.rows[rowId].get_dom()
         this.bodyContainer.removeChild(row)
@@ -98,7 +120,7 @@ export class ListTable {
 
         var titleContainer = document.createElement('div');
         titleContainer.innerHTML = "List name: ";
-        var titleInput = document.createElement('input')
+        var titleInput: HTMLInputElement = document.createElement('input')
         titleInput.setAttribute('name', `problem[PID][${this.id}][tableName]`)
         titleInput.setAttribute('type', 'text')
         titleInput.setAttribute('value', this.title)
