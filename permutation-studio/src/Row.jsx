@@ -81,6 +81,7 @@ export default class Row {
 
     disable_delete() {
         if(!this.dom) return;
+        // throw {error: 'Error', message: 'Everything must be editable'};
         this.deleteButton.setAttribute('disabled', 'disabled')
         this.deleteButton.setAttribute('title', 'You must have at least 2 items')
         this.deleteButton.onclick = (e) => {} 
@@ -169,8 +170,7 @@ export default class Row {
         this.deleteButton = document.createElement('button')
         this.deleteButton.setAttribute('class', 'btn btn-default')
         this.deleteButton.setAttribute('type', 'button')
-        this.deleteButton.setAttribute('disabled', 'disabled')
-        this.deleteButton.setAttribute('title', 'You must have at least 2 items')
+        this.enable_delete();
         this.deleteButton.innerHTML = 'Delete';
         deleteContainer.appendChild(this.deleteButton)
 

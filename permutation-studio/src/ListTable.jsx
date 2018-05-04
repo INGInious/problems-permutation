@@ -50,13 +50,13 @@ export class ListTable {
 
     _update_ui() {
         // Check if delete buttons can be enabled
-        if(!this.showEnum || this.rows.length > 2) {
-            for(let i=0;i<this.rows.length;i++)
-                this.rows[i].enable_delete()
-        } else {
-            for(let i=0;i<this.rows.length;i++)
-                this.rows[i].disable_delete()
-        }
+        // if(!this.showEnum) { //  || this.rows.length > 2
+        for(let i=0;i<this.rows.length;i++)
+            this.rows[i].enable_delete()
+        // } else {
+            // for(let i=0;i<this.rows.length;i++)
+                // this.rows[i].disable_delete()
+        // }
     }
 
     _populate_rows(rows: TableContent = [['', ''], ['', '']]) {

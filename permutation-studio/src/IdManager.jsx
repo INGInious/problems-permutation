@@ -6,6 +6,8 @@ export const IdManager = new class {
     TPL_TABLE_ITEM: string;
     TPL_TABLE_ITEM_ID: string;
 
+    MISLEADING_TABLE_ID: number;
+
     pid: string;
     _initialized: boolean;
 
@@ -16,6 +18,8 @@ export const IdManager = new class {
         this.TPL_MISLEADING_CONTAINER = '$pid-misleading-container'
         this.TPL_TABLE_ITEM = '$pid-$table-$item'
         this.TPL_TABLE_ITEM_ID = '$pid-$table-id-$item'
+
+        this.MISLEADING_TABLE_ID = 0
     }
 
     // Lazy initialization
