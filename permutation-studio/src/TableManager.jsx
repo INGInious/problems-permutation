@@ -1,6 +1,7 @@
 /* @flow */
 import { ListTable } from './ListTable';
 
+import { getRandomColor } from './utils';
 import type { TableStruct } from './struct';
 
 
@@ -59,13 +60,9 @@ export class TableManager {
         });
     }
 
-    get_random_color() {
-        return '#AADD00';
-    }
-
     add_new_table(title: string) {
         const tableId: number = this._get_new_table_id()
-        var table: ListTable = new ListTable(tableId, title, this.get_random_color(), true)
+        var table: ListTable = new ListTable(tableId, title, getRandomColor(), true)
         table.set_handlers(
             this.remove_table // onDelete
         )
