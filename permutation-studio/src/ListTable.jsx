@@ -8,6 +8,7 @@ export class ListTable {
     dom: HTMLElement; // Lazy initialization
     rows: Array<Row>;
     bodyContainer: HTMLElement; // Contains rows DOM
+    removeTableButton: HTMLElement; // Contains remove table button DOM
     onDelete: (id: number) => void;
 
     // Content
@@ -77,6 +78,13 @@ export class ListTable {
         this._update_ui()
     }
 
+    _update_title(newTitle: string) {
+        this.title = newTitle;
+        if(this.removeTableButton) {
+            this.removeTableButton.innerHTML = '<span class="glyphicon glyphicon-trash" aria-hidden="true"></span> ' + this.title
+        }
+    }
+
     _build_dom() {
         // Lazy initialization
         if(this.dom) return;
@@ -87,13 +95,27 @@ export class ListTable {
             List name: <input type="text" value="ANSWERS" />
         </div>
          */
+
         var titleContainer = document.createElement('div');
         titleContainer.innerHTML = "List name: ";
         var titleInput = document.createElement('input')
         titleInput.setAttribute('name', `problem[PID][${this.id}][tableName]`)
         titleInput.setAttribute('type', 'text')
         titleInput.setAttribute('value', this.title)
+        titleInput.onfocusout = (evt) => {
+            this._update_title(evt.target.value);
+        }
         titleContainer.appendChild(titleInput)
+
+        if(this.showEnum) {
+            this.removeTableButton = document.createElement('button')
+            this.removeTableButton.setAttribute('class', 'btn btn-danger pull-right')
+            this.removeTableButton.innerHTML = '<span class="glyphicon glyphicon-trash" aria-hidden="true"></span> ' + this.title
+            this.removeTableButton.onclick = () => {
+                this.onDelete(this.id);
+            }
+            titleContainer.appendChild(this.removeTableButton)
+        }
 
         // Color picker
         var pickerContainer = document.createElement('div');
@@ -148,12 +170,9 @@ export class ListTable {
         /* <a id="PID-addrow" class="btn btn-default pull-left">Add Element</a>
             <a id='PID-deleterow' class="pull-right btn btn-default">Delete Row</a> */
         var controlsContainer = document.createElement('div')
-        var leftButton = document.createElement('a')
-        leftButton.setAttribute('class', 'btn btn-default pull-left')
-        leftButton.innerHTML = "Remove Table"
-        controlsContainer.appendChild(leftButton)
+        
         var rightButton = document.createElement('a')
-        rightButton.setAttribute('class', 'pull-right btn btn-default')
+        rightButton.setAttribute('class', 'btn btn-default')
         rightButton.innerHTML = "Add Element"
         controlsContainer.appendChild(rightButton)
         
@@ -164,8 +183,6 @@ export class ListTable {
         this.dom.appendChild(tableContainer)
         // Controls
         this.dom.appendChild(controlsContainer)
-        this.dom.appendChild(document.createElement('br'))
-        this.dom.appendChild(document.createElement('br'))
         this.dom.appendChild(document.createElement('br'))
 
         this._update_ui()

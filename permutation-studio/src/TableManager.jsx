@@ -34,15 +34,18 @@ export class TableManager {
         this.mainContainer = document.createElement('div')
         parent.appendChild(this.mainContainer)
         var newTableButton = document.createElement('button')
-        newTableButton.setAttribute('class', 'button')
-        newTableButton.innerHTML = "New Table"
+        newTableButton.setAttribute('class', 'btn btn-success')
+        newTableButton.innerHTML = '<span class="glyphicon glyphicon-plus" aria-hidden="true"></span> New Table'
         newTableButton.onclick = () => {
-            var tableName = 'Table ';
-            var counter = this.allTables.size + 1;
+            var tableName = 'List ';
+            var counter = this.allTables.size;
             while(this._table_name_exists(tableName + counter)) counter ++;
             this.add_new_table(tableName + counter);
         }
         parent.appendChild(newTableButton)
+        parent.appendChild(document.createElement('br'))
+        parent.appendChild(document.createElement('br'))
+        parent.appendChild(document.createElement('br'))
         this.misleadingContainer = document.createElement('div')
         parent.appendChild(this.misleadingContainer)
 
