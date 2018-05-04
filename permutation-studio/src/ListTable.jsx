@@ -1,6 +1,6 @@
 /* @flow */
 import Row from './Row';
-import type { TableStruct } from './struct';
+import type { TableContent } from './struct';
 
 export class ListTable {
     // Properties
@@ -12,21 +12,25 @@ export class ListTable {
 
     // Content
     title: string;
+    color: string;
 
     // Flags
     showEnum: boolean; // Propagate in rows
+
+    delete_row: (rowId: number) => void;
 
     __bindFunctions() {
         this.delete_row = this.delete_row.bind(this);
     }
 
-    constructor(id: number, title: string, showEnumeration: boolean,
-                    rows: TableStruct = [['', ''], ['', '']]) {
+    constructor(id: number, title: string, color: string, showEnumeration: boolean,
+                    rows: TableContent = [['', ''], ['', '']]) {
         this.__bindFunctions()
         
         this.id = id;
         this.rows = [];
         this.title = title;
+        this.color = color;
         this.showEnum = showEnumeration;
         this.onDelete = (id: number) => {
             throw {name : "NotImplementedError", message : "Missing onDelete handler!"};
@@ -47,7 +51,7 @@ export class ListTable {
         }
     }
 
-    _populate_rows(rows: TableStruct = [['', ''], ['', '']]) {
+    _populate_rows(rows: TableContent = [['', ''], ['', '']]) {
         for(let i=0;i<rows.length;i++) {
             var row: Row = new Row(this.id, i, this.showEnum, rows[i][1], rows[i][0]);
             row.setHandlers(
@@ -84,11 +88,29 @@ export class ListTable {
         </div>
          */
         var titleContainer = document.createElement('div');
-        titleContainer.innerHTML = "List name: "
+        titleContainer.innerHTML = "List name: ";
         var titleInput = document.createElement('input')
+        titleInput.setAttribute('name', `problem[PID][${this.id}][tableName]`)
         titleInput.setAttribute('type', 'text')
         titleInput.setAttribute('value', this.title)
         titleContainer.appendChild(titleInput)
+
+        // Color picker
+        var pickerContainer = document.createElement('div');
+        pickerContainer.innerHTML = "Color: ";
+        var pickerInput = document.createElement('input')
+        pickerInput.setAttribute('type', 'color')
+        pickerInput.setAttribute('value', this.color)
+        pickerContainer.appendChild(pickerInput)
+        var pickerStrInput = document.createElement('input')
+        pickerStrInput.setAttribute('name', `problem[PID][${this.id}][tableColor]`)
+        pickerStrInput.setAttribute('type', 'text')
+        pickerStrInput.setAttribute('value', this.color)
+        pickerContainer.appendChild(pickerStrInput)
+
+        pickerInput.onchange = (evt) => {
+            pickerStrInput.setAttribute('value', evt.target.value);
+        }
 
         /*
          <table class="table table-bordered table-hover" id="PID-text-table">
@@ -125,6 +147,7 @@ export class ListTable {
         tableContainer.appendChild(this.bodyContainer)
 
         this.dom.appendChild(titleContainer)
+        this.dom.appendChild(pickerContainer)
         this.dom.appendChild(tableContainer)
         this._update_ui()
     }

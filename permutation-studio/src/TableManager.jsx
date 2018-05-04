@@ -14,15 +14,18 @@ export class TableManager {
     allTables: Map<number, ListTable>;
 
     constructor(parent: HTMLElement,
-                mainTables: {[string] : TableStruct} = {'ANSWERS': [['',''],['','']]},
-                misleadingTable: TableStruct = []) {
+                mainTables: {[string] : TableStruct} = 
+                        { 'ANSWERS': { title: 'ANSWERS', color: '#659F4A', content: [['',''],['','']] } },
+                misleadingTable: TableStruct = { color: '#f9944a', content: [] }) {
         // Properties
         this.parent = parent;
         this.tablesCounter = 0;
         this.allTables = new Map();
         
         // Populate tables
-        var misleadingTableObject: ListTable = new ListTable(-1, 'Misleading elements', false, misleadingTable);
+        var misleadingTableObject: ListTable = new ListTable(-1, 'Misleading elements',
+                                                                misleadingTable.color, false,
+                                                                misleadingTable.content);
         this.allTables.set(-1, misleadingTableObject);
         this._populate_tables(mainTables)
 
@@ -46,7 +49,9 @@ export class TableManager {
         Object.keys(mainTables).forEach((title) => {
             const tableId: number = this._get_new_table_id()
 
-            var table: ListTable = new ListTable(tableId, title, true, mainTables[title])
+            var tableStruct: TableStruct = mainTables[title];
+            tableStruct.title = tableStruct.title || title;
+            var table: ListTable = new ListTable(tableId, tableStruct.title, tableStruct.color, true, tableStruct.content)
             table.set_handlers(
                 this.remove_table // onDelete
             )
@@ -54,9 +59,13 @@ export class TableManager {
         });
     }
 
+    get_random_color() {
+        return '#AADD00';
+    }
+
     add_new_table(title: string) {
         const tableId: number = this._get_new_table_id()
-        var table: ListTable = new ListTable(tableId, title, true)
+        var table: ListTable = new ListTable(tableId, title, this.get_random_color(), true)
         table.set_handlers(
             this.remove_table // onDelete
         )

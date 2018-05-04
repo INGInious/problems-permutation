@@ -19,10 +19,20 @@
         <script src="bundle.js"></script>
         <script>
             var mainTables = {
-                "Program A": [ [ "a1", "Elem A1" ], [ "a2", "Elem A2" ], [ "a3", "Elem A3" ] ],
-                "Program B": [ [ "b1", "Elem B1" ], [ "b2", "Elem B2" ], [ "b3", "Elem B3" ] ]
+                "Program A": {
+                    title: "Program A",
+                    color: "#AA1A51",
+                    content: [ [ "a1", "Elem A1" ], [ "a2", "Elem A2" ], [ "a3", "Elem A3" ] ]
+                }, "Program B": {
+                    title: "Program B",
+                    color: "#55aa99",
+                    content: [ [ "b1", "Elem B1" ], [ "b2", "Elem B2" ], [ "b3", "Elem B3" ] ]
+                }
             }
-            var misleadingTable = [ [ "null", "Mislead 1" ], [ null, "Mislead 2" ], [ "", "Mislead 3" ] ]
+            var misleadingTable = {
+                color: "#FFAA22",
+                content: [ [ "null", "Mislead 1" ], [ null, "Mislead 2" ], [ "", "Mislead 3" ] ]
+            }
             PermutationStudioUI.init_ui('PID', mainTables, misleadingTable)
         </script>
     </body>

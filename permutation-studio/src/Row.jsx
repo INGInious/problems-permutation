@@ -19,11 +19,20 @@ export default class Row {
     // Flags
     showEnum: boolean;
 
+    enable_delete: (_ :void) => void;
+    disable_delete: (_ :void) => void;
+    _get_value_placeholder: (_: void) => string;
+    setId: (newId: number) => void;
+    setParentId: (newParentId: number) => void;
+    _updateNames: (_: void) => void;
+
     __bindFunctions() {
         this.enable_delete = this.enable_delete.bind(this);
         this.disable_delete = this.disable_delete.bind(this);
         this._get_value_placeholder = this._get_value_placeholder.bind(this);
         this.setId = this.setId.bind(this);
+        this.setParentId = this.setParentId.bind(this);
+        this._updateNames = this._updateNames.bind(this);
     }
 
     constructor(parentId: number, id: number, showEnumeration: boolean, value: string = '', valueId: string = '') {
@@ -40,12 +49,21 @@ export default class Row {
         this.showEnum = showEnumeration;
     }
 
-    setId(newId: number) {
-        this.rowId = newId;
+    _updateNames() {
         if(this.enumContainer)
             this.enumContainer.innerHTML = ''+(this.rowId + 1);
         this.valueTA.setAttribute('name', `problem[PID][${this.parentId}][text][${this.rowId}]`)
         this.valueIdInput.setAttribute('name', `problem[PID][${this.parentId}][text_id][${this.rowId}]`)
+    }
+
+    setId(newId: number) {
+        this.rowId = newId;
+        this._updateNames()
+    }
+
+    setParentId(newParentId: number) {
+        this.parentId = newParentId;
+        this._updateNames();
     }
 
     setHandlers(onDelete: (rowId: number) => void) {
@@ -129,6 +147,7 @@ export default class Row {
         this.valueIdInput = document.createElement('input')
         this.valueIdInput.setAttribute('class', 'form-control')
         this.valueIdInput.setAttribute('type', 'text')
+        this.valueIdInput.setAttribute('value', this.valueId)
         this.valueIdInput.setAttribute('name', `problem[PID][${this.parentId}][text_id][${this.rowId}]`)
         this.valueIdInput.setAttribute('placeholder', 'Enter Id')
         this.valueIdInput.style.minWidth = '4em'
