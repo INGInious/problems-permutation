@@ -7,13 +7,14 @@ import os
 import web
 import json
 
+from copy import deepcopy
 from random import shuffle
 from docutils.core import publish_parts
 
 from inginious.common.tasks_problems import BasicProblem
 from inginious.frontend.task_problems import DisplayableBasicProblem
 
-__version__ = "0.2.dev0"
+__version__ = "0.3.dev0"
 
 PATH_TO_PLUGIN = os.path.abspath(os.path.dirname(__file__))
 
@@ -94,34 +95,55 @@ class DisplayablePermutationProblem(PermutationProblem, DisplayableBasicProblem)
         """ Get the renderer for this class problem """
         return template_helper.get_custom_renderer(os.path.join(PATH_TO_PLUGIN, "templates"), False)
 
+    def to_list(self, obj):
+        l = []
+        i = 0
+        while str(i) in obj:
+            l.append(obj[str(i)])
+            i += 1
+        return l
+
     def show_input(self, template_helper, language):
-        """ Show MatchProblem """
-        original_content = self.get_original_content()
-        text = original_content["text"]
-        textId = original_content["text_id"]
-        if "dt" in original_content:
-            dt = original_content["dt"]
-            dtId = original_content["dt_id"]
-        else:
-            dt = []
-            dtId = []
+        """ Show PermutationProblem """
+        original_content = self.to_list(deepcopy(self.get_original_content()))
+        for table in original_content:
+            table["text"] = self.to_list(table["text"])
+            table["text_id"] = self.to_list(table["text_id"])
 
-        if len(text)>0:
-            indexes = [row for row in text]
-            dtIndexes = [row for row in dt]
-            # TODO: Add other shuffle methods
-            shuffle(indexes)
+        table_count = 0
+        tables_names = []
+        tables_colors = []
+        container_color = '#f9944a'
+        rows = []
+        if len(original_content[0]["text"]) > 0:
+            table_count += 1
+            container_color = original_content[0]["tableColor"]
+            rows += list(zip(original_content[0]["text"], original_content[0]["text_id"]))
 
-            elems = [publish_parts(text[idx], writer_name='html')['html_body'] for idx in indexes] + [publish_parts(dt[idx], writer_name='html')['html_body'] for idx in dtIndexes]
-            elemsId = [textId[idx] for idx in indexes] + [dtId[idx] for idx in dtIndexes]
-        else:
-            elemsId = []
-            elems = []
+        for table in original_content[1:]:
+            if len(table["text"]) > 0:
+                table_count += 1
+                tables_names.append(table["tableName"])
+                tables_colors.append(table["tableColor"])
+                rows += list(zip(table["text"], table["text_id"]))
+        
+        # Preprocess texts
+        rows = [(publish_parts(text, writer_name='html')['html_body'], text_id) for (text, text_id) in rows]
+        shuffle(rows)
 
-        if len(dt) > 0:
-            return str(DisplayablePermutationProblem.get_renderer(template_helper).permutation(self.get_id(), 'trello', json.dumps(elems), json.dumps(elemsId)))
+        #Generating client data
+        elems = [text for (text, _) in rows]
+        elemsId = [text_id for (_, text_id) in rows]
+
+        if table_count > 1:
+            problem_subtype = 'trello'
         else:
-            return str(DisplayablePermutationProblem.get_renderer(template_helper).permutation(self.get_id(), 'list', json.dumps(elems), json.dumps(elemsId)))
+            problem_subtype = 'list'
+
+        return str(DisplayablePermutationProblem.get_renderer(template_helper).permutation(
+                            self.get_id(), problem_subtype,
+                            json.dumps(elems), json.dumps(elemsId),
+                            json.dumps(list(zip(tables_names, tables_colors))), container_color))
 
     @classmethod
     def show_editbox(cls, template_helper, key):

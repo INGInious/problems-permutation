@@ -5,7 +5,7 @@ import Item from './Item';
 import PermutationList from './PermutationList';
 
 
-function generate_trello_ui(pid: string, elems: Array<string>, elemsId: Array<string>) {
+function generate_trello_ui(pid: string, elems: Array<string>, elemsId: Array<string>, tablesMetadata: Array<[string,string]>, containerColor: string) {
 	var nullAnswersContainer: HTMLElement|null = document.getElementById(IdManager.stringify(IdManager.TPL_ANSWER_CONTAINER))
 	var nullCandidatesContainer: HTMLElement|null = document.getElementById(IdManager.stringify(IdManager.TPL_CANDIDATES_CONTAINER))
 	var nullHiddenInputs: HTMLElement|null = document.getElementById(IdManager.stringify(IdManager.TPL_HIDDEN_INPUTS))
@@ -33,7 +33,7 @@ function generate_trello_ui(pid: string, elems: Array<string>, elemsId: Array<st
 	new GridSystem(answersContainer, candidatesContainer, items)
 }
 
-function generate_list_ui(pid: string, elems: Array<string>, elemsId: Array<string>) {
+function generate_list_ui(pid: string, elems: Array<string>, elemsId: Array<string>, tablesMetadata: Array<[string,string]>, containerColor: string) {
 	var nullAnswersContainer: HTMLElement|null = document.getElementById(IdManager.stringify(IdManager.TPL_ANSWER_CONTAINER))
 	var nullHiddenInputs: HTMLElement|null = document.getElementById(IdManager.stringify(IdManager.TPL_HIDDEN_INPUTS))
 
@@ -59,14 +59,15 @@ function generate_list_ui(pid: string, elems: Array<string>, elemsId: Array<stri
 	new PermutationList(answersContainer, items)
 }
 
-export function generate_ui(ptype: 'trello'|'list', pid: string, elems: Array<string>, elemsId: Array<string>) {
+export function generate_ui(ptype: 'trello'|'list', pid: string, elems: Array<string>, elemsId: Array<string>,
+							tablesMetadata: Array<[string,string]>, containerColor: string) {
 	IdManager.init(pid);
 
 	if(ptype=='trello') {
-		generate_trello_ui(pid, elems, elemsId);
+		generate_trello_ui(pid, elems, elemsId, tablesMetadata, containerColor);
 	}
 	if(ptype=='list') {
-		generate_list_ui(pid, elems, elemsId);
+		generate_list_ui(pid, elems, elemsId, tablesMetadata, containerColor);
 	}
 }
 

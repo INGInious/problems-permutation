@@ -1,4 +1,4 @@
-$def with (inputId, ptype, elems, elemsId)
+$def with (inputId, ptype, elems, elemsId, tablesMetadata, containerColor)
 
 $#
 $# This file is part of INGInious. See the LICENSE and the COPYRIGHTS files for
@@ -6,7 +6,8 @@ $# more information about the licensing of this file.
 $#
 
 <div>
-<div class="permutation muuri" id="permutation-$inputId" ptype="$ptype" elems="$elems" elemsId="$elemsId">
+<div class="permutation muuri" id="permutation-$inputId" ptype="$ptype" 
+            elems="$elems" elemsId="$elemsId" tablesMetadata="$tablesMetadata" containerColor="$containerColor">
     $if ptype=='list':
         <div class="permutation-column answer">
             <div class="permutation-column-header unselectable"><span class="glyphicon glyphicon-th-list" aria-hidden=true></span><b> ANSWER</b></div>

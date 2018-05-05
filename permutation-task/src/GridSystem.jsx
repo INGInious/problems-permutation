@@ -14,7 +14,7 @@ export default class GridSystem {
 	candidateItems: Set<Item>;
 	itemsMap: {[string]: Item};
 
-	constructor(answerContainer: HTMLElement, candidatesContainer: HTMLElement, items: Array<Item>) {
+	constructor(listsContainer: HTMLElement, candidatesContainer: HTMLElement, items: Array<Item>) {
 		var that = this;
 
 		// Add mapped items and sets
@@ -30,6 +30,7 @@ export default class GridSystem {
 
 		this.columnGrids = []
 
+		/// FIXME: 
         this.generate_muuri(answerContainer, function(item:Item) {
 			if(that.candidateItems.has(item)) {
 				// WARNING does 'delete' works in all browsers?

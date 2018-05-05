@@ -36,9 +36,10 @@
     <script>
         texts = [Array(110).join(' C-C C+C ') + ';','D','A','B']
         textIds = [1,2,3,4]
-        subtype = 'trello'
+        tablesMetadata = [["Candidates", "#A04F03"], ["Answers", "#204003"]]
+        containerColor = "#DD33AA"
 
-        PermutationTaskUI.generate_ui('list', 'PID', texts, textIds)
+        PermutationTaskUI.generate_ui('list', 'PID', texts, textIds, tablesMetadata, containerColor)
     </script>
   </body>
 </html>
