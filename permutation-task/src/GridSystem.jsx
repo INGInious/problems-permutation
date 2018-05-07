@@ -60,7 +60,7 @@ export default class GridSystem {
 			container.appendChild(gridContainer)
 			listsContainer.appendChild(container);
 
-			this.add_table(gridContainer, tableName, tableColor);
+			this.add_table(gridContainer, tableName, tableColor, tablesMetadata);
 		}
         
 		this.generate_muuri(candidatesContainer, 
@@ -95,6 +95,7 @@ export default class GridSystem {
 				}
 			})
 
+			console.log("UI: here")
 		this.boardGrid = new Muuri('.permutation', {
 			layoutDuration: 400,
 			layoutEasing: 'ease',
@@ -108,7 +109,7 @@ export default class GridSystem {
 		});
 	}
 
-	add_table(container: HTMLElement, tableName: string, tableColor: string) {
+	add_table(container: HTMLElement, tableName: string, tableColor: string, tablesMetadata: Array<[string, string]>) {
 		var that = this;
 		this.answerItems.set(tableName, new Set());
 		

@@ -11,7 +11,14 @@ function generate_trello_ui(pid: string, elems: Array<string>, elemsId: Array<st
 	var nullCandidatesContainer: HTMLElement|null = document.getElementById(IdManager.stringify(IdManager.TPL_CANDIDATES_CONTAINER))
 	var nullHiddenInputs: HTMLElement|null = document.getElementById(IdManager.stringify(IdManager.TPL_HIDDEN_INPUTS))
 
-	if(nullListsContainer==null || nullCandidatesContainer==null || nullHiddenInputs==null) return;
+	console.log("UI: here")
+	if(nullListsContainer==null || nullCandidatesContainer==null || nullHiddenInputs==null) {
+		console.error(`Something is null:`)
+		console.log(nullListsContainer)
+		console.log(nullCandidatesContainer)
+		console.log(nullHiddenInputs)
+		return;
+	}
 
 	const listsContainer: HTMLElement = nullListsContainer;
 	const candidatesContainer: HTMLElement = nullCandidatesContainer;
@@ -31,6 +38,7 @@ function generate_trello_ui(pid: string, elems: Array<string>, elemsId: Array<st
 
 		items.push(item)
 	}
+	console.log("UI: here")
 	new GridSystem(listsContainer, candidatesContainer, items, tablesMetadata, containerColor)
 }
 
@@ -39,7 +47,12 @@ function generate_list_ui(pid: string, elems: Array<string>, elemsId: Array<stri
 	var nullAnswersContainer: HTMLElement|null = document.getElementById(IdManager.stringify(IdManager.TPL_ANSWER_CONTAINER))
 	var nullHiddenInputs: HTMLElement|null = document.getElementById(IdManager.stringify(IdManager.TPL_HIDDEN_INPUTS))
 
-	if(nullAnswersContainer==null || nullHiddenInputs==null) return;
+	if(nullAnswersContainer==null || nullHiddenInputs==null) {
+		console.error(`Something is null:`)
+		console.log(nullAnswersContainer)
+		console.log(nullHiddenInputs)
+		return;
+	}
 
 	const answersContainer: HTMLElement = nullAnswersContainer;
 	const hiddenInputs: HTMLElement = nullHiddenInputs;
@@ -65,6 +78,9 @@ export function generate_ui(ptype: 'trello'|'list', pid: string, elems: Array<st
 							tablesMetadata: Array<[string,string]>, containerColor: string) {
 	IdManager.init(pid);
 
+	console.log("UI: Calling me")
+	console.log(ptype)
+	
 	if(ptype=='trello') {
 		generate_trello_ui(pid, elems, elemsId, tablesMetadata, containerColor);
 	}

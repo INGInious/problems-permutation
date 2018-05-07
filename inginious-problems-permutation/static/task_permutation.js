@@ -21,7 +21,7 @@ window.onload = function () {
         var elemsId = JSON.parse(jsonElemsId);
         var tables = JSON.parse(jsonTables);
 
-        PermutationTaskUI.generate_ui(ptype, pid, elems, elemsId);
+        PermutationTaskUI.generate_ui(ptype, pid, elems, elemsId, tables, containerColor);
     }
 }
 

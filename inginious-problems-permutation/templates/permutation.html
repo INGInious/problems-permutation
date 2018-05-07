@@ -6,24 +6,25 @@ $# more information about the licensing of this file.
 $#
 
 <div>
-<div class="permutation muuri" id="permutation-$inputId" ptype="$ptype" 
-            elems="$elems" elemsId="$elemsId" tablesMetadata="$tablesMetadata" containerColor="$containerColor">
     $if ptype=='list':
-        <div class="permutation-column answer">
-            <div class="permutation-column-header unselectable"><span class="glyphicon glyphicon-th-list" aria-hidden=true></span><b> ANSWER</b></div>
-            <div class="permutation-column-content" id="$inputId-answer"></div>
+        <div class="permutation muuri" id="permutation-$inputId" ptype="$ptype" 
+        elems="$elems" elemsId="$elemsId" tablesMetadata="$tablesMetadata" containerColor="$containerColor">
+            <div class="permutation-column answer">
+                <div class="permutation-column-header unselectable"><span class="glyphicon glyphicon-th-list" aria-hidden=true></span><b> ANSWER</b></div>
+                <div class="permutation-column-content" id="$inputId-answer"></div>
+            </div>
         </div>
     $if ptype=='trello':
-        <div class="permutation-column answer">
-            <div class="permutation-column-header unselectable"><span class="glyphicon glyphicon-th-list" aria-hidden=true></span><b> ANSWER</b></div>
-            <div class="permutation-column-content" id="$inputId-answer"></div>
+        <div id="permutation-$inputId" class="permutation" ptype="$ptype" elems="$elems" elemsId="$elemsId" 
+                tablesMetadata="$tablesMetadata" containerColor="$containerColor">
         </div>
-        <div class="permutation-column2 permutation-column candidates">
-            <div class="permutation-column-header unselectable"><span class="glyphicon glyphicon-trash" aria-hidden=true></span><b> CANDIDATES</b></div>
-            <div class="permutation-column-content" id="$inputId-candidates"></div>
+        $# TODO: Autogenerate candidates list
+        <div class="muuri" id="$inputId-answer">
+            <div class="permutation-column2 permutation-column candidates">
+                <div class="permutation-column-header unselectable"><span class="glyphicon glyphicon-trash" aria-hidden=true></span><b> CANDIDATES</b></div>
+                <div class="permutation-column-content" id="$inputId-candidates"></div>
+            </div>
         </div>
-
-</div>
 </div>
 
 <div id="$inputId-hidden-inputs"></div>

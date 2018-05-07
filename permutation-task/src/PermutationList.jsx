@@ -26,7 +26,8 @@ export default class PermutationList {
         this.generate_muuri(listContainer, function(item:Item) {
             var sorted: Array<Item> = that.get_sorted_items(that.answers);
             for(let i=0;i<sorted.length;i++) {
-                sorted[i].update_position(i+1);// Starts in 1
+				// FIXME: Use custom table name
+                sorted[i].update_position('answers', i+1);// Starts in 1
             }
 		})
     }
