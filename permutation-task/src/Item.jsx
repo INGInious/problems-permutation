@@ -7,6 +7,8 @@ export default class Item {
     name: string;
     // Initial position
     ipos: number;
+    // Current container table.
+    table: string;
     // Current position. negative positions belongs to discarted elements
     pos: number;
     // Card content
@@ -86,9 +88,10 @@ export default class Item {
         this.posHiddenInput.setAttribute('value', this.pos+'')
     }
 
-    update_position(pos: number) {
+    update_position(tableName: string, pos: number) {
+        this.table = tableName;
         this.pos = pos;
-        this.posHiddenInput.setAttribute('value', this.pos+'')
+        this.posHiddenInput.setAttribute('value', this.table + '-' + this.pos + '')
         
         if(pos > 0) {
             if(this.showEnum) this.enumeration.innerHTML = pos+'. '

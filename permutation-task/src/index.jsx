@@ -5,14 +5,15 @@ import Item from './Item';
 import PermutationList from './PermutationList';
 
 
-function generate_trello_ui(pid: string, elems: Array<string>, elemsId: Array<string>, tablesMetadata: Array<[string,string]>, containerColor: string) {
-	var nullAnswersContainer: HTMLElement|null = document.getElementById(IdManager.stringify(IdManager.TPL_ANSWER_CONTAINER))
+function generate_trello_ui(pid: string, elems: Array<string>, elemsId: Array<string>, 
+							tablesMetadata: Array<[string,string]>, containerColor: string) {
+	var nullListsContainer: HTMLElement|null = document.getElementById(IdManager.stringify(IdManager.TPL_ANSWER_CONTAINER))
 	var nullCandidatesContainer: HTMLElement|null = document.getElementById(IdManager.stringify(IdManager.TPL_CANDIDATES_CONTAINER))
 	var nullHiddenInputs: HTMLElement|null = document.getElementById(IdManager.stringify(IdManager.TPL_HIDDEN_INPUTS))
 
-	if(nullAnswersContainer==null || nullCandidatesContainer==null || nullHiddenInputs==null) return;
+	if(nullListsContainer==null || nullCandidatesContainer==null || nullHiddenInputs==null) return;
 
-	const answersContainer: HTMLElement = nullAnswersContainer;
+	const listsContainer: HTMLElement = nullListsContainer;
 	const candidatesContainer: HTMLElement = nullCandidatesContainer;
 	const hiddenInputs: HTMLElement = nullHiddenInputs;
 
@@ -30,10 +31,11 @@ function generate_trello_ui(pid: string, elems: Array<string>, elemsId: Array<st
 
 		items.push(item)
 	}
-	new GridSystem(answersContainer, candidatesContainer, items)
+	new GridSystem(listsContainer, candidatesContainer, items, tablesMetadata, containerColor)
 }
 
-function generate_list_ui(pid: string, elems: Array<string>, elemsId: Array<string>, tablesMetadata: Array<[string,string]>, containerColor: string) {
+function generate_list_ui(pid: string, elems: Array<string>, elemsId: Array<string>, 
+							tablesMetadata: Array<[string,string]>, containerColor: string) {
 	var nullAnswersContainer: HTMLElement|null = document.getElementById(IdManager.stringify(IdManager.TPL_ANSWER_CONTAINER))
 	var nullHiddenInputs: HTMLElement|null = document.getElementById(IdManager.stringify(IdManager.TPL_HIDDEN_INPUTS))
 

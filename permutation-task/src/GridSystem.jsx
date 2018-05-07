@@ -10,15 +10,22 @@ export default class GridSystem {
     boardGrid : Muuri;
 	
 	isAnswer: Array<boolean>;
-	answerItems: Set<Item>;
+	answerItems: Map<string, Set<Item> >;
 	candidateItems: Set<Item>;
 	itemsMap: {[string]: Item};
 
-	constructor(listsContainer: HTMLElement, candidatesContainer: HTMLElement, items: Array<Item>) {
+
+
+	__bind_functions() {
+
+	}
+
+	constructor(listsContainer: HTMLElement, candidatesContainer: HTMLElement, items: Array<Item>,
+					tablesMetadata: Array<[string,string]>, containerColor: string) {
 		var that = this;
 
 		// Add mapped items and sets
-		this.answerItems = new Set();
+		this.answerItems = new Map();
 		this.candidateItems = new Set();
 		this.itemsMap = {};
 		for(let i=0;i<items.length;i++) {
@@ -30,47 +37,63 @@ export default class GridSystem {
 
 		this.columnGrids = []
 
-		/// FIXME: 
-        this.generate_muuri(answerContainer, function(item:Item) {
-			if(that.candidateItems.has(item)) {
-				// WARNING does 'delete' works in all browsers?
-				that.candidateItems.delete(item);
+		for(var tableId=0;tableId < tablesMetadata.length;tableId++) {
+			const metadata = tablesMetadata[tableId];
+			const tableName = metadata[0];
+			const tableColor = metadata[1];
 
-				if(!USE_SACK_ALGORITHM) {
-					var sorted: Array<Item> = that.get_sorted_items(that.candidateItems);
-					for(let i=0;i<sorted.length;i++) {
-						sorted[i].update_position(-i-1);
+			var container = document.createElement('div');
+			container.setAttribute('class', 'permutation-column')
+
+			var headerContainer = document.createElement('div');
+			headerContainer.setAttribute('class', 'permutation-column-header unselectable');
+			headerContainer.style.background = tableColor;
+			var header = document.createElement('span')
+			header.setAttribute('class', 'glyphicon glyphicon-th-list')
+			headerContainer.appendChild(header);
+			headerContainer.innerHTML += `<b> ${tableName}</b>`;
+
+			var gridContainer = document.createElement('div');
+			gridContainer.setAttribute('class', 'permutation-column-content')
+			
+			container.appendChild(headerContainer)
+			container.appendChild(gridContainer)
+			listsContainer.appendChild(container);
+
+			this.add_table(gridContainer, tableName, tableColor);
+		}
+        
+		this.generate_muuri(candidatesContainer, 
+			(item:Item) => { // Include item
+				for(var tableId=0;tableId < tablesMetadata.length;tableId++) {
+					const metadata = tablesMetadata[tableId];
+					const tableName = metadata[0];
+				
+					var table = that.answerItems.get(tableName);
+					if(!table) {
+						console.error(`Undefined table ${tableName}`)
+						continue;
+					} else if(table.has(item)) {
+						// WARNING does 'delete' works in all browsers?
+						table.delete(item);
+
+						var sorted: Array<Item> = that.get_sorted_items(table);
+						for(let i=0;i<sorted.length;i++) {
+							sorted[i].update_position(tableName, i+1);// Starts in 1
+						}
 					}
 				}
-			}
-			that.answerItems.add(item);
-
-			var sorted: Array<Item> = that.get_sorted_items(that.answerItems);
-			for(let i=0;i<sorted.length;i++) {
-				sorted[i].update_position(i+1);// Starts in 1
-			}
-		})
-        this.generate_muuri(candidatesContainer, function(item:Item) {
-			if(that.answerItems.has(item)) {
-				// WARNING does 'delete' works in all browsers?
-				that.answerItems.delete(item);
-
-				var sorted: Array<Item> = that.get_sorted_items(that.answerItems);
-				for(let i=0;i<sorted.length;i++) {
-					sorted[i].update_position(i+1);// Starts in 1
+				that.candidateItems.add(item);
+				
+				if(USE_SACK_ALGORITHM) {
+					item.update_position('', -1);
+				} else {
+					var sorted: Array<Item> = that.get_sorted_items(that.candidateItems);
+					for(let i=0;i<sorted.length;i++) {
+						sorted[i].update_position('', -i-1);
+					}
 				}
-			}
-			that.candidateItems.add(item);
-			
-			if(USE_SACK_ALGORITHM) {
-				item.update_position(-1);
-			} else {
-				var sorted: Array<Item> = that.get_sorted_items(that.candidateItems);
-				for(let i=0;i<sorted.length;i++) {
-					sorted[i].update_position(-i-1);
-				}
-			}
-		})
+			})
 
 		this.boardGrid = new Muuri('.permutation', {
 			layoutDuration: 400,
@@ -82,6 +105,55 @@ export default class GridSystem {
 			},
 			dragReleaseDuration: 400,
 			dragReleaseEasing: 'ease'
+		});
+	}
+
+	add_table(container: HTMLElement, tableName: string, tableColor: string) {
+		var that = this;
+		this.answerItems.set(tableName, new Set());
+		
+		this.generate_muuri(container, (item:Item) => {
+			if(that.candidateItems.has(item)) {
+				// WARNING does 'delete' works in all browsers?
+				that.candidateItems.delete(item);
+
+				if(!USE_SACK_ALGORITHM) {
+					var sorted: Array<Item> = that.get_sorted_items(that.candidateItems);
+					for(let i=0;i<sorted.length;i++) {
+						sorted[i].update_position('', -i-1);
+					}
+				}
+			}
+			// Remove from other tables
+			for(var tableId=0;tableId < tablesMetadata.length;tableId++) {
+				const metadata = tablesMetadata[tableId];
+				const otherTableName = metadata[0];
+				if(otherTableName == tableName) continue;
+			
+				var table = that.answerItems.get(otherTableName);
+				if(!table) {
+					console.error(`Undefined table ${otherTableName}`)
+					continue;
+				} else if(table.has(item)) {
+					// WARNING does 'delete' works in all browsers?
+					table.delete(item);
+
+					var sorted: Array<Item> = that.get_sorted_items(table);
+					for(let i=0;i<sorted.length;i++) {
+						sorted[i].update_position(otherTableName, i+1);// Starts in 1
+					}
+				}
+			}
+
+			var table = that.answerItems.get(tableName)
+			if(table) {
+				table.add(item);
+
+				var sorted: Array<Item> = that.get_sorted_items(table);
+				for(let i=0;i<sorted.length;i++) {
+					sorted[i].update_position(tableName, i+1);// Starts in 1
+				}
+			} else console.error(`Undefined table ${tableName}`);
 		});
 	}
 
@@ -102,7 +174,7 @@ export default class GridSystem {
 		return sorted;
 	}
 
-	generate_muuri(container: HTMLElement, process_item: (Item)=>void) {
+	generate_muuri(container: HTMLElement, include_item: (Item)=>void) {
 		var that = this;
 
 		var grid = new Muuri(container, {
@@ -140,7 +212,7 @@ export default class GridSystem {
 			that.columnGrids.forEach(function (grid) {
 				grid.refreshItems();
 			});
-			if(process_item!=null) process_item(that.itemsMap[item._child.getAttribute('id')]);
+			if(include_item!=null) include_item(that.itemsMap[item._child.getAttribute('id')]);
 			//console.log('Released element ' + item._child.getAttribute('name'));
 		})
 		.on('layoutStart', function () {
