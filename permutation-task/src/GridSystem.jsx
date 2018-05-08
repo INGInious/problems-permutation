@@ -7,7 +7,8 @@ import { USE_SACK_ALGORITHM } from './flags'
 
 export default class GridSystem {
 	columnGrids : Array<Muuri>;
-    boardGrid : Muuri;
+	boardGrid : Muuri;
+	// candidatesContainer: HTMLElement;
 	
 	isAnswer: Array<boolean>;
 	answerItems: Map<string, Set<Item> >;
@@ -15,13 +16,12 @@ export default class GridSystem {
 	itemsMap: {[string]: Item};
 
 
-
 	__bind_functions() {
 
 	}
 
-	constructor(listsContainer: HTMLElement, candidatesContainer: HTMLElement, items: Array<Item>,
-					tablesMetadata: Array<[string,string]>, containerColor: string) {
+	constructor(listsContainer: HTMLElement, items: Array<Item>, tablesMetadata: Array<[string,string]>,
+					containerColor: string) {
 		var that = this;
 
 		// Add mapped items and sets
@@ -53,7 +53,7 @@ export default class GridSystem {
 			headerContainer.appendChild(header);
 			headerContainer.innerHTML += `<b> ${tableName}</b>`;
 
-			var gridContainer = document.createElement('div');
+			let gridContainer = document.createElement('div');
 			gridContainer.setAttribute('class', 'permutation-column-content')
 			
 			container.appendChild(headerContainer)
@@ -62,8 +62,29 @@ export default class GridSystem {
 
 			this.add_table(gridContainer, tableName, tableColor, tablesMetadata);
 		}
+
+		var container2 = document.createElement('div');
+		container2.setAttribute('class', 'permutation-column')
+
+		var headerContainer2 = document.createElement('div');
+		headerContainer2.setAttribute('class', 'permutation-column-header unselectable');
+		headerContainer2.style.background = containerColor;
+		var header2 = document.createElement('span')
+		header2.setAttribute('class', 'glyphicon glyphicon-th-list')
+		headerContainer2.appendChild(header2);
+		headerContainer2.innerHTML += `<b> CANDIDATES</b>`;
+
+		let gridContainer2 = document.createElement('div');
+		gridContainer2.setAttribute('class', 'permutation-column-content')
+		gridContainer2.setAttribute('id', `${IdManager.pid}-candidates`)
+
+		this.populate_items(items, gridContainer2);
+		
+		container2.appendChild(headerContainer2)
+		container2.appendChild(gridContainer2)
+		listsContainer.appendChild(container2);
         
-		this.generate_muuri(candidatesContainer, 
+		this.generate_muuri(gridContainer2, 
 			(item:Item) => { // Include item
 				for(var tableId=0;tableId < tablesMetadata.length;tableId++) {
 					const metadata = tablesMetadata[tableId];
@@ -93,7 +114,7 @@ export default class GridSystem {
 						sorted[i].update_position('', -i-1);
 					}
 				}
-			})
+			});
 
 			console.log("UI: here")
 		this.boardGrid = new Muuri('.permutation', {
@@ -107,6 +128,12 @@ export default class GridSystem {
 			dragReleaseDuration: 400,
 			dragReleaseEasing: 'ease'
 		});
+	}
+
+	populate_items(items: Array<Item>, container: HTMLElement) {
+		for(var i=0;i<items.length;i++) {
+			container.appendChild(items[i].get_card())
+		}
 	}
 
 	add_table(container: HTMLElement, tableName: string, tableColor: string, tablesMetadata: Array<[string, string]>) {

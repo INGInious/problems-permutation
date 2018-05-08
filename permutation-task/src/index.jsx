@@ -8,20 +8,18 @@ import PermutationList from './PermutationList';
 function generate_trello_ui(pid: string, elems: Array<string>, elemsId: Array<string>, 
 							tablesMetadata: Array<[string,string]>, containerColor: string) {
 	var nullListsContainer: HTMLElement|null = document.getElementById(IdManager.stringify(IdManager.TPL_ANSWER_CONTAINER))
-	var nullCandidatesContainer: HTMLElement|null = document.getElementById(IdManager.stringify(IdManager.TPL_CANDIDATES_CONTAINER))
+	// var nullCandidatesContainer: HTMLElement|null = document.getElementById(IdManager.stringify(IdManager.TPL_CANDIDATES_CONTAINER))
 	var nullHiddenInputs: HTMLElement|null = document.getElementById(IdManager.stringify(IdManager.TPL_HIDDEN_INPUTS))
 
-	console.log("UI: here")
-	if(nullListsContainer==null || nullCandidatesContainer==null || nullHiddenInputs==null) {
+	if(nullListsContainer==null || nullHiddenInputs==null) {
 		console.error(`Something is null:`)
 		console.log(nullListsContainer)
-		console.log(nullCandidatesContainer)
 		console.log(nullHiddenInputs)
 		return;
 	}
 
 	const listsContainer: HTMLElement = nullListsContainer;
-	const candidatesContainer: HTMLElement = nullCandidatesContainer;
+	// const candidatesContainer: HTMLElement = nullCandidatesContainer;
 	const hiddenInputs: HTMLElement = nullHiddenInputs;
 
 	var items: Array<Item> = [];
@@ -32,14 +30,13 @@ function generate_trello_ui(pid: string, elems: Array<string>, elemsId: Array<st
 		item = new Item(-i-1, elemsId[i], elems[i]) // -,1, -2, -3
 		item.build()
 
-		candidatesContainer.appendChild(item.get_card())
+		// candidatesContainer.appendChild(item.get_card())
 		hiddenInputs.appendChild(item.get_iposHiddenInput())
 		hiddenInputs.appendChild(item.get_posHiddenInput())
 
 		items.push(item)
 	}
-	console.log("UI: here")
-	new GridSystem(listsContainer, candidatesContainer, items, tablesMetadata, containerColor)
+	new GridSystem(listsContainer, items, tablesMetadata, containerColor)
 }
 
 function generate_list_ui(pid: string, elems: Array<string>, elemsId: Array<string>, 
@@ -78,7 +75,6 @@ export function generate_ui(ptype: 'trello'|'list', pid: string, elems: Array<st
 							tablesMetadata: Array<[string,string]>, containerColor: string) {
 	IdManager.init(pid);
 
-	console.log("UI: Calling me")
 	console.log(ptype)
 	
 	if(ptype=='trello') {
