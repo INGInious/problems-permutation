@@ -13,6 +13,7 @@ from docutils.core import publish_parts
 
 from inginious.common.tasks_problems import BasicProblem
 from inginious.frontend.task_problems import DisplayableBasicProblem
+from inginious.frontend.parsable_text import ParsableText
 
 __version__ = "0.3.dev0"
 
@@ -103,12 +104,23 @@ class DisplayablePermutationProblem(PermutationProblem, DisplayableBasicProblem)
             i += 1
         return l
 
+    def parse_rst(self, s):
+        parser = ParsableText(s)
+        return str(parser)
+    
     def show_input(self, template_helper, language):
         """ Show PermutationProblem """
         original_content = self.to_list(deepcopy(self.get_original_content()))
+        
         for table in original_content:
-            table["text"] = self.to_list(table["text"])
-            table["text_id"] = self.to_list(table["text_id"])
+            if "text" in table:
+                table["text"] = self.to_list(table["text"])
+            else:
+                table["text"] = []
+            if "text_id" in table:
+                table["text_id"] = self.to_list(table["text_id"])
+            else:
+                table["text_id"] = []
 
         table_count = 0
         tables_names = []
@@ -123,7 +135,7 @@ class DisplayablePermutationProblem(PermutationProblem, DisplayableBasicProblem)
             rows += list(zip(table["text"], table["text_id"]))
         
         # Preprocess texts
-        rows = [(publish_parts(text, writer_name='html')['html_body'], text_id) for (text, text_id) in rows]
+        rows = [(self.parse_rst(text), text_id) for (text, text_id) in rows]
         shuffle(rows)
 
         #Generating client data
