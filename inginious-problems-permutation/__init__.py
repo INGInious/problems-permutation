@@ -15,7 +15,7 @@ from inginious.common.tasks_problems import BasicProblem
 from inginious.frontend.task_problems import DisplayableBasicProblem
 from inginious.frontend.parsable_text import ParsableText
 
-__version__ = "0.3.dev0"
+__version__ = "0.3.dev1"
 
 PATH_TO_PLUGIN = os.path.abspath(os.path.dirname(__file__))
 
@@ -54,6 +54,7 @@ class PermutationProblem(BasicProblem):
         return dict
 
     def check_answer(self, task_input, language):
+        # TODO
         # By default, everything pass in the docker agent.
         # If answer is specified, can be assessed in MCQ-like environnment using check_answer
         return True, None, ["Unknown answer"], 0
@@ -110,9 +111,10 @@ class DisplayablePermutationProblem(PermutationProblem, DisplayableBasicProblem)
     
     def show_input(self, template_helper, language):
         """ Show PermutationProblem """
+        # Parsing dictionaries to arrays
         original_content = self.to_list(deepcopy(self.get_original_content()))
-        
         for table in original_content:
+            # Some lists have no elements
             if "text" in table:
                 table["text"] = self.to_list(table["text"])
             else:
