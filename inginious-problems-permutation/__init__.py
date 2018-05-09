@@ -113,19 +113,14 @@ class DisplayablePermutationProblem(PermutationProblem, DisplayableBasicProblem)
         table_count = 0
         tables_names = []
         tables_colors = []
-        container_color = '#f9944a'
         rows = []
-        if len(original_content[0]["text"]) > 0:
-            table_count += 1
-            container_color = original_content[0]["tableColor"]
-            rows += list(zip(original_content[0]["text"], original_content[0]["text_id"]))
 
-        for table in original_content[1:]:
+        for table in original_content:
             if len(table["text"]) > 0:
                 table_count += 1
-                tables_names.append(table["tableName"])
-                tables_colors.append(table["tableColor"])
-                rows += list(zip(table["text"], table["text_id"]))
+            tables_names.append(table["tableName"])
+            tables_colors.append(table["tableColor"])
+            rows += list(zip(table["text"], table["text_id"]))
         
         # Preprocess texts
         rows = [(publish_parts(text, writer_name='html')['html_body'], text_id) for (text, text_id) in rows]
@@ -135,7 +130,7 @@ class DisplayablePermutationProblem(PermutationProblem, DisplayableBasicProblem)
         elems = [text for (text, _) in rows]
         elemsId = [text_id for (_, text_id) in rows]
 
-        if table_count > 1:
+        if table_count > 1 or len(original_content) > 2:
             problem_subtype = 'trello'
         else:
             problem_subtype = 'list'
@@ -143,7 +138,7 @@ class DisplayablePermutationProblem(PermutationProblem, DisplayableBasicProblem)
         return str(DisplayablePermutationProblem.get_renderer(template_helper).permutation(
                             self.get_id(), problem_subtype,
                             json.dumps(elems), json.dumps(elemsId),
-                            json.dumps(list(zip(tables_names, tables_colors))), container_color))
+                            json.dumps(list(zip(tables_names, tables_colors)))))
 
     @classmethod
     def show_editbox(cls, template_helper, key):

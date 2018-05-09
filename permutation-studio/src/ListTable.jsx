@@ -133,9 +133,9 @@ export class ListTable {
          */
 
         var titleContainer = document.createElement('div');
+        
         if(this.showEnum) {
-            // Add only title to formal lists
-            titleContainer.innerHTML = "List name: ";
+            titleContainer.innerHTML = this.showEnum?"List name: ":"Candidates list name: ";
             var titleInput: HTMLInputElement = document.createElement('input')
             titleInput.setAttribute('name', `problem[${IdManager.pid}][${this.id}][tableName]`)
             titleInput.setAttribute('type', 'text')
@@ -144,7 +144,7 @@ export class ListTable {
                 this._update_title(evt.target.value);
             }
             titleContainer.appendChild(titleInput)
-
+            
             this.removeTableButton = document.createElement('button')
             this.removeTableButton.setAttribute('class', 'btn btn-danger pull-right')
             this.removeTableButton.innerHTML = '<span class="glyphicon glyphicon-trash" aria-hidden="true"></span> ' + this.title
@@ -156,18 +156,20 @@ export class ListTable {
 
         // Color picker
         var pickerContainer = document.createElement('div');
-        pickerContainer.innerHTML = "Color: ";
-        var pickerInput = document.createElement('input')
-        pickerInput.setAttribute('type', 'color')
-        pickerInput.setAttribute('name', `problem[${IdManager.pid}][${this.id}][tableColor]`)
-        pickerInput.setAttribute('value', this.color)
-        pickerContainer.appendChild(pickerInput)
-        var pickerStrInput = document.createElement('label')
-        pickerStrInput.innerHTML = this.color;
-        pickerContainer.appendChild(pickerStrInput)
+        if(this.showEnum) {
+            pickerContainer.innerHTML = "Color: ";
+            var pickerInput = document.createElement('input')
+            pickerInput.setAttribute('type', 'color')
+            pickerInput.setAttribute('name', `problem[${IdManager.pid}][${this.id}][tableColor]`)
+            pickerInput.setAttribute('value', this.color)
+            pickerContainer.appendChild(pickerInput)
+            var pickerStrInput = document.createElement('label')
+            pickerStrInput.innerHTML = this.color;
+            pickerContainer.appendChild(pickerStrInput)
 
-        pickerInput.onchange = (evt) => {
-            pickerStrInput.innerHTML = evt.target.value;
+            pickerInput.onchange = (evt) => {
+                pickerStrInput.innerHTML = evt.target.value;
+            }
         }
 
         /*

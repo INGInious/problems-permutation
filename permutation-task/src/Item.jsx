@@ -51,7 +51,7 @@ export default class Item {
         return this.content;
     }
 
-    build() {
+    build(tableName: string) {
         // Building card
         this.enumeration = document.createElement('span')
         //this.enumeration.style.fontWeight = 'bold';
@@ -80,18 +80,18 @@ export default class Item {
         this.iposHiddenInput = document.createElement('input')
         this.iposHiddenInput.setAttribute('type', 'hidden')
         this.iposHiddenInput.setAttribute('name', IdManager.stringify(IdManager.TPL_HIDDEN_INPUT_IPOS, this.name))
-        this.iposHiddenInput.setAttribute('value', this.ipos+'')
+        this.iposHiddenInput.setAttribute('value', tableName + '#' + this.ipos)
 
         this.posHiddenInput = document.createElement('input')
         this.posHiddenInput.setAttribute('type', 'hidden')
         this.posHiddenInput.setAttribute('name', IdManager.stringify(IdManager.TPL_HIDDEN_INPUT_POS, this.name))
-        this.posHiddenInput.setAttribute('value', this.pos+'')
+        this.posHiddenInput.setAttribute('value', tableName + '#' + this.pos)
     }
 
     update_position(tableName: string, pos: number) {
         this.table = tableName;
         this.pos = pos;
-        this.posHiddenInput.setAttribute('value', this.table + '-' + this.pos + '')
+        this.posHiddenInput.setAttribute('value', this.table + '#' + this.pos)
         
         if(pos > 0) {
             if(this.showEnum) this.enumeration.innerHTML = pos+'. '

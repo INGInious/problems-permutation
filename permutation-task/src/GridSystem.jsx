@@ -20,8 +20,7 @@ export default class GridSystem {
 
 	}
 
-	constructor(listsContainer: HTMLElement, items: Array<Item>, tablesMetadata: Array<[string,string]>,
-					containerColor: string) {
+	constructor(listsContainer: HTMLElement, items: Array<Item>, tablesMetadata: Array<[string,string]>) {
 		var that = this;
 
 		// Add mapped items and sets
@@ -37,7 +36,7 @@ export default class GridSystem {
 
 		this.columnGrids = []
 
-		for(var tableId=0;tableId < tablesMetadata.length;tableId++) {
+		for(var tableId=1;tableId < tablesMetadata.length;tableId++) {
 			const metadata = tablesMetadata[tableId];
 			const tableName = metadata[0];
 			const tableColor = metadata[1];
@@ -68,11 +67,11 @@ export default class GridSystem {
 
 		var headerContainer2 = document.createElement('div');
 		headerContainer2.setAttribute('class', 'permutation-column-header unselectable');
-		headerContainer2.style.background = containerColor;
+		headerContainer2.style.background = tablesMetadata[0][1];
 		var header2 = document.createElement('span')
 		header2.setAttribute('class', 'glyphicon glyphicon-th-list')
 		headerContainer2.appendChild(header2);
-		headerContainer2.innerHTML += `<b> CANDIDATES</b>`;
+		headerContainer2.innerHTML += `<b> ${tablesMetadata[0][0]}</b>`;
 
 		let gridContainer2 = document.createElement('div');
 		gridContainer2.setAttribute('class', 'permutation-column-content')
@@ -86,7 +85,7 @@ export default class GridSystem {
         
 		this.generate_muuri(gridContainer2, 
 			(item:Item) => { // Include item
-				for(var tableId=0;tableId < tablesMetadata.length;tableId++) {
+				for(var tableId=1;tableId < tablesMetadata.length;tableId++) {
 					const metadata = tablesMetadata[tableId];
 					const tableName = metadata[0];
 				
@@ -153,7 +152,7 @@ export default class GridSystem {
 				}
 			}
 			// Remove from other tables
-			for(var tableId=0;tableId < tablesMetadata.length;tableId++) {
+			for(var tableId=1;tableId < tablesMetadata.length;tableId++) {
 				const metadata = tablesMetadata[tableId];
 				const otherTableName = metadata[0];
 				if(otherTableName == tableName) continue;

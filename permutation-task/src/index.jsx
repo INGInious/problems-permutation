@@ -6,7 +6,7 @@ import PermutationList from './PermutationList';
 
 
 function generate_trello_ui(pid: string, elems: Array<string>, elemsId: Array<string>, 
-							tablesMetadata: Array<[string,string]>, containerColor: string) {
+							tablesMetadata: Array<[string,string]>) {
 	var nullListsContainer: HTMLElement|null = document.getElementById(IdManager.stringify(IdManager.TPL_ANSWER_CONTAINER))
 	// var nullCandidatesContainer: HTMLElement|null = document.getElementById(IdManager.stringify(IdManager.TPL_CANDIDATES_CONTAINER))
 	var nullHiddenInputs: HTMLElement|null = document.getElementById(IdManager.stringify(IdManager.TPL_HIDDEN_INPUTS))
@@ -28,19 +28,21 @@ function generate_trello_ui(pid: string, elems: Array<string>, elemsId: Array<st
 		var item: Item;
 
 		item = new Item(-i-1, elemsId[i], elems[i]) // -,1, -2, -3
-		item.build()
+		item.build(tablesMetadata[0][0])
 
-		// candidatesContainer.appendChild(item.get_card())
 		hiddenInputs.appendChild(item.get_iposHiddenInput())
 		hiddenInputs.appendChild(item.get_posHiddenInput())
 
 		items.push(item)
 	}
-	new GridSystem(listsContainer, items, tablesMetadata, containerColor)
+	new GridSystem(listsContainer, items, tablesMetadata)
 }
 
 function generate_list_ui(pid: string, elems: Array<string>, elemsId: Array<string>, 
-							tablesMetadata: Array<[string,string]>, containerColor: string) {
+							tablesMetadata: Array<[string,string]>) {
+	const tableName = tablesMetadata[1][0];
+	const tableColor = tablesMetadata[1][1];
+	
 	var nullAnswersContainer: HTMLElement|null = document.getElementById(IdManager.stringify(IdManager.TPL_ANSWER_CONTAINER))
 	var nullHiddenInputs: HTMLElement|null = document.getElementById(IdManager.stringify(IdManager.TPL_HIDDEN_INPUTS))
 
@@ -51,7 +53,25 @@ function generate_list_ui(pid: string, elems: Array<string>, elemsId: Array<stri
 		return;
 	}
 
-	const answersContainer: HTMLElement = nullAnswersContainer;
+	var container = document.createElement('div');
+	container.setAttribute('class', 'permutation-column')
+
+	var headerContainer = document.createElement('div');
+	headerContainer.setAttribute('class', 'permutation-column-header unselectable');
+	headerContainer.style.background = tableColor;
+	var header = document.createElement('span')
+	header.setAttribute('class', 'glyphicon glyphicon-th-list')
+	headerContainer.appendChild(header);
+	headerContainer.innerHTML += `<b> ${tableName}</b>`;
+
+	let gridContainer = document.createElement('div');
+	gridContainer.setAttribute('class', 'permutation-column-content')
+	
+	container.appendChild(headerContainer)
+	container.appendChild(gridContainer)
+	nullAnswersContainer.appendChild(container);
+
+	const answersContainer: HTMLElement = gridContainer;
 	const hiddenInputs: HTMLElement = nullHiddenInputs;
 
 	var items: Array<Item> = [];
@@ -60,7 +80,7 @@ function generate_list_ui(pid: string, elems: Array<string>, elemsId: Array<stri
 		var item: Item;
 
 		item = new Item(i+1, elemsId[i], elems[i]) // Starts in 1
-		item.build()
+		item.build(tableName)
 
 		answersContainer.appendChild(item.get_card())
 		hiddenInputs.appendChild(item.get_iposHiddenInput())
@@ -68,20 +88,20 @@ function generate_list_ui(pid: string, elems: Array<string>, elemsId: Array<stri
 
 		items.push(item)
 	}
-	new PermutationList(answersContainer, items)
+	new PermutationList(answersContainer, items, tableName)
 }
 
 export function generate_ui(ptype: 'trello'|'list', pid: string, elems: Array<string>, elemsId: Array<string>,
-							tablesMetadata: Array<[string,string]>, containerColor: string) {
+							tablesMetadata: Array<[string,string]>) {
 	IdManager.init(pid);
 
 	console.log(ptype)
 	
 	if(ptype=='trello') {
-		generate_trello_ui(pid, elems, elemsId, tablesMetadata, containerColor);
+		generate_trello_ui(pid, elems, elemsId, tablesMetadata);
 	}
 	if(ptype=='list') {
-		generate_list_ui(pid, elems, elemsId, tablesMetadata, containerColor);
+		generate_list_ui(pid, elems, elemsId, tablesMetadata);
 	}
 }
 
