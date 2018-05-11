@@ -1,10 +1,9 @@
+/* @flow */
 
 
-export function HSVtoRGB(h, s, v) {
-    var r, g, b, i, f, p, q, t;
-    if (arguments.length === 1) {
-        s = h.s, v = h.v, h = h.h;
-    }
+export function HSVtoRGB(h: number, s: number, v: number): {r: string|number, g: string|number, b: string|number} {
+    var r = 0, g = 0, b = 0, i = 0, f = 0, p = 0, q = 0, t = 0;
+
     i = Math.floor(h * 6);
     f = h * 6 - i;
     p = v * (1 - s);
@@ -35,13 +34,15 @@ export function getRandomColor() {
     const s = 0.5 + Math.round(Math.random()*2)*.25; // Ternary (50%, 75%, 100%)
     const v = 0.5 + Math.round(Math.random()*2)*.25; // Ternary (50%, 75%, 100%)
 
-    // console.log(h + ':' + s + ':' + v);
-
     var rgb = HSVtoRGB(h, s, v);
-    // console.log(rgb)
+
+    // $FlowFixMe
     rgb.r = pad2(rgb.r.toString(16));
+    // $FlowFixMe
     rgb.g = pad2(rgb.g.toString(16));
+    // $FlowFixMe
     rgb.b = pad2(rgb.b.toString(16));
+    
     // console.log(rgb)
 
     return '#' + rgb.r + rgb.g + rgb.b;

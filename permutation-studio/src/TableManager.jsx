@@ -90,6 +90,10 @@ export class TableManager {
         this.misleadingContainer = misleadingContainer
 
         this.make_visible();
+
+        // Disabling delete button if there is only one list
+        // `You must have at least one target table`
+        if(Object.keys(mainTables).length <= 1) this._disable_delete_table()
     }
 
     _table_name_exists(tableName: string) {

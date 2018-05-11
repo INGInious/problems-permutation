@@ -140,7 +140,8 @@ export class ListTable {
             titleInput.setAttribute('name', `problem[${IdManager.pid}][${this.id}][tableName]`)
             titleInput.setAttribute('type', 'text')
             titleInput.setAttribute('value', this.title)
-            titleInput.onfocusout = (evt) => { // TODO: Add flow-typed to ignore this specific error
+            // $FlowFixMe onfocusout does exist in some navigators
+            titleInput.onfocusout = (evt) => {
                 this._update_title(evt.target.value);
             }
             titleContainer.appendChild(titleInput)

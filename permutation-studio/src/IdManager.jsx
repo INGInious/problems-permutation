@@ -3,6 +3,7 @@
 
 export const IdManager = new class {
     TPL_TABLES_CONTAINER: string;
+    TPL_MISLEADING_CONTAINER: string;
     TPL_TABLE_ITEM: string;
     TPL_TABLE_ITEM_ID: string;
 

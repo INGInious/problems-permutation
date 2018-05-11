@@ -1,6 +1,5 @@
-import { IdManager } from "./IdManager";
-
 /* @flow */
+import { IdManager } from "./IdManager";
 
 
 export default class Row {

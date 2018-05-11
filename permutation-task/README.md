@@ -23,6 +23,16 @@ Using yarn:
 yarn run start
 ```
 
+## Type checking with flow
+Using npm
+```
+npm run-script flow
+```
+Using yarn:
+```
+yarn run flow
+```
+
 ## Production build
 Using npm:
 ```
