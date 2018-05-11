@@ -191,7 +191,7 @@ export default class GridSystem {
 			console.log(itemId)
 			if(!this.itemsPosMap.has(itemId)) return;
 
-			var item: Item|undefined = this.itemsPosMap.get(itemId);
+			var item = this.itemsPosMap.get(itemId);
 			var itemPos: string = itemsPos[i];
 			var sepPos = itemPos.lastIndexOf("#");
 
