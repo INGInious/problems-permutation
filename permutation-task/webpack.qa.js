@@ -4,7 +4,8 @@ const UglifyJSPlugin = require('uglifyjs-webpack-plugin');
 
 
 module.exports = {
-	mode: 'production',
+	devtool: 'source-map',
+	mode: 'development',
 	entry: {
 		index: './src/index.jsx',
 	},
@@ -17,15 +18,6 @@ module.exports = {
 	resolve: {
 		extensions: ['.js', '.jsx']
 	},
-	plugins: [
-        new UglifyJSPlugin({
-            sourceMap: true
-        }),
-		new webpack.optimize.OccurrenceOrderPlugin(),
-		new webpack.DefinePlugin({
-		  'process.env.NODE_ENV':  JSON.stringify('production')
-		})
-	],
 	module: {
 		rules: [
 		  	{
@@ -42,9 +34,5 @@ module.exports = {
 				]
 			}
 		]
-	},
-	externals: {
-		muuri: 'Muuri',
-		hammerjs: 'HammerJS'
 	}
 };

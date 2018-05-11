@@ -1,4 +1,6 @@
 
+var uiTaskObject = {}
+
 window.onload = function () {
     // PermutationTask.generate_permutation_list_with([Array(110).join(' C-C C+C ') + ';','D','A','B'], '.board-column-content');
     //PermutationTask.generate_permutation_list('.board-column-content');
@@ -21,7 +23,7 @@ window.onload = function () {
         var elemsId = JSON.parse(jsonElemsId);
         var tables = JSON.parse(jsonTables);
 
-        PermutationTaskUI.generate_ui(ptype, pid, elems, elemsId, tables, containerColor);
+        uiTaskObject[pid] = PermutationTaskUI.generate_ui(ptype, pid, elems, elemsId, tables, containerColor);
     }
 }
 
@@ -29,7 +31,24 @@ window.onload = function () {
 function load_input_permutation(submissionid, key, input)
 {
     // Previous submissions
+    console.log('Key: ' + JSON.stringify(key))
     console.log('Input: ' + JSON.stringify(input))
 
-    // TODO: What is input??
+    var items = [];
+    var itemsPos = [];
+
+    Object.entries(input).forEach((pair) => {
+        var item = pair[0];
+        var itemPos = pair[1];
+
+        if(!item.startsWith(key)) return;
+
+        items.push(item);
+        itemsPos.push(itemPos);
+    })
+
+    console.log(items)
+    console.log(itemsPos)
+
+    uiTaskObject[key].sortItems(items, itemsPos);
 }

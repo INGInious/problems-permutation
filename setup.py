@@ -17,7 +17,7 @@ if not yarnInstalled and not npmInstalled:
 elif not yarnInstalled:
     print("It is recommended to have installed yarn to build this project.")
 
-if not '--no-build' in argv:
+if not '--no-build' in argv and not '--dev' in argv:
     
     if yarnInstalled:
         system("cd permutation-task && yarn install")
@@ -32,8 +32,25 @@ if not '--no-build' in argv:
     elif npmInstalled:
         system("cd permutation-task && npm run-script build")
         system("cd permutation-studio && npm run-script build")
-else:
+if '--no-build' in argv:
     argv.remove("--no-build")
+
+if '--dev' in argv:
+    if yarnInstalled:
+        system("cd permutation-task && yarn install")
+        system("cd permutation-studio && yarn install")
+    elif npmInstalled:
+        system("cd permutation-task && npm install")
+        system("cd permutation-studio && npm install")
+
+    if yarnInstalled:
+        system("cd permutation-task && yarn run build-qa")
+        system("cd permutation-studio && yarn run build-qa")
+    elif npmInstalled:
+        system("cd permutation-task && npm run-script build-qa")
+        system("cd permutation-studio && npm run-script build-qa")
+    
+    argv.remove("--dev")
 
 setup(
     name="inginious-problems-permutation",

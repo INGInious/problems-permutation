@@ -184,12 +184,15 @@ export default class GridSystem {
 		// Computing new positions
 		var mappedOrder: Map<string, Map<number, Item> > = new Map();
 		mappedOrder.set(this.candidatesTableName, new Map());
-		this.answersTablesNames.forEach((tableNmae: string) => {
-			mappedOrder.set(tableName, new Map())
+		this.answersTablesNames.forEach((tableName: string) => {
+			mappedOrder.set(tableName, new Map());
 		})
+		console.log(this.itemsPosMap)
 		items.map((itemId: string, i: number) => {
-			console.log(itemId)
-			if(!this.itemsPosMap.has(itemId)) return;
+			if(!this.itemsPosMap.has(itemId)) {
+				// console.log(`Not found item ${itemId}`)
+				return;
+			}
 
 			var item = this.itemsPosMap.get(itemId);
 			var itemPos: string = itemsPos[i];
@@ -200,12 +203,16 @@ export default class GridSystem {
 
 			var map = mappedOrder.get(tableName);
 			
-			if(!map || !item) {
-				console.error('Error loading item');
+			if(!map) {
+				console.error(`Error loading map from table "${tableName}"`);
+				return;
+			}
+			if(!item) {
+				console.error(`Error loading item "${itemId}", got ${item}`);
 				return;
 			}
 
-			// Add logically
+			// Add items logically
 			if(tableName == this.candidatesTableName) {
 				this.candidateItems.add(item)
 				item.update_position(tableName, -pos)
@@ -216,6 +223,10 @@ export default class GridSystem {
 				item.update_position(tableName, pos)
 			}
 
+			if(map.has(pos))
+				 // FIXME: When using SACK_ALGORITHM, all the candidates have the same position (1)
+				 // Then they all overlap in this map
+				map.set(map.size+1, item)
 			map.set(pos, item)
 		});
 		var newOrder: {[string]: Array<Item>} = {};
@@ -227,6 +238,16 @@ export default class GridSystem {
 		});
 		// Repopulating with DOM elements
 		candidatesMuuri.add(newOrder[this.candidatesTableName].map((item: Item) => {return item.get_card()}));
+		for(var i=0;i<this.answersTablesNames.length;i++) {
+			var tableName = this.answersTablesNames[i];
+
+			var muuri = this.muuris.get(tableName)
+			if(!muuri) {
+				console.error(`Could not find muuri for table ${tableName}`);
+				continue;
+			}
+			muuri.add(newOrder[tableName].map((item: Item) => {return item.get_card()}));
+		}
 	}
 
 	populate_items(items: Array<Item>, container: HTMLElement) {

@@ -4,28 +4,20 @@ const UglifyJSPlugin = require('uglifyjs-webpack-plugin');
 
 
 module.exports = {
-	mode: 'production',
+	devtool: 'source-map',
+	mode: 'development',
 	entry: {
 		index: './src/index.jsx',
 	},
 	output: {
-		filename: '../../inginious-problems-permutation/static/ui/permutation_task.js',
+		filename: '../../inginious-problems-permutation/static/ui/permutation_studio.js',
 		path: path.resolve(__dirname, 'dist'),
 		libraryTarget: 'var',
-		library: 'PermutationTaskUI',
+		library: 'PermutationStudioUI',
 	},
 	resolve: {
 		extensions: ['.js', '.jsx']
 	},
-	plugins: [
-        new UglifyJSPlugin({
-            sourceMap: true
-        }),
-		new webpack.optimize.OccurrenceOrderPlugin(),
-		new webpack.DefinePlugin({
-		  'process.env.NODE_ENV':  JSON.stringify('production')
-		})
-	],
 	module: {
 		rules: [
 		  	{
@@ -42,9 +34,5 @@ module.exports = {
 				]
 			}
 		]
-	},
-	externals: {
-		muuri: 'Muuri',
-		hammerjs: 'HammerJS'
 	}
 };
