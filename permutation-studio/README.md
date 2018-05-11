@@ -34,6 +34,12 @@ yarn run build
 ```
 This command will create a bundle file inside the plugin static file structure.
 
+## About the code
+
+Sometimes, the same object may be referred by different names. The table containing the distractor elements may be called "Misleading table" or "Distractors". This table is different from the "Candidates list" which contains all the elements shuffled.
+
+This project doesn't follow a standard like reactjs. DOM objects are lazily initialized. Usually there will be a method `get_dom()` to build/get the corresponding DOM object.
+
 ## API
 
 The studio populates an object `problem` that is then communicated to the backend via python. 
