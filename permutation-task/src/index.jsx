@@ -27,7 +27,7 @@ function generate_trello_ui(pid: string, elems: Array<string>, elemsId: Array<st
 	for(let i=0;i<elems.length;i++) {
 		var item: Item;
 
-		item = new Item(-i-1, elemsId[i], elems[i]) // -,1, -2, -3
+		item = new Item(i+1, elemsId[i], elems[i]) // 1,2,3
 		item.build(tablesMetadata[0][0])
 
 		hiddenInputs.appendChild(item.get_iposHiddenInput())
@@ -35,7 +35,7 @@ function generate_trello_ui(pid: string, elems: Array<string>, elemsId: Array<st
 
 		items.push(item)
 	}
-	new GridSystem(listsContainer, items, tablesMetadata)
+	return new GridSystem(listsContainer, items, tablesMetadata)
 }
 
 function generate_list_ui(pid: string, elems: Array<string>, elemsId: Array<string>, 
@@ -88,7 +88,7 @@ function generate_list_ui(pid: string, elems: Array<string>, elemsId: Array<stri
 
 		items.push(item)
 	}
-	new PermutationList(answersContainer, items, tableName)
+	return new PermutationList(answersContainer, items, tableName)
 }
 
 export function generate_ui(ptype: 'trello'|'list', pid: string, elems: Array<string>, elemsId: Array<string>,
@@ -97,12 +97,10 @@ export function generate_ui(ptype: 'trello'|'list', pid: string, elems: Array<st
 
 	console.log(ptype)
 	
-	if(ptype=='trello') {
-		generate_trello_ui(pid, elems, elemsId, tablesMetadata);
-	}
-	if(ptype=='list') {
-		generate_list_ui(pid, elems, elemsId, tablesMetadata);
-	}
+	if(ptype=='trello')
+		return generate_trello_ui(pid, elems, elemsId, tablesMetadata);
+	if(ptype=='list')
+		return generate_list_ui(pid, elems, elemsId, tablesMetadata);
 }
 
 

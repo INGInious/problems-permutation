@@ -8,27 +8,43 @@ import { USE_SACK_ALGORITHM } from './flags'
 export default class GridSystem {
 	columnGrids : Array<Muuri>;
 	boardGrid : Muuri;
-	// candidatesContainer: HTMLElement;
 	
 	isAnswer: Array<boolean>;
 	answerItems: Map<string, Set<Item> >;
 	candidateItems: Set<Item>;
 	itemsMap: {[string]: Item};
+	itemsPosMap: Map<string, Item>;
 
+	candidatesTableName: string;
+	answersTablesNames: Array<string>;
+	muuris: Map<string, Muuri>;
+	containers: Map<string, HTMLElement>;
+
+	sortItems: (items: Array<string> ,itemsPos: Array<string>) => void;
+	generate_muuri: (tableName: string, container: HTMLElement, include_item: (Item)=>void) => void;
 
 	__bind_functions() {
-
+		this.sortItems = this.sortItems.bind(this);
+		this.generate_muuri = this.generate_muuri.bind(this);
 	}
 
 	constructor(listsContainer: HTMLElement, items: Array<Item>, tablesMetadata: Array<[string,string]>) {
+		this.__bind_functions();
 		var that = this;
+
+		this.candidatesTableName = tablesMetadata[0][0];
+		this.answersTablesNames = tablesMetadata.slice(1).map((pair) => pair[0])
+		this.muuris = new Map();
+		this.containers = new Map();
 
 		// Add mapped items and sets
 		this.answerItems = new Map();
 		this.candidateItems = new Set();
 		this.itemsMap = {};
+		this.itemsPosMap = new Map();
 		for(let i=0;i<items.length;i++) {
 			this.itemsMap[items[i].get_id()] = items[i];
+			this.itemsPosMap.set(items[i].get_pos_id(), items[i])
 			
 			// Add all items as candidates
 			this.candidateItems.add(items[i]);
@@ -69,21 +85,21 @@ export default class GridSystem {
 		headerContainer2.setAttribute('class', 'permutation-column-header unselectable');
 		headerContainer2.style.background = tablesMetadata[0][1];
 		var header2 = document.createElement('span')
-		header2.setAttribute('class', 'glyphicon glyphicon-th-list')
+		header2.setAttribute('class', 'glyphicon glyphicon-trash')
 		headerContainer2.appendChild(header2);
 		headerContainer2.innerHTML += `<b> ${tablesMetadata[0][0]}</b>`;
 
-		let gridContainer2 = document.createElement('div');
-		gridContainer2.setAttribute('class', 'permutation-column-content')
-		gridContainer2.setAttribute('id', `${IdManager.pid}-candidates`)
+		let candidatesContainer = document.createElement('div');
+		candidatesContainer.setAttribute('class', 'permutation-column-content')
+		candidatesContainer.setAttribute('id', `${IdManager.pid}-candidates`)
 
-		this.populate_items(items, gridContainer2);
+		this.populate_items(items, candidatesContainer);
 		
 		container2.appendChild(headerContainer2)
-		container2.appendChild(gridContainer2)
+		container2.appendChild(candidatesContainer)
 		listsContainer.appendChild(container2);
         
-		this.generate_muuri(gridContainer2, 
+		this.generate_muuri(this.candidatesTableName, candidatesContainer, 
 			(item:Item) => { // Include item
 				for(var tableId=1;tableId < tablesMetadata.length;tableId++) {
 					const metadata = tablesMetadata[tableId];
@@ -106,16 +122,14 @@ export default class GridSystem {
 				that.candidateItems.add(item);
 				
 				if(USE_SACK_ALGORITHM) {
-					item.update_position('', -1);
+					item.update_position(tablesMetadata[0][0], -1); // Candidates bag
 				} else {
 					var sorted: Array<Item> = that.get_sorted_items(that.candidateItems);
 					for(let i=0;i<sorted.length;i++) {
-						sorted[i].update_position('', -i-1);
+						sorted[i].update_position(tablesMetadata[0][0], -i-1); // Candidates bag
 					}
 				}
 			});
-
-			console.log("UI: here")
 		this.boardGrid = new Muuri('.permutation', {
 			layoutDuration: 400,
 			layoutEasing: 'ease',
@@ -129,6 +143,92 @@ export default class GridSystem {
 		});
 	}
 
+	// @external
+	sortItems(items: Array<string>, itemsPos: Array<string>) {
+		// Remove all candidates
+		var candidatesMuuri: Muuri = this.muuris.get(this.candidatesTableName);
+		var tmpContainer = this.containers.get(this.candidatesTableName);
+		if(!tmpContainer) {
+			console.error('Candidates container not found')
+			return;
+		}
+		var candidatesContainer: HTMLElement = tmpContainer;
+		this.candidateItems.forEach((item: Item) => {
+			candidatesMuuri.remove(0);	
+			candidatesContainer.removeChild(item.get_card());
+		})
+		// Remove all current answers
+		for(var i=0;i<this.answersTablesNames.length;i++) {
+			var tableName = this.answersTablesNames[i]
+
+			var muuriGrid = this.muuris.get(tableName)
+			var container = this.containers.get(tableName)
+			var itemSet = this.answerItems.get(tableName)
+			
+			if(!itemSet || !muuriGrid || !container) {
+				console.error('Item not found!')
+				continue;
+			}
+
+			itemSet.forEach((item: Item) => {
+				muuriGrid.remove(0);
+				container.removeChild(item.get_card())
+			})
+		}
+		// Removing items logically
+		this.candidateItems.clear();
+		this.answerItems.forEach((items: Set<Item>) => {
+			items.clear();
+		})
+
+		// Computing new positions
+		var mappedOrder: Map<string, Map<number, Item> > = new Map();
+		mappedOrder.set(this.candidatesTableName, new Map());
+		this.answersTablesNames.forEach((tableNmae: string) => {
+			mappedOrder.set(tableName, new Map())
+		})
+		items.map((itemId: string, i: number) => {
+			console.log(itemId)
+			if(!this.itemsPosMap.has(itemId)) return;
+
+			var item: Item|undefined = this.itemsPosMap.get(itemId);
+			var itemPos: string = itemsPos[i];
+			var sepPos = itemPos.lastIndexOf("#");
+
+			var tableName = itemPos.substring(0, sepPos);
+			var pos = parseInt(itemPos.substring(sepPos+1));
+
+			var map = mappedOrder.get(tableName);
+			
+			if(!map || !item) {
+				console.error('Error loading item');
+				return;
+			}
+
+			// Add logically
+			if(tableName == this.candidatesTableName) {
+				this.candidateItems.add(item)
+				item.update_position(tableName, -pos)
+			} else {
+				var tableItems = this.answerItems.get(tableName)
+				if(!tableItems) console.error('Could not find items table')
+				else tableItems.add(item)
+				item.update_position(tableName, pos)
+			}
+
+			map.set(pos, item)
+		});
+		var newOrder: {[string]: Array<Item>} = {};
+		mappedOrder.forEach((posMap: Map<number, Item>, tableName: string) => {
+			var sortedItems: Array<Item> = [...posMap.entries()].sort((a: [number, Item], b: [number, Item]) => {
+				return a[0] > b[0] ? 1:-1; // Assuming non repeated keys
+			}).map((pair: [number, Item]) => { return pair[1]; });
+			newOrder[tableName] = sortedItems;
+		});
+		// Repopulating with DOM elements
+		candidatesMuuri.add(newOrder[this.candidatesTableName].map((item: Item) => {return item.get_card()}));
+	}
+
 	populate_items(items: Array<Item>, container: HTMLElement) {
 		for(var i=0;i<items.length;i++) {
 			container.appendChild(items[i].get_card())
@@ -139,7 +239,7 @@ export default class GridSystem {
 		var that = this;
 		this.answerItems.set(tableName, new Set());
 		
-		this.generate_muuri(container, (item:Item) => {
+		this.generate_muuri(tableName, container, (item:Item) => {
 			if(that.candidateItems.has(item)) {
 				// WARNING does 'delete' works in all browsers?
 				that.candidateItems.delete(item);
@@ -147,7 +247,7 @@ export default class GridSystem {
 				if(!USE_SACK_ALGORITHM) {
 					var sorted: Array<Item> = that.get_sorted_items(that.candidateItems);
 					for(let i=0;i<sorted.length;i++) {
-						sorted[i].update_position('', -i-1);
+						sorted[i].update_position(tablesMetadata[0][0], -i-1); // Candidates bag
 					}
 				}
 			}
@@ -201,7 +301,7 @@ export default class GridSystem {
 		return sorted;
 	}
 
-	generate_muuri(container: HTMLElement, include_item: (Item)=>void) {
+	generate_muuri(tableName: string, container: HTMLElement, include_item: (Item)=>void) {
 		var that = this;
 
 		var grid = new Muuri(container, {
@@ -249,5 +349,7 @@ export default class GridSystem {
 		});
 
 		that.columnGrids.push(grid);
+		that.muuris.set(tableName, grid)
+		that.containers.set(tableName, container)
 	}
 }

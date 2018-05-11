@@ -19,6 +19,11 @@
   </head>
  	<body>
     
+    <div>
+    <button onclick="shuffle()" class="btn pull-left">Reset</button>
+    <br/><br/>
+    </div>
+
     <div id="PID-dragarea">
       <div id="PID-answer" class="permutation muuri"></div>
       <div id="PID-hidden-inputs"></div>
@@ -32,7 +37,11 @@
         tablesMetadata = [["Candidates", "#A04F03"], ["Answers", "#204003"]]
         containerColor = "#DD33AA"
 
-        PermutationTaskUI.generate_ui('trello', 'PID', texts, textIds, tablesMetadata, containerColor)
+        var uiObject = PermutationTaskUI.generate_ui('trello', 'PID', texts, textIds, tablesMetadata, containerColor)
+
+        function shuffle() {
+          uiObject.sortItems(textIds.map(tid => {return `PID-${tid}-pos`}), ['Candidates#1', 'Candidates#2', 'Candidates#3', 'Candidates#4'])
+        }
     </script>
   </body>
 </html>

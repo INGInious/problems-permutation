@@ -37,7 +37,7 @@ export default class Item {
 
         // Flags
         this.showEnum = showEnum
-        this.textSelectable = false // TODO: Can't select text inside cards
+        this.textSelectable = false
 
         // Current position = initial position
         this.pos = this.ipos;
@@ -84,14 +84,19 @@ export default class Item {
 
         this.posHiddenInput = document.createElement('input')
         this.posHiddenInput.setAttribute('type', 'hidden')
-        this.posHiddenInput.setAttribute('name', IdManager.stringify(IdManager.TPL_HIDDEN_INPUT_POS, this.name))
+        this.posHiddenInput.setAttribute('name', this.get_pos_id())
         this.posHiddenInput.setAttribute('value', tableName + '#' + this.pos)
+    }
+
+    get_pos_id() {
+        return IdManager.stringify(IdManager.TPL_HIDDEN_INPUT_POS, this.name);
     }
 
     update_position(tableName: string, pos: number) {
         this.table = tableName;
         this.pos = pos;
-        this.posHiddenInput.setAttribute('value', this.table + '#' + this.pos)
+        if(pos < 0) this.posHiddenInput.setAttribute('value', this.table + '#' + (-this.pos))
+        else this.posHiddenInput.setAttribute('value', this.table + '#' + this.pos)
         
         if(pos > 0) {
             if(this.showEnum) this.enumeration.innerHTML = pos+'. '
