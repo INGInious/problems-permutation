@@ -1,6 +1,8 @@
 const path = require('path');
+
 var webpack = require('webpack');
-const UglifyJSPlugin = require('uglifyjs-webpack-plugin');
+var UglifyJSPlugin = require('uglifyjs-webpack-plugin');
+var JavaScriptObfuscator = require('webpack-obfuscator');
 
 
 module.exports = {
@@ -24,7 +26,10 @@ module.exports = {
 		new webpack.optimize.OccurrenceOrderPlugin(),
 		new webpack.DefinePlugin({
 		  'process.env.NODE_ENV':  JSON.stringify('production')
-		})
+		}),
+		new JavaScriptObfuscator ({
+			rotateUnicodeArray: true
+		}, '../../inginious-problems-permutation/static/ui/permutation_task.js')
 	],
 	module: {
 		rules: [
