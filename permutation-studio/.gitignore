@@ -6,5 +6,4 @@ dist/bundle.js
 dist/bundle.js.map
 
 # log files
-yarn.lock
 yarn-error.log
