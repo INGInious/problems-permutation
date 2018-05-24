@@ -5,6 +5,7 @@ from setuptools import setup, find_packages
 from os import system
 from sys import argv
 from shutil import which
+import os
 
 import inginious_blockly
 
@@ -18,7 +19,10 @@ elif not yarnInstalled:
     print("It is recommended to have installed yarn to build this project.")
 
 if not '--no-build' in argv and not '--dev' in argv:
-    
+    ui_directory = 'inginious-problems-permutation/static/ui'
+    if not os.path.exists(ui_directory):
+        os.makedirs(ui_directory)
+
     if yarnInstalled:
         system("cd permutation-task && yarn install")
         system("cd permutation-studio && yarn install")

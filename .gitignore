@@ -7,5 +7,4 @@ dist/*
 inginious_problems_permutation.egg-info/*
 
 # Generated bundles
-inginious-problems-permutation/static/ui/permutation_task.js
-inginious-problems-permutation/static/ui/permutation_studio.js
+inginious-problems-permutation/static/ui/*
