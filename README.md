@@ -4,11 +4,11 @@ Permutate a list of textual elements.
 
 ## Installation
 
-```
+```zsh
 pip3 install git+https://github.com/napsta32/INGInious-problems-permutation
 ```
 Then add the following plugin entry in your ```configuration.yaml```:
-```
+```yaml
 plugins:
   - plugin_module: "inginious-problems-permutation"
 ```
