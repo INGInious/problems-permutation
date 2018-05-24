@@ -3,6 +3,7 @@ import Muuri from 'muuri';
 import { IdManager } from './IdManager';
 import Item from './Item';
 import { USE_SACK_ALGORITHM } from './flags'
+import { WindowScroller } from './WindowScroller';
 
 
 export default class GridSystem {
@@ -338,13 +339,14 @@ export default class GridSystem {
 			dragReleaseDuration: 400,
 			dragReleaseEasing: 'ease'
 		})
-		.on('dragStart', function (item) {
+		.on('dragStart', function (item: Item) {
 			// Let's set fixed widht/height to the dragged item
 			// so that it does not stretch unwillingly when
 			// it's appended to the document body for the
 			// duration of the drag.
 			item.getElement().style.width = item.getWidth() + 'px';
 			item.getElement().style.height = item.getHeight() + 'px';
+			WindowScroller.enableListener(item._child.getAttribute('id'));
 			//console.log('Pressed element ' + item._child.getAttribute('name') + ' at ' + name);
 		})
 		.on('dragReleaseEnd', function (item) {
@@ -360,6 +362,7 @@ export default class GridSystem {
 			that.columnGrids.forEach(function (grid) {
 				grid.refreshItems();
 			});
+			WindowScroller.disableListener(item._child.getAttribute('id'));
 			if(include_item!=null) include_item(that.itemsMap[item._child.getAttribute('id')]);
 			//console.log('Released element ' + item._child.getAttribute('name'));
 		})
