@@ -58,7 +58,7 @@ if '--dev' in argv:
 
 setup(
     name="inginious-problems-permutation",
-    version="0.3.dev0",
+    version="0.4.dev0",
     description="Plugin to add a permutation problem type",
     packages=find_packages(),
     install_requires=["inginious>=0.5.dev0"],
@@ -69,5 +69,5 @@ setup(
     author="The INGInious authors",
     author_email="inginious@info.ucl.ac.be",
     license="AGPL 3",
-    url="https://github.com/napsta32/INGInious-problems-permutation"
+    url="https://github.com/UCL-INGI/INGInious-problems-permutation"
 )
