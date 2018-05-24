@@ -2,6 +2,7 @@
 import Item from './Item';
 import Muuri from 'muuri';
 import { IdManager } from './IdManager';
+import { WindowScroller } from './WindowScroller';
 
 
 export default class PermutationList {
@@ -71,6 +72,7 @@ export default class PermutationList {
 			// duration of the drag.
 			item.getElement().style.width = item.getWidth() + 'px';
 			item.getElement().style.height = item.getHeight() + 'px';
+			WindowScroller.enableListener(item._child.getAttribute('id'));
 			//console.log('Pressed element ' + item._child.getAttribute('name') + ' at ' + name);
 		})
 		.on('dragReleaseEnd', function (item) {
@@ -84,6 +86,7 @@ export default class PermutationList {
 			// in case dragging the item caused some other items to
 			// be different size.
 			that.columnGrid.refreshItems();
+			WindowScroller.disableListener(item._child.getAttribute('id'));
 			if(process_item!=null) process_item(that.itemsMap[item._child.getAttribute('id')]);
 			//console.log('Released element ' + item._child.getAttribute('name'));
 		});
