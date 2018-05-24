@@ -209,7 +209,7 @@ export default class GridSystem {
 				return;
 			}
 			if(!item) {
-				console.error(`Error loading item "${itemId}", got ${item}`);
+				console.error(`Error loading item "${itemId}"`);
 				return;
 			}
 
@@ -339,7 +339,7 @@ export default class GridSystem {
 			dragReleaseDuration: 400,
 			dragReleaseEasing: 'ease'
 		})
-		.on('dragStart', function (item: Item) {
+		.on('dragStart', function (item) {
 			// Let's set fixed widht/height to the dragged item
 			// so that it does not stretch unwillingly when
 			// it's appended to the document body for the

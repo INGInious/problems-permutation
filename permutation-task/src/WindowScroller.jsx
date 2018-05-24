@@ -9,21 +9,20 @@ export const WindowScroller = new class {
 
     topMouseY: number;
     bottomMouseY: number;
-    scrollY: number;
 
-    enableListener: () => void;
-    disableListener: () => void;
+    enableListener: (enabler: String) => void;
+    disableListener: (enabler: String) => void;
     scrollLoop: () => void;
     startScrolling: () => void;
     stopScrolling: () => void;
+    updateMouse: (event: MouseEvent) => void;
 
     constructor() {
         this.listenerCount = new Set();
         this.doScroll = false;
 
-        this.mouseX = screen.width/2;
-        this.mouseY = screen.height/2;
-        this.scrollY = window.scrollY;
+        this.topMouseY = THRESHOLD*2;
+        this.bottomMouseY = screen.height - THRESHOLD*2;
 
         this.__bind_functions();
     }
@@ -68,11 +67,11 @@ export const WindowScroller = new class {
         this.listenerCount.add(enabler);
         if(this.listenerCount.size > 1) return;
         
-        this.mouseX = screen.width/2;
-        this.mouseY = screen.height/2;
-        this.scrollY = window.scrollY;
+        this.topMouseY = THRESHOLD*2;
+        this.bottomMouseY = screen.height - THRESHOLD*2;
 
-        document.body.addEventListener("mousemove", this.updateMouse, true);
+        const body = document.body;
+        if(body) body.addEventListener("mousemove", this.updateMouse, true);
         this.startScrolling();
     }
 
@@ -82,7 +81,8 @@ export const WindowScroller = new class {
         if(this.listenerCount.size > 0) return;
         
         this.stopScrolling();
-        document.body.removeEventListener("mousemove", this.updateMouse, true);
+        const body = document.body;
+        if(body) body.removeEventListener("mousemove", this.updateMouse, true);
     }
 
 }
