@@ -11,8 +11,8 @@ from copy import deepcopy
 from random import shuffle
 from docutils.core import publish_parts
 
-from inginious.common.tasks_problems import BasicProblem
-from inginious.frontend.task_problems import DisplayableBasicProblem
+from inginious.common.tasks_problems import Problem
+from inginious.frontend.task_problems import DisplayableProblem
 from inginious.frontend.parsable_text import ParsableText
 
 __version__ = "0.3.dev1"
@@ -36,11 +36,11 @@ class StaticMockPage(object):
         return self.GET(path)
 
 
-class PermutationProblem(BasicProblem):
+class PermutationProblem(Problem):
     """Display an input box and check that the content is correct"""
 
     def __init__(self, task, problemid, content, translations=None):
-        BasicProblem.__init__(self, task, problemid, content, translations)
+        Problem.__init__(self, task, problemid, content, translations)
         self._correctOrder = str(content.get("correctOrder", ""))
 
     @classmethod
@@ -71,18 +71,18 @@ class PermutationProblem(BasicProblem):
 
     @classmethod
     def parse_problem(self, problem_content):
-        return BasicProblem.parse_problem(problem_content)
+        return Problem.parse_problem(problem_content)
 
     @classmethod
     def get_text_fields(cls):
-        textFields = BasicProblem.get_text_fields()
+        textFields = Problem.get_text_fields()
 
         textFields["text"] = True
 
         return textFields
 
 
-class DisplayablePermutationProblem(PermutationProblem, DisplayableBasicProblem):
+class DisplayablePermutationProblem(PermutationProblem, DisplayableProblem):
     """ A displayable match problem """
 
     def __init__(self, task, problemid, content, translations=None):
@@ -91,6 +91,10 @@ class DisplayablePermutationProblem(PermutationProblem, DisplayableBasicProblem)
     @classmethod
     def get_type_name(self, gettext):
         return gettext("permutation")
+
+    @classmethod
+    def show_editbox_templates(cls, template_helper, key):
+        return DisplayablePermutationProblem.get_renderer(template_helper).permutation_edit_templates(key)
 
     @classmethod
     def get_renderer(cls, template_helper):
@@ -109,7 +113,7 @@ class DisplayablePermutationProblem(PermutationProblem, DisplayableBasicProblem)
         parser = ParsableText(s)
         return str(parser)
     
-    def show_input(self, template_helper, language):
+    def show_input(self, template_helper, language, seed):
         """ Show PermutationProblem """
         # Parsing dictionaries to arrays
         original_content = self.to_list(deepcopy(self.get_original_content()))
