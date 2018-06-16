@@ -3,7 +3,10 @@
 function normalize(table) {
     table.title = table.tableName;
     table.color = table.tableColor;
-    table.content = []
+    table.content = [];
+    if(table.text == undefined)
+        return table;
+
     for(var i=0;i in table.text;i++) {
         table.content.push([table.text_id[i], table.text[i]])
     }
