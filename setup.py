@@ -56,6 +56,8 @@ if '--dev' in argv:
     
     argv.remove("--dev")
 
+print("Starting setup...")
+
 setup(
     name="inginious-problems-permutation",
     version="0.4.dev0",
