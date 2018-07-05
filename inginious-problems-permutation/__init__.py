@@ -164,7 +164,7 @@ def init(plugin_manager, course_factory, client, plugin_config):
     plugin_manager.add_page('/plugins/permutation/static/(.+)', StaticMockPage)
     
     # lib css
-    plugin_manager.add_hook("css", lambda: "/plugins/permutation/static/lib/markitup/skins/markitup/style.css")
+    # plugin_manager.add_hook("css", lambda: "/plugins/permutation/static/lib/markitup/skins/markitup/style.css")
     # plugin_manager.add_hook("css", lambda: "/plugins/permutation/static/lib/markitup/sets/default/style.css")
     # Main css
     plugin_manager.add_hook("css", lambda: "/plugins/permutation/static/permutation.css")
@@ -173,7 +173,7 @@ def init(plugin_manager, course_factory, client, plugin_config):
     plugin_manager.add_hook("javascript_header", lambda: "/plugins/permutation/static/lib/hammer.min.js")
     plugin_manager.add_hook("javascript_header", lambda: "/plugins/permutation/static/lib/web-animations.min.js")
     plugin_manager.add_hook("javascript_header", lambda: "/plugins/permutation/static/lib/muuri.min.js")
-    plugin_manager.add_hook("javascript_header", lambda: "/plugins/permutation/static/lib/markitup/jquery.markitup.js")
+    # plugin_manager.add_hook("javascript_header", lambda: "/plugins/permutation/static/lib/markitup/jquery.markitup.js")
     # plugin_manager.add_hook("javascript_header", lambda: "/plugins/permutation/static/lib/markitup/sets/default/set.js")
     
     # UI scripts (check webpack projects)
