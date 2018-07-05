@@ -95,7 +95,7 @@ export function generate_ui(ptype: 'trello'|'list', pid: string, elems: Array<st
 							tablesMetadata: Array<[string,string]>) {
 	IdManager.init(pid);
 
-	console.log(ptype)
+	// console.log(ptype)
 	
 	if(ptype=='trello')
 		return generate_trello_ui(pid, elems, elemsId, tablesMetadata);
