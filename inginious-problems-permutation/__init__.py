@@ -6,6 +6,7 @@
 import os
 import web
 import json
+import gettext
 
 from copy import deepcopy
 from random import shuffle
@@ -42,6 +43,7 @@ class PermutationProblem(Problem):
     def __init__(self, task, problemid, content, translations=None):
         Problem.__init__(self, task, problemid, content, translations)
         self._correctOrder = str(content.get("correctOrder", ""))
+        self._header = content['header'] if "header" in content else ""
 
     @classmethod
     def get_type(cls):
@@ -116,6 +118,8 @@ class DisplayablePermutationProblem(PermutationProblem, DisplayableProblem):
     def show_input(self, template_helper, language, seed):
         """ Show PermutationProblem """
         # Parsing dictionaries to arrays
+        header = ParsableText(self.gettext(language,self._header), "rst",
+                              translation=self._translations.get(language, gettext.NullTranslations()))
         original_content = self.to_list(deepcopy(self.get_original_content()))
         for table in original_content:
             # Some lists have no elements
@@ -154,7 +158,7 @@ class DisplayablePermutationProblem(PermutationProblem, DisplayableProblem):
             problem_subtype = 'list'
 
         return str(DisplayablePermutationProblem.get_renderer(template_helper).permutation(
-                            self.get_id(), problem_subtype,
+                            self.get_id(), problem_subtype, header,
                             json.dumps(elems), json.dumps(elemsId),
                             json.dumps(list(zip(tables_names, tables_colors)))))
 
