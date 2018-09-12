@@ -114,7 +114,7 @@ export default class Row {
 
         /* <td class="col-md-6">
             <textarea id="pid-text0" class="form-control" name="problem[pid][text][0]"
-                        placeholder="Insert text of the first element" style="white-space: nowrap;resize: vertical;">
+                        placeholder="Insert text of the first element" style="white-space: normal;resize: vertical;">
             </textarea>
         </td> */
         var valueContainer = document.createElement('td')
@@ -123,7 +123,7 @@ export default class Row {
         this.valueTA.setAttribute('class', 'form-control')
         this.valueTA.setAttribute('name', `problem[${IdManager.pid}][${this.parentId}][text][${this.rowId}]`)
         this.valueTA.setAttribute('placeholder', this._get_value_placeholder())
-        this.valueTA.style.whiteSpace = 'nowrap';
+        this.valueTA.style.whiteSpace = 'normal';
         this.valueTA.style.resize = 'vertical';
         this.valueTA.innerHTML = this.value;
         valueContainer.appendChild(this.valueTA)
