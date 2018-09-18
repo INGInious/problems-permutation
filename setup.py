@@ -7,8 +7,6 @@ from sys import argv
 from shutil import which
 import os
 
-import inginious_blockly
-
 yarnInstalled = which('yarn') != None
 npmInstalled = which('npm') != None
 
