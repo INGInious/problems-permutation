@@ -105,7 +105,7 @@ export default class Row {
         if(this.showEnum) {
             /* <td class="col-md-1" style="text-align: center;">1</td> */
             this.enumContainer = document.createElement('td')
-            this.enumContainer.setAttribute('class', 'col-md-1')
+            //this.enumContainer.setAttribute('class', 'col-md-1')
             this.enumContainer.style.textAlign = 'center'
             this.enumContainer.innerHTML = ''+(this.rowId + 1);
 
@@ -118,7 +118,6 @@ export default class Row {
             </textarea>
         </td> */
         var valueContainer = document.createElement('td')
-        valueContainer.setAttribute('class', 'col-md-6')
         this.valueTA = document.createElement('textarea')
         this.valueTA.setAttribute('class', 'form-control')
         this.valueTA.setAttribute('name', `problem[${IdManager.pid}][${this.parentId}][text][${this.rowId}]`)
@@ -138,7 +137,6 @@ export default class Row {
             </div>
         </td> */
         var valueIdContainer = document.createElement('td')
-        valueIdContainer.setAttribute('class', 'col-md-4')
         var valueIdContCont = document.createElement('div')
         valueIdContCont.setAttribute('class', 'input-group')
         valueIdContCont.style.verticalAlign = 'middle'
@@ -163,11 +161,10 @@ export default class Row {
                     disabled="disabled" title="You must have at least 2 items">Delete</button>
         </td> */
         var deleteContainer = document.createElement('td')
-        deleteContainer.setAttribute('class', 'col-md-1')
         deleteContainer.style.textAlign = 'center'
         deleteContainer.style.verticalAlign = 'middle'
         this.deleteButton = document.createElement('button')
-        this.deleteButton.setAttribute('class', 'btn btn-default')
+        this.deleteButton.setAttribute('class', 'btn btn-secondary')
         this.deleteButton.setAttribute('type', 'button')
         this.enable_delete();
         this.deleteButton.innerHTML = 'Delete';

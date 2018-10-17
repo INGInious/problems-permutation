@@ -117,7 +117,7 @@ export class ListTable {
     _update_title(newTitle: string) {
         this.title = newTitle;
         if(this.removeTableButton) {
-            this.removeTableButton.innerHTML = '<span class="glyphicon glyphicon-trash" aria-hidden="true"></span> ' + this.title
+            this.removeTableButton.innerHTML = '<span class="fa fa-fw fa-trash" aria-hidden="true"></span> ' + this.title
         }
     }
 
@@ -148,7 +148,7 @@ export class ListTable {
             
             this.removeTableButton = document.createElement('button')
             this.removeTableButton.setAttribute('class', 'btn btn-danger pull-right')
-            this.removeTableButton.innerHTML = '<span class="glyphicon glyphicon-trash" aria-hidden="true"></span> ' + this.title
+            this.removeTableButton.innerHTML = '<span class="fa fa-fw fa-trash" aria-hidden="true"></span> ' + this.title
             this.removeTableButton.onclick = () => {
                 this.onDelete(this.id);
             }
@@ -212,7 +212,7 @@ export class ListTable {
         var controlsContainer = document.createElement('div')
         
         var rightButton = document.createElement('a')
-        rightButton.setAttribute('class', 'btn btn-default')
+        rightButton.setAttribute('class', 'btn btn-secondary')
         rightButton.innerHTML = "Add Element"
         rightButton.onclick = this.add_row;
         controlsContainer.appendChild(rightButton)
