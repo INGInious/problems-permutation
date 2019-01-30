@@ -5,6 +5,3 @@
 build/*
 dist/*
 inginious_problems_permutation.egg-info/*
-
-# Generated bundles
-inginious-problems-permutation/static/ui/*
