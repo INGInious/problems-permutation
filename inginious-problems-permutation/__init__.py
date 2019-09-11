@@ -40,8 +40,8 @@ class StaticMockPage(object):
 class PermutationProblem(Problem):
     """Display an input box and check that the content is correct"""
 
-    def __init__(self, task, problemid, content, translations=None):
-        Problem.__init__(self, task, problemid, content, translations)
+    def __init__(self, task, problemid, content):
+        Problem.__init__(self, task, problemid, content)
         self._correctOrder = str(content.get("correctOrder", ""))
         self._header = content['header'] if "header" in content else ""
 
@@ -87,8 +87,8 @@ class PermutationProblem(Problem):
 class DisplayablePermutationProblem(PermutationProblem, DisplayableProblem):
     """ A displayable match problem """
 
-    def __init__(self, task, problemid, content, translations=None):
-        PermutationProblem.__init__(self, task, problemid, content, translations)
+    def __init__(self, task, problemid, content):
+        PermutationProblem.__init__(self, task, problemid, content)
 
     @classmethod
     def get_type_name(self, gettext):
@@ -119,7 +119,7 @@ class DisplayablePermutationProblem(PermutationProblem, DisplayableProblem):
         """ Show PermutationProblem """
         # Parsing dictionaries to arrays
         header = ParsableText(self.gettext(language,self._header), "rst",
-                              translation=self._translations.get(language, gettext.NullTranslations()))
+                              translation=self.get_translation_obj(language))
         original_content = self.to_list(deepcopy(self.get_original_content()))
         for table in original_content:
             # Some lists have no elements
