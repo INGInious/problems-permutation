@@ -91,8 +91,8 @@ class DisplayablePermutationProblem(PermutationProblem, DisplayableProblem):
         PermutationProblem.__init__(self, task, problemid, content)
 
     @classmethod
-    def get_type_name(self, gettext):
-        return gettext("permutation")
+    def get_type_name(self, language):
+        return "permutation"
 
     @classmethod
     def show_editbox_templates(cls, template_helper, key):
