@@ -95,7 +95,7 @@ class DisplayablePermutationProblem(PermutationProblem, DisplayableProblem):
         return "permutation"
 
     @classmethod
-    def show_editbox_templates(cls, template_helper, key):
+    def show_editbox_templates(cls, template_helper, key, language):
         return DisplayablePermutationProblem.get_renderer(template_helper).permutation_edit_templates(key)
 
     @classmethod
@@ -163,7 +163,7 @@ class DisplayablePermutationProblem(PermutationProblem, DisplayableProblem):
                             json.dumps(list(zip(tables_names, tables_colors)))))
 
     @classmethod
-    def show_editbox(cls, template_helper, key):
+    def show_editbox(cls, template_helper, key, language):
         return DisplayablePermutationProblem.get_renderer(template_helper).permutation_edit(key)
 
 
