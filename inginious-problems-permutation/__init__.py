@@ -59,17 +59,17 @@ class PermutationProblem(Problem):
         # TODO
         # By default, everything pass in the docker agent.
         # If answer is specified, can be assessed in MCQ-like environnment using check_answer
-        return True, None, ["Unknown answer"], 0
+        return True, None, ["Unknown answer"], 0, ""
         
         original_content = self.get_original_content()
         text = original_content['text']
 
         if len(text) == 0:
-            return None, None, None, 0
+            return None, None, None, 0, ""
         elif task_input[self.get_id()].strip() == self._answer:
-            return True, None, ["correct answer"], 0
+            return True, None, ["correct answer"], 0, ""
         else:
-            return False, None, ["wrong answer"], 0
+            return False, None, ["wrong answer"], 0, ""
 
     @classmethod
     def parse_problem(self, problem_content):
