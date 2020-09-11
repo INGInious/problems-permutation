@@ -40,8 +40,8 @@ class StaticMockPage(object):
 class PermutationProblem(Problem):
     """Display an input box and check that the content is correct"""
 
-    def __init__(self, task, problemid, content):
-        Problem.__init__(self, task, problemid, content)
+    def __init__(self, problemid, content, translations, taskfs):
+        Problem.__init__(self, problemid, content, translations, taskfs)
         self._correctOrder = str(content.get("correctOrder", ""))
         self._header = content['header'] if "header" in content else ""
 
@@ -87,8 +87,8 @@ class PermutationProblem(Problem):
 class DisplayablePermutationProblem(PermutationProblem, DisplayableProblem):
     """ A displayable match problem """
 
-    def __init__(self, task, problemid, content):
-        PermutationProblem.__init__(self, task, problemid, content)
+    def __init__(self, problemid, content, translations, taskfs):
+        PermutationProblem.__init__(self, problemid, content, translations, taskfs)
 
     @classmethod
     def get_type_name(self, language):
