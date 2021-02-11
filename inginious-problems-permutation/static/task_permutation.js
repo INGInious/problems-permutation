@@ -70,3 +70,12 @@ function load_input_permutation(submissionid, key, input)
 
     uiTaskObject[key].sortItems(items, itemsPos);
 }
+
+function load_feedback_permutation(key, content) {
+    var alert_type = "danger";
+    if(content[0] === "timeout" || content[0] === "overflow")
+        alert_type = "warning";
+    if(content[0] === "success")
+        alert_type = "success";
+    $("#task_alert_" + key).html(getAlertCode("", content[1], alert_type, true));
+}

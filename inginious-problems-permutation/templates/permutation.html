@@ -1,17 +1,14 @@
-$def with (inputId, ptype, header, elems, elemsId, tablesMetadata)
+{# This file is part of INGInious. See the LICENSE and the COPYRIGHTS files for #}
+{#  more information about the licensing of this file. #}
 
-$#
-$# This file is part of INGInious. See the LICENSE and the COPYRIGHTS files for
-$# more information about the licensing of this file.
-$#
+{{ header | safe }}
 
-$:header
+<div id="task_alert_{{inputId}}" class="task_alert_problem"></div>
 
-
-<div class="muuri" id="$inputId-answer">
-    <div id="permutation-$inputId" class="permutation" ptype="$ptype" elems="$elems" elemsId="$elemsId"
-        tablesMetadata="$tablesMetadata"></div>
+<div class="muuri" id="{{inputId}}-answer">
+    <div id="permutation-{{inputId}}" class="permutation" ptype="{{ptype}}" elems="{{elems}}" elemsId="{{elemsId}}"
+        tablesMetadata="{{tablesMetadata}}"></div>
 </div>
 
 
-<div id="$inputId-hidden-inputs"></div>
+<div id="{{inputId}}-hidden-inputs"></div>

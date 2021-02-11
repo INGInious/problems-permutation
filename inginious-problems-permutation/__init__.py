@@ -19,7 +19,7 @@ from inginious.frontend.parsable_text import ParsableText
 __version__ = "0.3.dev1"
 
 PATH_TO_PLUGIN = os.path.abspath(os.path.dirname(__file__))
-
+PATH_TO_TEMPLATES = os.path.join(PATH_TO_PLUGIN, "templates")
 
 class StaticMockPage(object):
     # TODO: Replace by shared static middleware and let webserver serve the files
@@ -57,19 +57,7 @@ class PermutationProblem(Problem):
 
     def check_answer(self, task_input, language):
         # TODO
-        # By default, everything pass in the docker agent.
-        # If answer is specified, can be assessed in MCQ-like environnment using check_answer
-        return True, None, ["Unknown answer"], 0, ""
-        
-        original_content = self.get_original_content()
-        text = original_content['text']
-
-        if len(text) == 0:
-            return None, None, None, 0, ""
-        elif task_input[self.get_id()].strip() == self._answer:
-            return True, None, ["correct answer"], 0, ""
-        else:
-            return False, None, ["wrong answer"], 0, ""
+        return None, None, None, 0, ""
 
     @classmethod
     def parse_problem(self, problem_content):
@@ -96,12 +84,7 @@ class DisplayablePermutationProblem(PermutationProblem, DisplayableProblem):
 
     @classmethod
     def show_editbox_templates(cls, template_helper, key, language):
-        return DisplayablePermutationProblem.get_renderer(template_helper).permutation_edit_templates(key)
-
-    @classmethod
-    def get_renderer(cls, template_helper):
-        """ Get the renderer for this class problem """
-        return template_helper.get_custom_renderer(os.path.join(PATH_TO_PLUGIN, "templates"), False)
+        return template_helper.render("permutation_edit_templates.html", template_folder=PATH_TO_TEMPLATES, key=key)
 
     def to_list(self, obj):
         l = []
@@ -157,23 +140,20 @@ class DisplayablePermutationProblem(PermutationProblem, DisplayableProblem):
         else:
             problem_subtype = 'list'
 
-        return str(DisplayablePermutationProblem.get_renderer(template_helper).permutation(
-                            self.get_id(), problem_subtype, header,
-                            json.dumps(elems), json.dumps(elemsId),
-                            json.dumps(list(zip(tables_names, tables_colors)))))
+        return template_helper.render("permutation.html", template_folder=PATH_TO_TEMPLATES, inputId=self.get_id(),
+                                      ptype=problem_subtype, header=header,elems=json.dumps(elems),
+                                      elemsId=json.dumps(elemsId),
+                                      tablesMetadata=json.dumps(list(zip(tables_names, tables_colors))))
 
     @classmethod
     def show_editbox(cls, template_helper, key, language):
-        return DisplayablePermutationProblem.get_renderer(template_helper).permutation_edit(key)
+        return template_helper.render("permutation_edit.html", template_folder=PATH_TO_TEMPLATES, key=key)
 
 
 def init(plugin_manager, course_factory, client, plugin_config):
     # TODO: Replace by shared static middleware and let webserver serve the files
     plugin_manager.add_page('/plugins/permutation/static/(.+)', StaticMockPage)
-    
-    # lib css
-    # plugin_manager.add_hook("css", lambda: "/plugins/permutation/static/lib/markitup/skins/markitup/style.css")
-    # plugin_manager.add_hook("css", lambda: "/plugins/permutation/static/lib/markitup/sets/default/style.css")
+
     # Main css
     plugin_manager.add_hook("css", lambda: "/plugins/permutation/static/permutation.css")
 
@@ -181,9 +161,7 @@ def init(plugin_manager, course_factory, client, plugin_config):
     plugin_manager.add_hook("javascript_header", lambda: "/plugins/permutation/static/lib/hammer.min.js")
     plugin_manager.add_hook("javascript_header", lambda: "/plugins/permutation/static/lib/web-animations.min.js")
     plugin_manager.add_hook("javascript_header", lambda: "/plugins/permutation/static/lib/muuri.min.js")
-    # plugin_manager.add_hook("javascript_header", lambda: "/plugins/permutation/static/lib/markitup/jquery.markitup.js")
-    # plugin_manager.add_hook("javascript_header", lambda: "/plugins/permutation/static/lib/markitup/sets/default/set.js")
-    
+
     # UI scripts (check webpack projects)
     plugin_manager.add_hook("javascript_header", lambda: "/plugins/permutation/static/ui/permutation_task.js")
     plugin_manager.add_hook("javascript_header", lambda: "/plugins/permutation/static/ui/permutation_studio.js")
