@@ -8,7 +8,7 @@ import json
 
 from copy import deepcopy
 from random import shuffle
-from flask import send_from_directory
+from flask import send_from_directory, render_template
 
 from inginious.common.tasks_problems import Problem
 from inginious.frontend.pages.utils import INGIniousPage
@@ -75,8 +75,8 @@ class DisplayablePermutationProblem(PermutationProblem, DisplayableProblem):
         return "permutation"
 
     @classmethod
-    def show_editbox_templates(cls, template_helper, key, language):
-        return template_helper.render("permutation_edit_templates.html", template_folder=PATH_TO_TEMPLATES, key=key)
+    def show_editbox_templates(cls, key, language):
+        return render_template("permutation-problem/permutation_edit_templates.html", template_folder=PATH_TO_TEMPLATES, key=key)
 
     def to_list(self, obj):
         l = []
@@ -90,11 +90,10 @@ class DisplayablePermutationProblem(PermutationProblem, DisplayableProblem):
         parser = ParsableText(s)
         return str(parser)
     
-    def show_input(self, template_helper, language, seed):
+    def show_input(self, language, seed):
         """ Show PermutationProblem """
         # Parsing dictionaries to arrays
-        header = ParsableText(self.gettext(language,self._header), "rst",
-                              translation=self.get_translation_obj(language))
+        header = ParsableText(self.gettext(language,self._header))
         original_content = self.to_list(deepcopy(self.get_original_content()))
         for table in original_content:
             # Some lists have no elements
@@ -132,17 +131,18 @@ class DisplayablePermutationProblem(PermutationProblem, DisplayableProblem):
         else:
             problem_subtype = 'list'
 
-        return template_helper.render("permutation.html", template_folder=PATH_TO_TEMPLATES, inputId=self.get_id(),
-                                      ptype=problem_subtype, header=header,elems=json.dumps(elems),
-                                      elemsId=json.dumps(elemsId),
-                                      tablesMetadata=json.dumps(list(zip(tables_names, tables_colors))))
+        return render_template("permutation-problem/permutation.html", template_folder=PATH_TO_TEMPLATES,
+                               inputId=self.get_id(),
+                               ptype=problem_subtype, header=header,elems=json.dumps(elems),
+                               elemsId=json.dumps(elemsId),
+                               tablesMetadata=json.dumps(list(zip(tables_names, tables_colors))))
 
     @classmethod
-    def show_editbox(cls, template_helper, key, language):
-        return template_helper.render("permutation_edit.html", template_folder=PATH_TO_TEMPLATES, key=key)
+    def show_editbox(cls, key, language):
+        return render_template("permutation-problem/permutation_edit.html", template_folder=PATH_TO_TEMPLATES, key=key)
 
 
-def init(plugin_manager, course_factory, client, plugin_config):
+def init(plugin_manager, client, plugin_config):
     # TODO: Replace by shared static middleware and let webserver serve the files
     plugin_manager.add_page('/plugins/permutation/static/<path:path>', StaticMockPage.as_view("permutationstaticpage"))
 
@@ -161,4 +161,4 @@ def init(plugin_manager, course_factory, client, plugin_config):
     # Main scripts
     plugin_manager.add_hook("javascript_header", lambda: "/plugins/permutation/static/studio_permutation.js")
     plugin_manager.add_hook("javascript_header", lambda: "/plugins/permutation/static/task_permutation.js")
-    course_factory.get_task_factory().add_problem_type(DisplayablePermutationProblem)
+    plugin_manager.add_template_prefix("permutation-problem", PATH_TO_TEMPLATES)
